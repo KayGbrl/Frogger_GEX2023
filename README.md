@@ -74,9 +74,9 @@ let them move outside the view while you are on them. If it happens, you lose yo
 
 The world of Frogger is a mix of urban (road) and natural (river) environments, all this in a retro 
 pixel style. 
-The lower part is the road with four lanes to cross. The middle part is one tile big from left to 
+The lower part is the road with four or five lanes to cross. The middle part is one tile big from left to 
 right, where the player can be safe for a few seconds. The upper part is the river which has 
-three or four lanes to cross. The last part at the top of the level is the finished space. Getting 
+four or five lanes to cross. The last part at the top of the level is the finished space. Getting 
 there will end the game, and the player has won.
 
 ## Sketch of environment
