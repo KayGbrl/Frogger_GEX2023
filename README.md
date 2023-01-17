@@ -55,6 +55,14 @@ Frogger can jump one lane at a time and move up, down, left, and right.
 ## Sketch of main character
 ![FroggerMainCharacter](https://user-images.githubusercontent.com/93627041/212745854-94e5b6c7-4ca5-4e4c-b3fb-ca625815cfc0.png)
 
+## Other character
+
+Another character is a pink frog, the player can safe it and gain some bonus points.\
+It spawns randomly on the logs at the river.
+
+## Sketch of other character
+![FroggerPinkFrog](https://user-images.githubusercontent.com/93627041/212998967-d108ba32-3003-489c-8431-a43396000c9c.png)
+
 
 ## Opponents
 
