@@ -37,6 +37,8 @@ crocodile. Doing that results in a reset, and you will have to start from the be
 life.
 The player has three lives. A life is lost if the player gets hit by a car or truck, jumps into the 
 water, or jumps on a crocodile, if the player loses all their lives the game is over.
+The player has three lives. A life is lost if the player gets hit by a car or truck, jumps into the water, or jumps on a crocodile, if the player loses all their lives the game is over. 
+The player can pick up two different items such as double speed which speeds up the cars, trucks and the crocodile the other item is a health item to restore one live. 
 
 ## Quest
 
