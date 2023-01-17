@@ -109,3 +109,7 @@ on the crocodile.
 # Summary
 
 Have you played Frogger in the past and are missing the fun and want to feel nostalgic again? Then you have found the best place to revisit the charming game of Frogger! Get Frogger back home safely and watch out for anything dangerous. Cars, trucks, and crocodiles won't take care if you are in their way. Feel set back in time, grab a snack and have fun. Frogger is for all ages, old and young are welcome to that fantastic retro action game. 
+
+- Reference:
+
+https://www.spriters-resource.com
