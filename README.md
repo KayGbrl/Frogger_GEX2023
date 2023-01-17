@@ -23,7 +23,7 @@ road; after the road, the player must cross a river and try not to fall.
 
 The player must avoid cars and trucks in the first part of the map. Getting hit by one of them 
 results in a reset and a loss of lives. The second part is as hard as the first, crossing the river by 
-jumping on logs.
+jumping on logs, but don’t jump on the crocodile or into the water to not lose another life.
 
 # Game Description
 
@@ -97,7 +97,7 @@ Continue and Quit.
 
 ## Controls
 
-The user can control all menus with the W, A, S, D or arrow keys and accept the chosen option 
+The user can control all menus with the W, A, S, D or arrow keys and accept the chosen menu option 
 with the enter key.
 Playing Frogger only consists of five keys such as W, A, S, D or the arrow keys, and the E key to 
 use any pick up the player has picked up.
