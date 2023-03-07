@@ -75,7 +75,7 @@ The fourth opponent can be the logs swimming in the river. You can jump on them,
 let them move outside the view while you are on them. If it happens, you lose your life.\
 The fith opponent is a turtle which dives and only if it dives it is an threat.\
 The sixth opponent is a snake which appears in the "safe" area between the road and the river.\
-The last "opponent" is a timer running down, hurry up getting home!
+
 
 ## Sketch of opponents
 ![FroggerOpponents](https://user-images.githubusercontent.com/93627041/212745900-63cf5897-0633-4f6a-a3ab-0d240515272e.png)
@@ -83,7 +83,7 @@ The last "opponent" is a timer running down, hurry up getting home!
 ![FroggerSnake](https://user-images.githubusercontent.com/93627041/212996734-8909c67b-2c0b-4556-ac8f-25ec431048f9.png)
 ![FroggerCroc](https://user-images.githubusercontent.com/93627041/212996756-1ad19d9c-d98e-424a-8c79-80a90f5d6128.png)
 ![FroggerTurtle](https://user-images.githubusercontent.com/93627041/212996785-b3f251c4-6802-4d6e-9d23-a6d956dc770a.png)
-![FroggerTimer](https://user-images.githubusercontent.com/93627041/212997782-1ccce5a6-7063-4899-9783-389dc101a5eb.png)
+
 
 
 ## Environment
