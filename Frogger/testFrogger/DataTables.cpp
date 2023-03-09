@@ -128,6 +128,13 @@ std::map<Arten::Type, ActorData> initializeActorData()
     data[Arten::Type::Log2].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
     data[Arten::Type::Log2].animations[Arten::State::Idle].setRepeating(true);
 
+    //Pink frog
+    data[Arten::Type::PinkFrog].texture = TextureID::Frogger;
+    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("pinkfrog "));
+    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].setDuration(sf::seconds(3.f));
+    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].setRepeating(true);
+
+
     return data;
 }
 
@@ -270,7 +277,15 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[13].elapsedTime = sf::seconds(2.5);
     spawnData[13].spawn = true;
 
-
+    // Leave always as index 14
+    spawnData[14] = NPCSpawnData();
+    spawnData[14].position = sf::Vector2f(0.f, 0.f); // variable
+    spawnData[14].direction = Arten::Direction::Right;
+    spawnData[14].type = Arten::Type::PinkFrog;
+    spawnData[14].speed = 60.f;
+    spawnData[14].interval = sf::seconds(6);
+    spawnData[14].elapsedTime = sf::seconds(3);
+    spawnData[14].spawn = true;
 
     return spawnData;
 }

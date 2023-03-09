@@ -64,6 +64,14 @@ void World::update(sf::Time dt) {
 		sceneGraph.onCommand(commandQueue.pop(), dt);
 	}
 
+	// Pink Frog
+	if (frogSpawnTimer != -1.f) { // not grabbed by player yet
+		frogSpawnTimer += dt.asSeconds();
+		if (frogSpawnTimer > 8.f) { // 8 seconds
+			npcSpawnTable[14].spawn = true;
+			frogSpawnTimer = 0.f;
+		}
+	}
 
 	addEnemies();
 	updateNPCSpawnTable(dt);
@@ -79,7 +87,7 @@ void World::update(sf::Time dt) {
 
 void World::updateText()
 {
-	score->setString("Highscore: " + std::to_string(playerFrogger->getScore()));
+	score->setString("Score: " + std::to_string(playerFrogger->getScore()));
 	score->setPosition(370.f, 30.f);
 }
 
@@ -159,6 +167,22 @@ void World::addEnemies()
 		if (npcSpawnTable[i].elapsedTime >= npcSpawnTable[i].interval) {
 			npcSpawnTable[i].elapsedTime = sf::Time(sf::seconds(0.f));
 
+			// pink frog:
+			// if ready to spawn and we're going to spawn a log -> (re)spawn
+			// pink frog is index 14
+			if (npcSpawnTable[14].spawn && i < 3) {
+				if (npcSpawnTable[14].spawn) { // set to log values
+					npcSpawnTable[14].position = npcSpawnTable[i].position;
+					npcSpawnTable[14].direction = npcSpawnTable[i].direction;
+					npcSpawnTable[14].speed = npcSpawnTable[i].speed;
+					npcSpawnTable[14].interval = sf::seconds(6.f);
+					npcSpawnTable[14].elapsedTime = sf::seconds(6.f);
+				}
+			}
+
+			if (npcSpawnTable[i].type == Arten::Type::Snake) {
+				npcSpawnTable[i].spawn = (randomInt(10) == 9); // 10% chance that the snake will spawn
+			}
 
 			if (npcSpawnTable[i].spawn) {
 				std::unique_ptr<Arten> enemy(new Arten(npcSpawnTable[i].type, textures, fonts));
@@ -173,6 +197,11 @@ void World::addEnemies()
 				else {
 					sceneLayers[PlayingLayer]->attachChild(std::move(enemy));
 				}
+
+				// only one snake at a time
+				if (npcSpawnTable[i].type == Arten::Type::Snake) npcSpawnTable[i].spawn = false;
+				// only one pink frog at a time
+				if (npcSpawnTable[i].type == Arten::Type::PinkFrog) npcSpawnTable[i].spawn = false;
 			}
 		}
 	}
@@ -197,6 +226,13 @@ void World::handleCollisions()
 		}
 		if (matchesCategories(pair, Category::Frogger, Category::River)) {
 			playerFrogger->setIsInRiver(true);
+		}
+		if (matchesCategories(pair, Category::Frogger, Category::PinkFrog)) {
+			playerFrogger->addScore(5);
+			// place it outside view so it is removed
+			pair.second->setPosition(1000.f, 1000.f);
+			npcSpawnTable[14].spawn = false;
+			frogSpawnTimer = -1.f; // set it so it does not appear any more
 		}
 		if (matchesCategories(pair, Category::Frogger, Category::SwimmingNPC)) {
 			if (pair.second->getCategory() == Category::Turtle2) {
@@ -225,31 +261,31 @@ void World::handleCollisions()
 			command.category = Category::BackgroundLayer;
 			command.action = derivedAction<Frogger>([this, pair](Frogger& f, sf::Time t) {
 
-				std::unique_ptr<Arten> winningFrogPicture(new Arten(Arten::Type::FroggerWinner, textures, fonts));
-				sf::FloatRect posRect = (static_cast<InteractablePlaceHolder&>(*pair.second)).getPosition();
-				sf::Vector2f posVector(posRect.left + posRect.width / 2, posRect.top + posRect.height / 2);
+			std::unique_ptr<Arten> winningFrogPicture(new Arten(Arten::Type::FroggerWinner, textures, fonts));
+			sf::FloatRect posRect = (static_cast<InteractablePlaceHolder&>(*pair.second)).getPosition();
+			sf::Vector2f posVector(posRect.left + posRect.width / 2, posRect.top + posRect.height / 2);
 
-				int spotIndex = getWinningSpotIndexByPosition(posRect);
+			int spotIndex = getWinningSpotIndexByPosition(posRect);
 
-				if (winningSpotsFilled[spotIndex]) {
-					playerFrogger->setPosition(posVector);
-					playerFrogger->setIsWinningSpotTaken();
-				}
-				else {
-					winningSpotsFilled[spotIndex] = true;
-					winningSpotsFilled[getWinningSpotIndexByPosition(posRect)] = true;
+			if (winningSpotsFilled[spotIndex]) {
+				playerFrogger->setPosition(posVector);
+				playerFrogger->setIsWinningSpotTaken();
+			}
+			else {
+				winningSpotsFilled[spotIndex] = true;
+				winningSpotsFilled[getWinningSpotIndexByPosition(posRect)] = true;
 
-					winningFrogPicture.get()->setPosition(posVector);
-					winningFrogPicture.get()->setVelocity(0.f, 0.f);
-					sceneLayers[Background]->attachChild(std::move(winningFrogPicture));
+				winningFrogPicture.get()->setPosition(posVector);
+				winningFrogPicture.get()->setVelocity(0.f, 0.f);
+				sceneLayers[Background]->attachChild(std::move(winningFrogPicture));
 
-					playerFrogger->addScore(30);
+				playerFrogger->addScore(30);
 
-					if (isAllWinningSpotsFilled())
-						playerFrogger->setHasFroggerFilledSlots();
+				if (isAllWinningSpotsFilled())
+					playerFrogger->setHasFroggerFilledSlots();
 
-					playerFrogger->respawnFrogger();
-				}
+				playerFrogger->respawnFrogger();
+			}
 
 				});
 			commandQueue.push(command);

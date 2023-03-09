@@ -16,9 +16,8 @@ namespace Category
 		Turtle3 = 1 << 7,
 		Turtle3_floating = 1 << 8,
 		Log = 1 << 9,
-	/*	PinkFrog = 1 << 10,
-		Fly = 1 << 11,
-		Snake = 1 << 12,*/
+		PinkFrog = 1 << 10,
+
 
 		River = 1 << 13,
 		WinningSpot = 1 << 14,

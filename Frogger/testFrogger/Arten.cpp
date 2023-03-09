@@ -70,15 +70,9 @@ unsigned int Arten::getCategory() const
 	case Type::Turtle3_floating:
 		return Category::Turtle3_floating;
 		break;
-	//case Type::Fly:
-	//	return Category::Fly;
-	//	break;
-	//case Type::PinkFrog:
-	//	return Category::PinkFrog;
-	//	break;
-	//case Type::Snake:
-	//	return Category::Snake;
-	//	break;
+	case Type::PinkFrog:
+		return Category::PinkFrog;
+		break;
 	default:
 		return Category::None;
 	}
