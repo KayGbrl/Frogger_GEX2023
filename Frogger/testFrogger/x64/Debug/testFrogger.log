@@ -1,2 +1,9 @@
-﻿  Arten.cpp
+﻿  SpielStatus.cpp
+  Spieler.cpp
+  Welt.cpp
+C:\Users\kaiyg\Desktop\Frogger_GEX2023\Frogger\testFrogger\Welt.cpp(336,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kaiyg\Desktop\Frogger_GEX2023\Frogger\testFrogger\Welt.cpp(336,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kaiyg\Desktop\Frogger_GEX2023\Frogger\testFrogger\Welt.cpp(354,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\kaiyg\Desktop\Frogger_GEX2023\Frogger\testFrogger\Welt.cpp(354,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
   testFrogger.vcxproj -> C:\Users\kaiyg\Desktop\Frogger_GEX2023\Frogger\x64\Debug\testFrogger.exe

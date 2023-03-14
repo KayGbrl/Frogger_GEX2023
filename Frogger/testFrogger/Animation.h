@@ -11,18 +11,18 @@ class Animation
 public:
 	explicit 				Animation(bool repeat = true);
 
-	void					addFrame(Frame frame);
-	void					addFrameSet(std::vector<Frame> frames);
-	void 					setDuration(sf::Time duration);
-	sf::Time 				getDuration() const;
+	void					gameFrame(Frame frame);
+	void					gameFrameSet(std::vector<Frame> frames);
+	void 					gameSetDuration(sf::Time duration);
+	sf::Time 				gameGetDuration() const;
 
-	void 					setRepeating(bool flag);
-	bool 					isRepeating() const;
+	void 					gameRepeating(bool flag);
+	bool 					gameIsRepeating() const;
 
 	void 					restart();
 	bool 					isFinished() const;
 
-	Frame					getCurrentFrame() const;
+	Frame					gameCurrentFrame() const;
 
 	Frame 					update(sf::Time dt);
 

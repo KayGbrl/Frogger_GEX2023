@@ -17,11 +17,11 @@ bool GameState::update(sf::Time dt)
 {
 	world.update(dt);
 
-	if (!world.hasAlivePlayer()) {
+	if (!world.playerAlive()) {
 		player.setMissionStatus(Player::MissionStatus::Failure);
 		requestStackPush(StateID::GameOverState);
 	}
-	else if (world.hasPlayerReachedEnd()) {
+	else if (world.reachedEnd()) {
 		player.setMissionStatus(Player::MissionStatus::Success);
 		requestStackPush(StateID::GameOverState);
 	}

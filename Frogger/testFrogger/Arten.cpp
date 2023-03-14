@@ -25,7 +25,7 @@ Arten::Arten(Type type, const TextureHolder_t& textures, const FontHolder_t& fon
 		animations_[a.first] = a.second;
 	}
 
-	sprite_.setTextureRect(animations_[Arten::State::Idle].getCurrentFrame());
+	sprite_.setTextureRect(animations_[Arten::State::Idle].gameCurrentFrame());
 	centerOrigin(sprite_);
 
 }
@@ -90,7 +90,7 @@ sf::FloatRect Arten::getBoundingRect() const
 	return box;
 }
 
-float Arten::getMaxSpeed() const
+float Arten::getSpeed() const
 {
 	return 0.f;
 }
@@ -126,16 +126,16 @@ Arten::Direction Arten::getDirection() const
 	return direction_;
 }
 
-void Arten::updateStates()
+void Arten::states()
 {
 	const sf::Time timeToJump = sf::milliseconds(100);
 }
 
 void Arten::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
-	updateStates();
+	states();
 
-	auto rec = animations_.at(state_).getCurrentFrame();
+	auto rec = animations_.at(state_).gameCurrentFrame();
 	//if (!(type_ == Type::Turtle2 || type_ == Type::Turtle3))
 		rec = animations_.at(state_).update(dt);
 

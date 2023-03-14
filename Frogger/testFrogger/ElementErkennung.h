@@ -5,7 +5,6 @@ namespace sf
 {
 	class Texture;
 	class Font;
-	/*class Shader;*/
 	class SoundBuffer;
 }
 

@@ -45,7 +45,7 @@ public:
 
     unsigned int    getCategory() const override;
     sf::FloatRect   getBoundingRect() const override;
-    float           getMaxSpeed() const;
+    float           getSpeed() const;
 
     bool            isMarkedForRemoval() const override;
     void            setMarkedForRemoval(bool b);
@@ -57,7 +57,7 @@ public:
     Arten::Direction getDirection() const;
 
 private:
-    void            updateStates();
+    void            states();
     void            updateCurrent(sf::Time dt, CommandQueue& commands) override;
     void            drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 

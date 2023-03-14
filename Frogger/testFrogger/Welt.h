@@ -33,19 +33,19 @@ public:
 
 	CommandQueue& getCommands();
 
-	bool					hasAlivePlayer() const;
-	bool					hasPlayerReachedEnd() const;
+	bool					playerAlive() const;
+	bool					reachedEnd() const;
 
 private:
 	void					loadTextures();
 	void					buildScene();
 
 	void					addEnemies();
-	void					handleCollisions();
-	bool					matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2);
-	void					destroyEntitiesOutsideView();
+	void					collisions();
+	bool					categories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2);
+	void					entitiesOutsideView();
 
-	void					updateLivesIndicator(int amount);
+	void					liveIndicator(int amount);
 	void					buildLivesIndicator(int frogLives);
 
 	void					updateText();
@@ -53,12 +53,12 @@ private:
 	void					updateNPCSpawnTable(sf::Time dt);
 
 	sf::FloatRect			getViewBounds() const;
-	sf::FloatRect			getBattlefieldBounds() const;
+	sf::FloatRect			gameBounds() const;
 
-	int						getWinningSpotIndexByPosition(sf::FloatRect pos);
-	bool					isAllWinningSpotsFilled();
+	int						winnningSpotIndex(sf::FloatRect pos);
+	bool					winningSpotsFull();
 
-	void adaptPlayerPosition();
+	void playerPosition();
 
 private:
 	enum Layer

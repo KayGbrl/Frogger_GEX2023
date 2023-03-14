@@ -8,32 +8,32 @@ Animation::Animation(bool repeat)
 	, repeat_(repeat)
 {}
 
-void Animation::addFrame(Frame frame)
+void Animation::gameFrame(Frame frame)
 {
 	frames_.emplace_back(frame);
 }
 
-void Animation::addFrameSet(std::vector<Frame> frames)
+void Animation::gameFrameSet(std::vector<Frame> frames)
 {
 	frames_ = frames;
 }
 
-void Animation::setDuration(sf::Time duration)
+void Animation::gameSetDuration(sf::Time duration)
 {
 	duration_ = duration;
 }
 
-sf::Time Animation::getDuration() const
+sf::Time Animation::gameGetDuration() const
 {
 	return duration_;
 }
 
-void Animation::setRepeating(bool flag)
+void Animation::gameRepeating(bool flag)
 {
 	repeat_ = flag;
 }
 
-bool Animation::isRepeating() const
+bool Animation::gameIsRepeating() const
 {
 	return repeat_;
 }
@@ -48,7 +48,7 @@ bool Animation::isFinished() const
 	return (!repeat_ && currentFrame_ >= frames_.size());
 }
 
-Frame Animation::getCurrentFrame() const
+Frame Animation::gameCurrentFrame() const
 {
 	return frames_[currentFrame_ >= frames_.size() ? frames_.size() - 1 : currentFrame_];
 }
@@ -69,5 +69,5 @@ Frame Animation::update(sf::Time dt)
 			currentFrame_ %= frames_.size();
 		}
 	}
-	return getCurrentFrame();
+	return gameCurrentFrame();
 }

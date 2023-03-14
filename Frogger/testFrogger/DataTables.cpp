@@ -10,129 +10,129 @@ std::map<Arten::Type, ActorData> initializeActorData()
 
     JsonFrameParser frames = JsonFrameParser("Media/Textures/frog.json");
     
-    data[Arten::Type::Frogger].animations[Arten::State::Respawn].addFrameSet(frames.getFramesFor("jumpUp 1"));
-    data[Arten::Type::Frogger].animations[Arten::State::Respawn].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::Respawn].setRepeating(true);
+    data[Arten::Type::Frogger].animations[Arten::State::Respawn].gameFrameSet(frames.getFramesFor("jumpUp 1"));
+    data[Arten::Type::Frogger].animations[Arten::State::Respawn].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::Respawn].gameRepeating(true);
 
     // Lives
     data[Arten::Type::FroggerWinner].texture = TextureID::Frogger;
-    data[Arten::Type::FroggerWinner].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("small frog"));
-    data[Arten::Type::FroggerWinner].animations[Arten::State::Idle].setDuration(sf::seconds(3.f));
-    data[Arten::Type::FroggerWinner].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::FroggerWinner].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("small frog"));
+    data[Arten::Type::FroggerWinner].animations[Arten::State::Idle].gameSetDuration(sf::seconds(3.f));
+    data[Arten::Type::FroggerWinner].animations[Arten::State::Idle].gameRepeating(true);
 
     // Death State 
-    data[Arten::Type::Frogger].animations[Arten::State::Death].addFrameSet(frames.getFramesFor("death"));
-    data[Arten::Type::Frogger].animations[Arten::State::Death].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::Death].setRepeating(false);
+    data[Arten::Type::Frogger].animations[Arten::State::Death].gameFrameSet(frames.getFramesFor("death"));
+    data[Arten::Type::Frogger].animations[Arten::State::Death].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::Death].gameRepeating(false);
     
     // Idle state for direction Up, down, left, right 
-    data[Arten::Type::Frogger].animations[Arten::State::IdleUp].addFrameSet(frames.getFramesFor("jumpUp"));
-    data[Arten::Type::Frogger].animations[Arten::State::IdleUp].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::IdleUp].setRepeating(true);
+    data[Arten::Type::Frogger].animations[Arten::State::IdleUp].gameFrameSet(frames.getFramesFor("jumpUp"));
+    data[Arten::Type::Frogger].animations[Arten::State::IdleUp].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::IdleUp].gameRepeating(true);
 
-    data[Arten::Type::Frogger].animations[Arten::State::IdleDown].addFrameSet(frames.getFramesFor("jumpDown"));
-    data[Arten::Type::Frogger].animations[Arten::State::IdleDown].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::IdleDown].setRepeating(true);
+    data[Arten::Type::Frogger].animations[Arten::State::IdleDown].gameFrameSet(frames.getFramesFor("jumpDown"));
+    data[Arten::Type::Frogger].animations[Arten::State::IdleDown].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::IdleDown].gameRepeating(true);
 
-    data[Arten::Type::Frogger].animations[Arten::State::IdleLeft].addFrameSet(frames.getFramesFor("jumpLeft"));
-    data[Arten::Type::Frogger].animations[Arten::State::IdleLeft].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::IdleLeft].setRepeating(true);
+    data[Arten::Type::Frogger].animations[Arten::State::IdleLeft].gameFrameSet(frames.getFramesFor("jumpLeft"));
+    data[Arten::Type::Frogger].animations[Arten::State::IdleLeft].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::IdleLeft].gameRepeating(true);
 
-    data[Arten::Type::Frogger].animations[Arten::State::IdleRight].addFrameSet(frames.getFramesFor("jumpRight"));
-    data[Arten::Type::Frogger].animations[Arten::State::IdleRight].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::IdleRight].setRepeating(true);
+    data[Arten::Type::Frogger].animations[Arten::State::IdleRight].gameFrameSet(frames.getFramesFor("jumpRight"));
+    data[Arten::Type::Frogger].animations[Arten::State::IdleRight].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::IdleRight].gameRepeating(true);
 
     // state for direction Up, down, left, right 
-    data[Arten::Type::Frogger].animations[Arten::State::JumpDown].addFrameSet(frames.getFramesFor("jumpDown 2"));
-    data[Arten::Type::Frogger].animations[Arten::State::JumpDown].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::JumpDown].setRepeating(true);
+    data[Arten::Type::Frogger].animations[Arten::State::JumpDown].gameFrameSet(frames.getFramesFor("jumpDown 2"));
+    data[Arten::Type::Frogger].animations[Arten::State::JumpDown].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::JumpDown].gameRepeating(true);
 
-    data[Arten::Type::Frogger].animations[Arten::State::JumpUp].addFrameSet(frames.getFramesFor("jumpUp 2"));
-    data[Arten::Type::Frogger].animations[Arten::State::JumpUp].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::JumpUp].setRepeating(false);
+    data[Arten::Type::Frogger].animations[Arten::State::JumpUp].gameFrameSet(frames.getFramesFor("jumpUp 2"));
+    data[Arten::Type::Frogger].animations[Arten::State::JumpUp].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::JumpUp].gameRepeating(false);
 
-    data[Arten::Type::Frogger].animations[Arten::State::JumpLeft].addFrameSet(frames.getFramesFor("jumpLeft 2"));
-    data[Arten::Type::Frogger].animations[Arten::State::JumpLeft].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::JumpLeft].setRepeating(false);
+    data[Arten::Type::Frogger].animations[Arten::State::JumpLeft].gameFrameSet(frames.getFramesFor("jumpLeft 2"));
+    data[Arten::Type::Frogger].animations[Arten::State::JumpLeft].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::JumpLeft].gameRepeating(false);
 
-    data[Arten::Type::Frogger].animations[Arten::State::JumpRight].addFrameSet(frames.getFramesFor("jumpRight 2"));
-    data[Arten::Type::Frogger].animations[Arten::State::JumpRight].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Frogger].animations[Arten::State::JumpRight].setRepeating(false);
+    data[Arten::Type::Frogger].animations[Arten::State::JumpRight].gameFrameSet(frames.getFramesFor("jumpRight 2"));
+    data[Arten::Type::Frogger].animations[Arten::State::JumpRight].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Frogger].animations[Arten::State::JumpRight].gameRepeating(false);
 
     // Alligator state
     data[Arten::Type::Alligator].texture = TextureID::Frogger;
-    data[Arten::Type::Alligator].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("gator-"));
-    data[Arten::Type::Alligator].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Alligator].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Alligator].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("gator-"));
+    data[Arten::Type::Alligator].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Alligator].animations[Arten::State::Idle].gameRepeating(true);
 
     // Car state
     data[Arten::Type::Car1].texture = TextureID::Frogger;
-    data[Arten::Type::Car1].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("car1"));
-    data[Arten::Type::Car1].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Car1].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Car1].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("car1"));
+    data[Arten::Type::Car1].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Car1].animations[Arten::State::Idle].gameRepeating(true);
 
     data[Arten::Type::Car2].texture = TextureID::Frogger;
-    data[Arten::Type::Car2].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("car2"));
-    data[Arten::Type::Car2].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Car2].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Car2].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("car2"));
+    data[Arten::Type::Car2].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Car2].animations[Arten::State::Idle].gameRepeating(true);
 
     data[Arten::Type::Car3].texture = TextureID::Frogger;
-    data[Arten::Type::Car3].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("car3"));
-    data[Arten::Type::Car3].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Car3].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Car3].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("car3"));
+    data[Arten::Type::Car3].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Car3].animations[Arten::State::Idle].gameRepeating(true);
 
     //Tractor state
     data[Arten::Type::Truck1].texture = TextureID::Frogger;
-    data[Arten::Type::Truck1].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("tractor"));
-    data[Arten::Type::Truck1].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Truck1].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Truck1].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("tractor"));
+    data[Arten::Type::Truck1].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Truck1].animations[Arten::State::Idle].gameRepeating(true);
 
     //Truck state
     data[Arten::Type::Truck2].texture = TextureID::Frogger;
-    data[Arten::Type::Truck2].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("truck"));
-    data[Arten::Type::Truck2].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Truck2].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Truck2].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("truck"));
+    data[Arten::Type::Truck2].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Truck2].animations[Arten::State::Idle].gameRepeating(true);
 
     //Turtle2 state
     data[Arten::Type::Turtle2].texture = TextureID::Frogger;
-    data[Arten::Type::Turtle2].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("turtle2 "));
-    data[Arten::Type::Turtle2].animations[Arten::State::Idle].setDuration(sf::seconds(3.f));
-    data[Arten::Type::Turtle2].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Turtle2].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("turtle2 "));
+    data[Arten::Type::Turtle2].animations[Arten::State::Idle].gameSetDuration(sf::seconds(3.f));
+    data[Arten::Type::Turtle2].animations[Arten::State::Idle].gameRepeating(true);
 
     // floating turtle2
     data[Arten::Type::Turtle2_floating].texture = TextureID::Frogger;
-    data[Arten::Type::Turtle2_floating].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("turtle2_float"));
-    data[Arten::Type::Turtle2_floating].animations[Arten::State::Idle].setDuration(sf::seconds(3.f));
-    data[Arten::Type::Turtle2_floating].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Turtle2_floating].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("turtle2_float"));
+    data[Arten::Type::Turtle2_floating].animations[Arten::State::Idle].gameSetDuration(sf::seconds(3.f));
+    data[Arten::Type::Turtle2_floating].animations[Arten::State::Idle].gameRepeating(true);
 
     //Turtle3 State
     data[Arten::Type::Turtle3].texture = TextureID::Frogger;
-    data[Arten::Type::Turtle3].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("turtle3 "));
-    data[Arten::Type::Turtle3].animations[Arten::State::Idle].setDuration(sf::seconds(5.f));
-    data[Arten::Type::Turtle3].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Turtle3].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("turtle3 "));
+    data[Arten::Type::Turtle3].animations[Arten::State::Idle].gameSetDuration(sf::seconds(5.f));
+    data[Arten::Type::Turtle3].animations[Arten::State::Idle].gameRepeating(true);
 
     // floating turtle3
     data[Arten::Type::Turtle3_floating].texture = TextureID::Frogger;
-    data[Arten::Type::Turtle3_floating].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("turtle3_float"));
-    data[Arten::Type::Turtle3_floating].animations[Arten::State::Idle].setDuration(sf::seconds(3.f));
-    data[Arten::Type::Turtle3_floating].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Turtle3_floating].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("turtle3_float"));
+    data[Arten::Type::Turtle3_floating].animations[Arten::State::Idle].gameSetDuration(sf::seconds(3.f));
+    data[Arten::Type::Turtle3_floating].animations[Arten::State::Idle].gameRepeating(true);
 
     //Log State
     data[Arten::Type::Log1].texture = TextureID::Frogger;
-    data[Arten::Type::Log1].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("tree1"));
-    data[Arten::Type::Log1].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Log1].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Log1].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("tree1"));
+    data[Arten::Type::Log1].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Log1].animations[Arten::State::Idle].gameRepeating(true);
 
     data[Arten::Type::Log2].texture = TextureID::Frogger;
-    data[Arten::Type::Log2].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("tree2"));
-    data[Arten::Type::Log2].animations[Arten::State::Idle].setDuration(sf::seconds(1.f));
-    data[Arten::Type::Log2].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::Log2].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("tree2"));
+    data[Arten::Type::Log2].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Log2].animations[Arten::State::Idle].gameRepeating(true);
 
     //Pink frog
     data[Arten::Type::PinkFrog].texture = TextureID::Frogger;
-    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].addFrameSet(frames.getFramesFor("pinkfrog "));
-    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].setDuration(sf::seconds(3.f));
-    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].setRepeating(true);
+    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("pinkfrog "));
+    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].gameSetDuration(sf::seconds(3.f));
+    data[Arten::Type::PinkFrog].animations[Arten::State::Idle].gameRepeating(true);
 
 
     return data;

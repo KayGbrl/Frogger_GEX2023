@@ -34,7 +34,7 @@ Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
 		animations_[a.first] = a.second;
 	}
 
-	sprite_.setTextureRect(animations_[Arten::State::IdleUp].getCurrentFrame());
+	sprite_.setTextureRect(animations_[Arten::State::IdleUp].gameCurrentFrame());
 	centerOrigin(sprite_);
 
 	setVelocity(0.f, 0.f);

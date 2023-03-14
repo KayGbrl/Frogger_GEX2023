@@ -42,23 +42,23 @@ CommandQueue& World::getCommands()
 	return commandQueue;
 }
 
-bool World::hasAlivePlayer() const
+bool World::playerAlive() const
 {
 	return playerFrogger->getLivesLeft() > 0;
 }
 
-bool World::hasPlayerReachedEnd() const
+bool World::reachedEnd() const
 {
 	return playerFrogger->hasFroggerFilledSlots();
 }
 
 void World::update(sf::Time dt) {
 
-	destroyEntitiesOutsideView();
+	entitiesOutsideView();
 
 	sceneGraph.removeWrecks();
 
-	handleCollisions();
+	collisions();
 
 	while (!commandQueue.isEmpty()) {
 		sceneGraph.onCommand(commandQueue.pop(), dt);
@@ -80,14 +80,14 @@ void World::update(sf::Time dt) {
 
 	updateText();
 
-	updateLivesIndicator(playerFrogger->getLivesLeft() - 1);
+	liveIndicator(playerFrogger->getLivesLeft() - 1);
 
-	adaptPlayerPosition();
+	playerPosition();
 }
 
 void World::updateText()
 {
-	score->setString("Score: " + std::to_string(playerFrogger->getScore()));
+	score->setString("" + std::to_string(playerFrogger->getScore()));
 	score->setPosition(370.f, 30.f);
 }
 
@@ -180,9 +180,7 @@ void World::addEnemies()
 				}
 			}
 
-			if (npcSpawnTable[i].type == Arten::Type::Snake) {
-				npcSpawnTable[i].spawn = (randomInt(10) == 9); // 10% chance that the snake will spawn
-			}
+	
 
 			if (npcSpawnTable[i].spawn) {
 				std::unique_ptr<Arten> enemy(new Arten(npcSpawnTable[i].type, textures, fonts));
@@ -198,8 +196,6 @@ void World::addEnemies()
 					sceneLayers[PlayingLayer]->attachChild(std::move(enemy));
 				}
 
-				// only one snake at a time
-				if (npcSpawnTable[i].type == Arten::Type::Snake) npcSpawnTable[i].spawn = false;
 				// only one pink frog at a time
 				if (npcSpawnTable[i].type == Arten::Type::PinkFrog) npcSpawnTable[i].spawn = false;
 			}
@@ -207,7 +203,7 @@ void World::addEnemies()
 	}
 }
 
-void World::handleCollisions()
+void World::collisions()
 {
 	std::set<SceneNode::Pair> collisionPairs;
 	sceneGraph.checkSceneCollision(sceneGraph, collisionPairs);
@@ -216,25 +212,25 @@ void World::handleCollisions()
 	playerFrogger->resetPositionFlags();
 
 	for (auto pair : collisionPairs) {
-		if (matchesCategories(pair, Category::Frogger, Category::Vehicle)) {
+		if (categories(pair, Category::Frogger, Category::Vehicle)) {
 			playerFrogger->setIsStruckByCar(true);
 			return;
 		}
-		if (matchesCategories(pair, Category::Frogger, Category::Alligator)) {
+		if (categories(pair, Category::Frogger, Category::Alligator)) {
 			playerFrogger->setIsStruckByCar(true);
 			return;
 		}
-		if (matchesCategories(pair, Category::Frogger, Category::River)) {
+		if (categories(pair, Category::Frogger, Category::River)) {
 			playerFrogger->setIsInRiver(true);
 		}
-		if (matchesCategories(pair, Category::Frogger, Category::PinkFrog)) {
+		if (categories(pair, Category::Frogger, Category::PinkFrog)) {
 			playerFrogger->addScore(5);
 			// place it outside view so it is removed
 			pair.second->setPosition(1000.f, 1000.f);
 			npcSpawnTable[14].spawn = false;
 			frogSpawnTimer = -1.f; // set it so it does not appear any more
 		}
-		if (matchesCategories(pair, Category::Frogger, Category::SwimmingNPC)) {
+		if (categories(pair, Category::Frogger, Category::SwimmingNPC)) {
 			if (pair.second->getCategory() == Category::Turtle2) {
 				// TURTLE 2 is index 3
 				if (npcSpawnTable[3].elapsedTime < npcSpawnTable[3].interval / 3.f) { // check in which frame is it
@@ -256,7 +252,7 @@ void World::handleCollisions()
 
 			playerFrogger->setVelocity(velocity);
 		}
-		if (matchesCategories(pair, Category::Frogger, Category::WinningSpot)) {
+		if (categories(pair, Category::Frogger, Category::WinningSpot)) {
 			Command command;
 			command.category = Category::BackgroundLayer;
 			command.action = derivedAction<Frogger>([this, pair](Frogger& f, sf::Time t) {
@@ -265,7 +261,7 @@ void World::handleCollisions()
 			sf::FloatRect posRect = (static_cast<InteractablePlaceHolder&>(*pair.second)).getPosition();
 			sf::Vector2f posVector(posRect.left + posRect.width / 2, posRect.top + posRect.height / 2);
 
-			int spotIndex = getWinningSpotIndexByPosition(posRect);
+			int spotIndex = winnningSpotIndex(posRect);
 
 			if (winningSpotsFilled[spotIndex]) {
 				playerFrogger->setPosition(posVector);
@@ -273,7 +269,7 @@ void World::handleCollisions()
 			}
 			else {
 				winningSpotsFilled[spotIndex] = true;
-				winningSpotsFilled[getWinningSpotIndexByPosition(posRect)] = true;
+				winningSpotsFilled[winnningSpotIndex(posRect)] = true;
 
 				winningFrogPicture.get()->setPosition(posVector);
 				winningFrogPicture.get()->setVelocity(0.f, 0.f);
@@ -281,7 +277,7 @@ void World::handleCollisions()
 
 				playerFrogger->addScore(30);
 
-				if (isAllWinningSpotsFilled())
+				if (winningSpotsFull())
 					playerFrogger->setHasFroggerFilledSlots();
 
 				playerFrogger->respawnFrogger();
@@ -294,7 +290,7 @@ void World::handleCollisions()
 
 }
 
-bool World::matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
+bool World::categories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
 {
 	unsigned int category1 = colliders.first->getCategory();
 	unsigned int category2 = colliders.second->getCategory();
@@ -311,19 +307,19 @@ bool World::matchesCategories(SceneNode::Pair& colliders, Category::Type type1, 
 	}
 }
 
-void World::destroyEntitiesOutsideView()
+void World::entitiesOutsideView()
 {
 	Command command;
 	command.category = Category::NPC;
 	command.action = derivedAction<Arten>([this](Arten& a, sf::Time t) {
-		if (!getBattlefieldBounds().intersects(a.getBoundingRect())) {
+		if (!gameBounds().intersects(a.getBoundingRect())) {
 			a.setMarkedForRemoval(true);
 		}
 		});
 	commandQueue.push(command);
 }
 
-void World::updateLivesIndicator(int frogLives)
+void World::liveIndicator(int frogLives)
 {
 	if (playerFrogger->getState() == Arten::State::Death) {
 		int interval = 25;
@@ -373,7 +369,7 @@ sf::FloatRect World::getViewBounds() const
 	return sf::FloatRect(worldView.getCenter() - worldView.getSize() / 2.f, worldView.getSize());
 }
 
-sf::FloatRect World::getBattlefieldBounds() const
+sf::FloatRect World::gameBounds() const
 {
 	auto bounds = getViewBounds();
 
@@ -383,7 +379,7 @@ sf::FloatRect World::getBattlefieldBounds() const
 	return bounds;
 }
 
-int World::getWinningSpotIndexByPosition(sf::FloatRect pos)
+int World::winnningSpotIndex(sf::FloatRect pos)
 {
 	auto v = getWinningSpotPositions();
 
@@ -395,7 +391,7 @@ int World::getWinningSpotIndexByPosition(sf::FloatRect pos)
 	return -1;
 }
 
-bool World::isAllWinningSpotsFilled()
+bool World::winningSpotsFull()
 {
 	for (int i = 0; i < winningSpotsFilled.size(); ++i) {
 		if (!winningSpotsFilled[i])
@@ -405,7 +401,7 @@ bool World::isAllWinningSpotsFilled()
 }
 
 
-void World::adaptPlayerPosition()
+void World::playerPosition()
 {
 	sf::Vector2f position = playerFrogger->getPosition();
 	float left = worldView.getCenter().x - worldView.getSize().x / 2.f;
