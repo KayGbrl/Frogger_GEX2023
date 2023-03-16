@@ -6,7 +6,7 @@ int main()
 {
     try {
         Application app;
-        app.run();
+        app.starten();
     }
     catch (std::exception& e) {
         std::cout <<  e.what() << std::endl;

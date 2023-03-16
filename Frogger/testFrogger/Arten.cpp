@@ -73,6 +73,9 @@ unsigned int Arten::getCategory() const
 	case Type::PinkFrog:
 		return Category::PinkFrog;
 		break;
+	case Type::Snake:
+		return Category::Snake;
+		break;
 	default:
 		return Category::None;
 	}
@@ -90,7 +93,7 @@ sf::FloatRect Arten::getBoundingRect() const
 	return box;
 }
 
-float Arten::getSpeed() const
+float Arten::speed() const
 {
 	return 0.f;
 }
@@ -105,23 +108,23 @@ void Arten::setMarkedForRemoval(bool b)
 	isMarkedForRemoval_ = b;
 }
 
-void Arten::setState(State state)
+void Arten::Statussetzen(State state)
 {
 	state_ = state;
 	animations_[state_].restart();
 }
 
-Arten::State Arten::getState() const
+Arten::State Arten::StatusGeben() const
 {
 	return state_;
 }
 
-void Arten::setDirection(Arten::Direction d)
+void Arten::RichtungSetzen(Arten::Direction d)
 {
 	direction_ = d;
 }
 
-Arten::Direction Arten::getDirection() const
+Arten::Direction Arten::RichtungGEebn() const
 {
 	return direction_;
 }
@@ -139,7 +142,7 @@ void Arten::updateCurrent(sf::Time dt, CommandQueue& commands)
 	//if (!(type_ == Type::Turtle2 || type_ == Type::Turtle3))
 		rec = animations_.at(state_).update(dt);
 
-	move(velocity * dt.asSeconds());
+	move(geschwindigkeit * dt.asSeconds());
 
 	sprite_.setTextureRect(rec);
 	centerOrigin(sprite_);

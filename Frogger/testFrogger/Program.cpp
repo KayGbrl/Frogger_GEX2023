@@ -9,90 +9,90 @@
 #include "Menu.h"
 #include "Verloren.h"
 
-const sf::Time Application::TimePerFrame = sf::seconds(1.f / 60.f);
+const sf::Time Application::zeitImFrame = sf::seconds(1.f / 60.f);
 
 Application::Application()
-    : window(sf::VideoMode(480, 600), "Frogger")
-    , textures()
+    : fenster(sf::VideoMode(480, 600), "Frogger")
+    , texturen()
     , fonts()
-    , player()
-    , stateStack(State::Context(window, textures, fonts, player))
-    , statsText()
-    , statsUpdateTime()
-    , statsNumFrames(0){
+    , spieler()
+    , statusStaffelung(State::Context(fenster, texturen, fonts, spieler))
+    , textStatus()
+    , zeitDerStaten()
+    , statusDerFrames(0){
 
-    window.setKeyRepeatEnabled(false);
+    fenster.setKeyRepeatEnabled(false);
 
-    fonts.load(FontID::Main, "Media/Sansation.ttf");
+    fonts.laden(FontID::Main, "Media/Sansation.ttf");
 
-    textures.load(TextureID::TitleScreen, "Media/Textures/Placeholder.png");
-    statsText.setFont(fonts.get(FontID::Main));
-    statsText.setPosition(5.f, 5.f);
-    statsText.setCharacterSize(10u);
+    texturen.laden(TextureID::TitleScreen, "Media/Textures/Placeholder.png");
+    textStatus.setFont(fonts.get(FontID::Main));
+    textStatus.setPosition(5.f, 5.f);
+    textStatus.setCharacterSize(10u);
 
-    registerStates();
-    stateStack.pushState(StateID::Title);
+    Statusregistrieren();
+    statusStaffelung.pushState(StateID::Title);
 }
 
-void Application::run()
+void Application::starten()
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-    while (window.isOpen())
+    while (fenster.isOpen())
     {
         sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
 
-        while (timeSinceLastUpdate > TimePerFrame) {
-            timeSinceLastUpdate -= TimePerFrame;
+        while (timeSinceLastUpdate > zeitImFrame) {
+            timeSinceLastUpdate -= zeitImFrame;
 
-            processInput();
-            update(TimePerFrame);
+            eingabe();
+            update(zeitImFrame);
 
-            if (stateStack.isEmpty())
-                window.close();
+            if (statusStaffelung.isEmpty())
+                fenster.close();
         }
 
-        render();
+        rendern();
     }
 }
 
-void Application::processInput()
+void Application::eingabe()
 {
 
     sf::Event event;
-    while (window.pollEvent(event))
+    while (fenster.pollEvent(event))
     {
-        stateStack.handleEvent(event);
+        statusStaffelung.handleEvent(event);
 
         if (event.type == sf::Event::Closed)
-            window.close();
+            fenster.close();
     }
 
 }
 
 void Application::update(sf::Time dt)
 {
-    stateStack.update(dt);
+    statusStaffelung.update(dt);
 }
 
-void Application::render()
+void Application::rendern()
 {
-    window.clear();
-    stateStack.draw();
+    fenster.clear();
+    statusStaffelung.draw();
 
-    window.setView(window.getDefaultView());
-    window.draw(statsText);
-    window.display();
+    fenster.setView(fenster.getDefaultView());
+    fenster.draw(textStatus);
+    fenster.display();
 }
 
 
-void Application::registerStates()
+void Application::Statusregistrieren()
 {
-    stateStack.registerState<TitleState>(StateID::Title);
-    stateStack.registerState<MenuState>(StateID::Menu);
-    stateStack.registerState<GameState>(StateID::Game);
-    stateStack.registerState<PauseState>(StateID::Pause);
-    stateStack.registerState<GameOverState>(StateID::GameOverState);
+    statusStaffelung.registerState<TitleState>(StateID::Title);
+    statusStaffelung.registerState<MenuState>(StateID::Menu);
+    statusStaffelung.registerState<GameState>(StateID::Game);
+    statusStaffelung.registerState<PauseState>(StateID::Pause);
+    statusStaffelung.registerState<GameOverState>(StateID::GameOverState);
 }

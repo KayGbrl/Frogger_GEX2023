@@ -35,7 +35,7 @@ public:
     bool            isInRiver() const;
     void            setIsInRiver(bool b);
     bool            isOnSwimmingNPC() const;
-    void            setIsOnSwimmingNPC(bool b);
+    void            playerOnSwimmingNPC(bool b);
 
     void            resetPositionFlags();
 

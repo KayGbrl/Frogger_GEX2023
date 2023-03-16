@@ -12,7 +12,7 @@ class Arten : public Entity
 {
 public:
     enum class Type {
-        Frogger, Car1, Car2, Car3, Truck1, Truck2, Alligator, Turtle2, Turtle2_floating, Turtle3, Turtle3_floating, Log1, Log2, PinkFrog, Fly, Snake,
+        Frogger, Car1, Car2, Car3, Truck1, Truck2, Alligator, Turtle2, Turtle2_floating, Turtle3, Turtle3_floating, Log1, Log2, PinkFrog, Snake,
         FroggerWinner,
     };
 
@@ -45,16 +45,16 @@ public:
 
     unsigned int    getCategory() const override;
     sf::FloatRect   getBoundingRect() const override;
-    float           getSpeed() const;
+    float           speed() const;
 
     bool            isMarkedForRemoval() const override;
     void            setMarkedForRemoval(bool b);
 
-    void            setState(State state);
-    Arten::State    getState() const;
+    void            Statussetzen(State state);
+    Arten::State    StatusGeben() const;
 
-    void            setDirection(Arten::Direction d);
-    Arten::Direction getDirection() const;
+    void            RichtungSetzen(Arten::Direction d);
+    Arten::Direction RichtungGEebn() const;
 
 private:
     void            states();

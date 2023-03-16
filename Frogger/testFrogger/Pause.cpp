@@ -8,24 +8,24 @@
 
 PauseState::PauseState(StateStack& stack, Context context)
 	: State(stack, context)
-	, backgroundSprite()
-	, pausedText()
-	, instructionText()
+	, hintergrungSprite()
+	, pauseText()
+	, hilfeText()
 {
 	sf::Font& font = context.fonts->get(FontID::Main);
 	sf::Vector2f viewSize = context.window->getView().getSize();
 
-	pausedText.setFont(font);
-	pausedText.setString("Game Paused");
-	pausedText.setCharacterSize(30);
-	centerOrigin(pausedText);
-	pausedText.setPosition(0.5f * viewSize.x, 0.4f * viewSize.y);
+	pauseText.setFont(font);
+	pauseText.setString("Game Paused");
+	pauseText.setCharacterSize(30);
+	centerOrigin(pauseText);
+	pauseText.setPosition(0.5f * viewSize.x, 0.4f * viewSize.y);
 
-	instructionText.setFont(font);
-	instructionText.setString("Escape to go to main Menu");
-	instructionText.setCharacterSize(20);
-	centerOrigin(instructionText);
-	instructionText.setPosition(0.5f * viewSize.x, 0.6f * viewSize.y);
+	hilfeText.setFont(font);
+	hilfeText.setString("Escape to go to main Menu");
+	hilfeText.setCharacterSize(20);
+	centerOrigin(hilfeText);
+	hilfeText.setPosition(0.5f * viewSize.x, 0.6f * viewSize.y);
 }
 
 void PauseState::draw()
@@ -39,8 +39,8 @@ void PauseState::draw()
 	backgroundShape.setSize(window.getView().getSize());
 
 	window.draw(backgroundShape);
-	window.draw(pausedText);
-	window.draw(instructionText);
+	window.draw(pauseText);
+	window.draw(hilfeText);
 }
 
 bool PauseState::update(sf::Time dt)

@@ -1,12 +1,12 @@
 #include "Ausloser.h"
 
 
-void CommandQueue::push(const Command& command) {
+void CommandQueue::push(const Kommando& command) {
 	queue.push(command);
 }
 
-Command	CommandQueue::pop() {
-	Command c = queue.front();
+Kommando	CommandQueue::pop() {
+	Kommando c = queue.front();
 	queue.pop();
 	return c;
 }

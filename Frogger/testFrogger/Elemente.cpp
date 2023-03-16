@@ -34,7 +34,7 @@ void ResourceHolder<R, Id>::load(Id id, const std::string& filename) {
 
 	std::unique_ptr<R> resource(new R());
 	if (!resource->loadFromFile(filename))
-		throw std::runtime_error("Elemenete::load - Failed to load " + filename);
+		throw std::runtime_error("Elemente::load - Failed to load " + filename);
 
 	insertResource(id, std::move(resource));
 }

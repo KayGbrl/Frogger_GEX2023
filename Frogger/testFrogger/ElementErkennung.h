@@ -14,7 +14,8 @@ enum class TextureID
 	Background,
 	Frogger,
 	Live,
-	PinkFrog
+	PinkFrog,
+	Snake
 };
 
 enum class FontID {

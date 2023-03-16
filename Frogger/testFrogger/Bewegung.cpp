@@ -2,7 +2,7 @@
 #include "Bewegung.h"
 
 
-Command::Command()
+Kommando::Kommando()
 	: action()
 	, category(Category::None)
 {}

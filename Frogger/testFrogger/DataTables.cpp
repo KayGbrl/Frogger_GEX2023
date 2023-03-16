@@ -134,6 +134,12 @@ std::map<Arten::Type, ActorData> initializeActorData()
     data[Arten::Type::PinkFrog].animations[Arten::State::Idle].gameSetDuration(sf::seconds(3.f));
     data[Arten::Type::PinkFrog].animations[Arten::State::Idle].gameRepeating(true);
 
+    //Snake 
+    data[Arten::Type::Snake].texture = TextureID::Frogger;
+    data[Arten::Type::Snake].animations[Arten::State::Idle].gameFrameSet(frames.getFramesFor("snake "));
+    data[Arten::Type::Snake].animations[Arten::State::Idle].gameSetDuration(sf::seconds(1.f));
+    data[Arten::Type::Snake].animations[Arten::State::Idle].gameRepeating(true);
+
 
     return data;
 }
@@ -286,6 +292,16 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[14].interval = sf::seconds(6);
     spawnData[14].elapsedTime = sf::seconds(3);
     spawnData[14].spawn = true;
+
+    // Leave always as index 16
+    spawnData[15] = NPCSpawnData();
+    spawnData[15].position = sf::Vector2f(-50.f, 340.f);
+    spawnData[15].direction = Arten::Direction::Left;
+    spawnData[15].type = Arten::Type::Snake;
+    spawnData[15].speed = 80.f;
+    spawnData[15].interval = sf::seconds(2);
+    spawnData[15].elapsedTime = sf::seconds(2);
+    spawnData[15].spawn = false;
 
     return spawnData;
 }

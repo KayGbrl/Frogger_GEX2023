@@ -36,7 +36,7 @@ public:
 	sf::Vector2f		getWorldPoition()	const;
 	sf::Transform		getWorldTransform() const;
 
-	void				onCommand(const Command& command, sf::Time dt);
+	void				onCommand(const Kommando& command, sf::Time dt);
 	virtual unsigned int getCategory() const;
 
 	void				checkSceneCollision(SceneNode& sceneGraph, std::set<Pair>& collisionPairs);

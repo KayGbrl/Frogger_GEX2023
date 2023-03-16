@@ -14,28 +14,28 @@ class Application
 {
 public:
 	Application();
-	void					run();
+	void					starten();
 
 private:
-	void					processInput();
+	void					eingabe();
 	void					update(sf::Time dt);
-	void					render();
+	void					rendern();
 
-	void					registerStates();
+	void					Statusregistrieren();
 
 private:
-	static const sf::Time	TimePerFrame;
+	static const sf::Time	zeitImFrame;
 
-	sf::RenderWindow		window;
-	TextureHolder_t			textures;
+	sf::RenderWindow		fenster;
+	TextureHolder_t			texturen;
 	FontHolder_t			fonts;
-	Player					player;
+	Player					spieler;
 
-	StateStack				stateStack;
+	StateStack				statusStaffelung;
 
-	sf::Text				statsText;
-	sf::Time				statsUpdateTime;
-	std::size_t				statsNumFrames;
+	sf::Text				textStatus;
+	sf::Time				zeitDerStaten;
+	std::size_t				statusDerFrames;
 
 
 };

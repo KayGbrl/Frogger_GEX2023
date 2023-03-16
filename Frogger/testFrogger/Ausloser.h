@@ -6,12 +6,12 @@
 class CommandQueue
 {
 public:
-	void				push(const Command& command);
-	Command				pop();
+	void				push(const Kommando& command);
+	Kommando				pop();
 	bool				isEmpty() const;
 
 private:
-	std::queue<Command> queue;
+	std::queue<Kommando> queue;
 
 };
 

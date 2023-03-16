@@ -67,7 +67,7 @@ sf::Transform SceneNode::getWorldTransform() const {
 }
 
 
-void SceneNode::onCommand(const Command& command, sf::Time dt) {
+void SceneNode::onCommand(const Kommando& command, sf::Time dt) {
 
 	if (command.category & getCategory()) {
 		command.action(*this, dt);

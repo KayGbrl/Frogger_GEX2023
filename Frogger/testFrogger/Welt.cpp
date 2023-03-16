@@ -98,9 +98,9 @@ void World::draw() {
 }
 
 void World::loadTextures() {
-	textures.load(TextureID::Background, "Media/Textures/background.png");
-	textures.load(TextureID::Frogger, "Media/Textures/frog.png");
-	textures.load(TextureID::Live, "Media/Textures/lives.png");
+	textures.laden(TextureID::Background, "Media/Textures/background.png");
+	textures.laden(TextureID::Frogger, "Media/Textures/frog.png");
+	textures.laden(TextureID::Live, "Media/Textures/lives.png");
 }
 
 void World::buildScene() {
@@ -152,7 +152,7 @@ void World::buildScene() {
 
 	std::unique_ptr<Frogger> frog(new Frogger(textures, fonts));
 	frog.get()->setPosition(spawnPosition);
-	frog.get()->setVelocity(0.f, 0.f);
+	frog.get()->GeschwindigkeitSetzen(0.f, 0.f);
 
 	playerFrogger = frog.get();
 
@@ -180,14 +180,16 @@ void World::addEnemies()
 				}
 			}
 
+			if (npcSpawnTable[i].type == Arten::Type::Snake) {
+				npcSpawnTable[i].spawn = (randomInt(10) == 9); // 10% chance that the snake will spawn
+			}
 	
-
 			if (npcSpawnTable[i].spawn) {
 				std::unique_ptr<Arten> enemy(new Arten(npcSpawnTable[i].type, textures, fonts));
 
 				enemy->setPosition(npcSpawnTable[i].position);
-				enemy->setVelocity(npcSpawnTable[i].speed, 0.f);
-				enemy->setDirection(npcSpawnTable[i].direction);
+				enemy->GeschwindigkeitSetzen(npcSpawnTable[i].speed, 0.f);
+				enemy->RichtungSetzen(npcSpawnTable[i].direction);
 
 				if (enemy.get()->getCategory() & Category::Type::SwimmingNPC) {
 					sceneLayers[River]->attachChild(std::move(enemy));
@@ -198,6 +200,9 @@ void World::addEnemies()
 
 				// only one pink frog at a time
 				if (npcSpawnTable[i].type == Arten::Type::PinkFrog) npcSpawnTable[i].spawn = false;
+
+				// only one snake at a time
+				if (npcSpawnTable[i].type == Arten::Type::Snake) npcSpawnTable[i].spawn = false;
 			}
 		}
 	}
@@ -208,7 +213,7 @@ void World::collisions()
 	std::set<SceneNode::Pair> collisionPairs;
 	sceneGraph.checkSceneCollision(sceneGraph, collisionPairs);
 
-	playerFrogger->setVelocity(0.f, 0.f);
+	playerFrogger->GeschwindigkeitSetzen(0.f, 0.f);
 	playerFrogger->resetPositionFlags();
 
 	for (auto pair : collisionPairs) {
@@ -230,6 +235,10 @@ void World::collisions()
 			npcSpawnTable[14].spawn = false;
 			frogSpawnTimer = -1.f; // set it so it does not appear any more
 		}
+		if (categories(pair, Category::Frogger, Category::Snake)) {
+			playerFrogger->setIsStruckByCar(true);
+			return;
+		}
 		if (categories(pair, Category::Frogger, Category::SwimmingNPC)) {
 			if (pair.second->getCategory() == Category::Turtle2) {
 				// TURTLE 2 is index 3
@@ -246,14 +255,14 @@ void World::collisions()
 				}
 			}
 
-			playerFrogger->setIsOnSwimmingNPC(true);
+			playerFrogger->playerOnSwimmingNPC(true);
 
-			sf::Vector2f velocity = (static_cast<Arten&>(*pair.second)).getVelocity();
+			sf::Vector2f velocity = (static_cast<Arten&>(*pair.second)).GeschwindigkeitGeben();
 
-			playerFrogger->setVelocity(velocity);
+			playerFrogger->GeschwindigkeitSetzen(velocity);
 		}
 		if (categories(pair, Category::Frogger, Category::WinningSpot)) {
-			Command command;
+			Kommando command;
 			command.category = Category::BackgroundLayer;
 			command.action = derivedAction<Frogger>([this, pair](Frogger& f, sf::Time t) {
 
@@ -272,7 +281,7 @@ void World::collisions()
 				winningSpotsFilled[winnningSpotIndex(posRect)] = true;
 
 				winningFrogPicture.get()->setPosition(posVector);
-				winningFrogPicture.get()->setVelocity(0.f, 0.f);
+				winningFrogPicture.get()->GeschwindigkeitSetzen(0.f, 0.f);
 				sceneLayers[Background]->attachChild(std::move(winningFrogPicture));
 
 				playerFrogger->addScore(30);
@@ -309,7 +318,7 @@ bool World::categories(SceneNode::Pair& colliders, Category::Type type1, Categor
 
 void World::entitiesOutsideView()
 {
-	Command command;
+	Kommando command;
 	command.category = Category::NPC;
 	command.action = derivedAction<Arten>([this](Arten& a, sf::Time t) {
 		if (!gameBounds().intersects(a.getBoundingRect())) {

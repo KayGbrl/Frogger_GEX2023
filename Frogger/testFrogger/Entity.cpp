@@ -3,59 +3,59 @@
 
 #include <cassert>
 
-Entity::Entity(int hitPoints)
-	: hitPoints(hitPoints)
+Entity::Entity(int punkte)
+	: punkte(punkte)
 {}
 
-void Entity::setVelocity(sf::Vector2f v) {
-	velocity = v;
+void Entity::GeschwindigkeitSetzen(sf::Vector2f v) {
+	geschwindigkeit = v;
 }
 
-void Entity::setVelocity(float xv, float yv) {
-	velocity.x = xv;
-	velocity.y = yv;
+void Entity::GeschwindigkeitSetzen(float xv, float yv) {
+	geschwindigkeit.x = xv;
+	geschwindigkeit.y = yv;
 }
 
-void Entity::accelerate(sf::Vector2f v) {
-	velocity += v;
+void Entity::beschleunigen(sf::Vector2f v) {
+	geschwindigkeit += v;
 }
 
-void Entity::accelerate(float xv, float yv) {
-	velocity.x += xv;
-	velocity.y += yv;
+void Entity::beschleunigen(float xv, float yv) {
+	geschwindigkeit.x += xv;
+	geschwindigkeit.y += yv;
 }
 
-sf::Vector2f Entity::getVelocity() const {
-	return velocity;
+sf::Vector2f Entity::GeschwindigkeitGeben() const {
+	return geschwindigkeit;
 }
 
-int Entity::getHitpoints() const
+int Entity::PunkteBeiKontakt() const
 {
-	return hitPoints;
+	return punkte;
 }
 
-void Entity::repair(int points)
+void Entity::reparieren(int zahlen)
 {
-	assert(points > 0);
-	hitPoints += points;
+	assert(zahlen > 0);
+	punkte += zahlen;
 }
 
-void Entity::damage(int points)
+void Entity::schaden(int zahlen)
 {
-	assert(points > 0);
-	hitPoints -= points;
+	assert(zahlen > 0);
+	punkte -= zahlen;
 }
 
-void Entity::destroy()
+void Entity::zestoeren()
 {
-	hitPoints = 0;
+	punkte = 0;
 }
 
-bool Entity::isDestroyed() const
+bool Entity::zerstoert() const
 {
-	return hitPoints <= 0;
+	return punkte <= 0;
 }
 
 void Entity::updateCurrent(sf::Time dt, CommandQueue& commands) {
-	move(velocity * dt.asSeconds());
+	move(geschwindigkeit * dt.asSeconds());
 }

@@ -17,9 +17,9 @@ public:
 	virtual bool		handleEvent(const sf::Event& event) override;
 
 private:
-	sf::Sprite			backgroundSprite;
-	sf::Text			pausedText;
-	sf::Text			instructionText;
+	sf::Sprite			hintergrungSprite;
+	sf::Text			pauseText;
+	sf::Text			hilfeText;
 
 };
 

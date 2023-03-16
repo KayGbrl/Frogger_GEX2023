@@ -42,7 +42,7 @@ private:
 
 private:
 	std::map<sf::Keyboard::Key, Action>		keyBindings;
-	std::map<Action, Command>				actionBindings;
+	std::map<Action, Kommando>				actionBindings;
 
 };
 

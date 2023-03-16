@@ -13,10 +13,10 @@ class ResourceHolder
 {
 
 public:
-	void					load(Id id, const std::string& filename);
+	void					laden(Id id, const std::string& filename);
 
 	template <typename P>
-	void					load(Id id, const std::string& filename, const P& secondParameter);
+	void					laden(Id id, const std::string& filename, const P& secondParameter);
 
 
 	const R& get(Id id) const;
@@ -32,7 +32,7 @@ private:
 };
 
 template <typename R, typename Id>
-void ResourceHolder<R, Id>::load(Id id, const std::string& filename) {
+void ResourceHolder<R, Id>::laden(Id id, const std::string& filename) {
 
 	std::unique_ptr<R> resource(new R());
 	if (!resource->loadFromFile(filename))
@@ -44,7 +44,7 @@ void ResourceHolder<R, Id>::load(Id id, const std::string& filename) {
 
 template <typename R, typename Id>
 template <typename P>
-void ResourceHolder<R, Id>::load(Id id, const std::string& filename, const P& secondParam) {
+void ResourceHolder<R, Id>::laden(Id id, const std::string& filename, const P& secondParam) {
 
 	std::unique_ptr<R> resource(new R());
 	if (!resource->loadFromFile(filename, secondParam))

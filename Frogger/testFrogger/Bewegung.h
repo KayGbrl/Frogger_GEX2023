@@ -7,9 +7,9 @@
 
 class SceneNode;
 
-struct Command
+struct Kommando
 {
-	Command();
+	Kommando();
 	std::function <void(SceneNode&, sf::Time)> action;
 	unsigned int category;
 };

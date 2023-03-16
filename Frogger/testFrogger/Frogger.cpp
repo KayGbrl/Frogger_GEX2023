@@ -37,7 +37,7 @@ Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	sprite_.setTextureRect(animations_[Arten::State::IdleUp].gameCurrentFrame());
 	centerOrigin(sprite_);
 
-	setVelocity(0.f, 0.f);
+	GeschwindigkeitSetzen(0.f, 0.f);
 }
 
 unsigned int Frogger::getCategory() const
@@ -118,7 +118,7 @@ bool Frogger::isOnSwimmingNPC() const
 	return isOnSwimmingNPC_;
 }
 
-void Frogger::setIsOnSwimmingNPC(bool b)
+void Frogger::playerOnSwimmingNPC(bool b)
 {
 	isOnSwimmingNPC_ = b;
 }
@@ -202,24 +202,24 @@ void Frogger::respawnFrogger()
 
 void Frogger::updateStates()
 {
-	const sf::Time TIME_TO_JUMP = sf::milliseconds(100);
-	const sf::Time TIME_TO_DIE = sf::milliseconds(1200);
+	const sf::Time JUMP = sf::milliseconds(100);
+	const sf::Time DEATHTIMING = sf::milliseconds(1200);
 
-	if (state_ == Arten::State::Death && stateCountdown_ > TIME_TO_DIE) {
+	if (state_ == Arten::State::Death && stateCountdown_ > DEATHTIMING) {
 		livesLeft_ -= 1;
 		if (livesLeft_ > 0)
 			respawnFrogger();
 	}
-	else if (state_ == Arten::State::JumpLeft && (stateCountdown_ > TIME_TO_JUMP)) {
+	else if (state_ == Arten::State::JumpLeft && (stateCountdown_ > JUMP)) {
 		setState(Arten::State::IdleLeft);
 	}
-	else if (state_ == Arten::State::JumpRight && (stateCountdown_ > TIME_TO_JUMP)) {
+	else if (state_ == Arten::State::JumpRight && (stateCountdown_ > JUMP)) {
 		setState(Arten::State::IdleRight);
 	}
-	else if (state_ == Arten::State::JumpUp && (stateCountdown_ > TIME_TO_JUMP)) {
+	else if (state_ == Arten::State::JumpUp && (stateCountdown_ > JUMP)) {
 		setState(Arten::State::IdleUp);
 	}
-	else if (state_ == Arten::State::JumpDown && (stateCountdown_ > TIME_TO_JUMP)) {
+	else if (state_ == Arten::State::JumpDown && (stateCountdown_ > JUMP)) {
 		setState(Arten::State::IdleDown);
 	}
 
@@ -239,7 +239,7 @@ void Frogger::updateCurrent(sf::Time dt, CommandQueue& commands)
 
 	auto rec = animations_.at(state_).update(dt);
 
-	move(velocity * dt.asSeconds());
+	move(geschwindigkeit * dt.asSeconds());
 
 	sprite_.setTextureRect(rec);
 	centerOrigin(sprite_);
