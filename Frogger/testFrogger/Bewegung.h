@@ -1,14 +1,14 @@
 #pragma once
 
-#include <SFML/System/Time.hpp>
-#include <functional>
-#include <cassert>
 #include "Category.h"
-
-#include <SFML/Window/Event.hpp>
 #include "Bewegung.h"
-#include <map>
 
+#include <SFML/System/Time.hpp>
+#include <SFML/Window/Event.hpp>
+
+#include <map>
+#include <cassert>
+#include <functional>
 
 class SceneNode;
 

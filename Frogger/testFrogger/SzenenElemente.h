@@ -1,3 +1,6 @@
+#include "Bewegung.h"
+#include "Category.h"
+
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
@@ -6,9 +9,6 @@
 #include <vector>
 #include <memory>
 #include <set>
-
-#include "Bewegung.h"
-#include "Category.h"
 
 class CommandQueue;
 

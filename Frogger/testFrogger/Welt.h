@@ -13,14 +13,11 @@
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/Texture.hpp>
-
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
+#include "SFML/Graphics/Rect.hpp"
 
 #include <array>
-
-#include "SzenenElemente.h"
-#include "SFML/Graphics/Rect.hpp"
 
 namespace sf {
 	class RenderTarget;

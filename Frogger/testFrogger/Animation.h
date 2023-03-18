@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
+
 #include <vector>
 
 using Frame = sf::IntRect;

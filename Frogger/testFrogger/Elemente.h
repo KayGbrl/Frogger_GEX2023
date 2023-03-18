@@ -1,20 +1,17 @@
-#include <string>
-#include <memory>
-#include <cassert>
-#include <map>
-#include <stdexcept>
+#pragma once
 
 #include "Spiel.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
-
-#pragma once
-
+#include <string>
+#include <memory>
+#include <cassert>
+#include <map>
+#include <stdexcept>
 
 template <typename R, typename Id>
 class ResourceHolder

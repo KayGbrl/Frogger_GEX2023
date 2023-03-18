@@ -1,5 +1,4 @@
 #include "Text.h"
-#include "Werkzeug.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 

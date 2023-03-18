@@ -1,15 +1,12 @@
 #pragma once
 
 #include "Arten.h"
-
 #include "Spiel.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
 #include <vector>
-
-
 
 class Frogger : public Arten
 {

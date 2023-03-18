@@ -3,7 +3,6 @@
 #include "Elemente.h"
 #include "ElementErkennung.h"
 #include "JsonFrameParser.h"
-#include "Werkzeug.h"
 #include "DataTables.h"
 #include "SoundSystem.h"
 #include "StatenCheck.h"
@@ -11,11 +10,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
-
-
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/View.hpp>
 
 
 namespace

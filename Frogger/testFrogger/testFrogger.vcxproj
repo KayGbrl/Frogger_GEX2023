@@ -172,7 +172,6 @@
     <ClCompile Include="StateStack.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TitleNode.cpp" />
-    <ClCompile Include="Werkzeug.cpp" />
     <ClCompile Include="Welt.cpp" />
   </ItemGroup>
   <ItemGroup>

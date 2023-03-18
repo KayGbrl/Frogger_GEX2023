@@ -1,13 +1,12 @@
 #include "Spiel.h"
 #include "Welt.h"
-
-#include <SFML/Graphics.hpp>
-
 #include "StatenCheck.h"
 #include "ElementErkennung.h"
 
+#include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
+
 #include <memory>
 
 class GameState : public State

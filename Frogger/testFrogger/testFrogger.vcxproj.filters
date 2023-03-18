@@ -69,9 +69,6 @@
     <ClCompile Include="TitleNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Werkzeug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Welt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

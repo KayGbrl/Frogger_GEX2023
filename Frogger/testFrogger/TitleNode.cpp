@@ -1,5 +1,4 @@
 #include "Spiel.h"
-#include "Werkzeug.h"
 #include "Elemente.h"
 #include "SpriteElemente.h"
 

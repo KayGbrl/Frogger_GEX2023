@@ -1,10 +1,11 @@
 #include "Bewegung.h"
-
-#include "Arten.h"
-#include <algorithm>
 #include "Ausloser.h"
 #include "Frogger.h"
 #include "SoundSystem.h"
+#include "Arten.h"
+
+#include <algorithm>
+
 
 Kommando::Kommando()
 	: action()

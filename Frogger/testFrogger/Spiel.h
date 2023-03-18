@@ -3,6 +3,7 @@
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
+
 #include <memory>
 
 namespace sf {
