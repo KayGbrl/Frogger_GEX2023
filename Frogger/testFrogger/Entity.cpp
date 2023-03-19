@@ -55,6 +55,6 @@ bool Entity::zerstoert() const
 	return punkte <= 0;
 }
 
-void Entity::updateCurrent(sf::Time dt, CommandQueue& commands) {
+void Entity::aktuellesBild(sf::Time dt, CommandQueue& commands) {
 	move(geschwindigkeit * dt.asSeconds());
 }

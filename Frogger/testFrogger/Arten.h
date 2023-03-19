@@ -16,7 +16,7 @@ public:
         FroggerWinner,
     };
 
-    enum class State {
+    enum class SpeilStatus {
         IdleLeft,
         IdleRight,
         IdleUp,
@@ -43,30 +43,30 @@ public:
     Arten(const TextureHolder_t& textures, const FontHolder_t& fonts);
     ~Arten() = default;
 
-    unsigned int    getCategory() const override;
-    sf::FloatRect   getBoundingRect() const override;
-    float           speed() const;
+    unsigned int          getCategory() const override;
+    sf::FloatRect         getBoundingRect() const override;
+    float                 speed() const;
 
-    bool            isMarkedForRemoval() const override;
-    void            setMarkedForRemoval(bool b);
+    bool                  zumEntfernen() const override;
+    void                  setMarkedForRemoval(bool b);
 
-    void            Statussetzen(State state);
-    Arten::State    StatusGeben() const;
+    void                  Statussetzen(SpeilStatus state);
+    Arten::SpeilStatus    StatusGeben() const;
 
-    void            RichtungSetzen(Arten::Direction d);
-    Arten::Direction RichtungGEebn() const;
+    void                  RichtungSetzen(Arten::Direction d);
+    Arten::Direction      RichtungGEebn() const;
 
 private:
     void            states();
-    void            updateCurrent(sf::Time dt, CommandQueue& commands) override;
-    void            drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void            aktuellesBild(sf::Time dt, CommandQueue& commands) override;
+    void            aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 protected:
-    Type                                type_;
-    State                               state_;
-    mutable sf::Sprite                  sprite_;
-    std::map<Arten::State, Animation>   animations_;
-    Direction                           direction_;
+    Type                                      typen;
+    SpeilStatus                               status;
+    mutable sf::Sprite                        sprite_;
+    std::map<Arten::SpeilStatus, Animation>   animationen;
+    Direction                                 richtungen;
 
-    bool                                isMarkedForRemoval_;
+    bool                                      isMarkedForRemoval_;
 };

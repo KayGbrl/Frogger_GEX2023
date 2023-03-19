@@ -17,7 +17,7 @@ public:
 	void			setString(const std::string& text_);
 
 private:
-	virtual void	drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
+	virtual void	aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
 	sf::Text		text;

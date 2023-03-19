@@ -59,7 +59,7 @@ void World::update(sf::Time dt) {
 
 	entitiesOutsideView();
 
-	sceneGraph.removeWrecks();
+	sceneGraph.kaputteEntfernen();
 
 	collisions();
 
@@ -109,16 +109,16 @@ void World::loadTextures() {
 void World::buildScene() {
 
 	for (std::size_t i = 0; i < LayerCount; ++i) {
-		Category::Type category;
+		Category::Typen category;
 		switch (i) {
 		case PlayingLayer:
-			category = Category::Type::BackgroundLayer;
+			category = Category::Typen::BackgroundLayer;
 			break;
 		case River:
-			category = Category::Type::River;
+			category = Category::Typen::River;
 			break;
 		default:
-			category = Category::Type::None;
+			category = Category::Typen::None;
 			break;
 		}
 
@@ -132,7 +132,7 @@ void World::buildScene() {
 	auto positions = getWinningSpotPositions();
 
 	for (int i = 0; i < positions.size(); ++i) {
-		SceneNode::Ptr winningSpot(new InteractablePlaceHolder(Category::Type::WinningSpot, positions[i]));
+		SceneNode::Ptr winningSpot(new InteractablePlaceHolder(Category::Typen::WinningSpot, positions[i]));
 		winningSpotsFilled.push_back(false);
 
 		sceneLayers[River]->attachChild(std::move(winningSpot));
@@ -176,7 +176,7 @@ void World::addEnemies()
 			if (npcSpawnTable[14].spawn && i < 3) {
 				if (npcSpawnTable[14].spawn) { // set to log values
 					npcSpawnTable[14].position = npcSpawnTable[i].position;
-					npcSpawnTable[14].direction = npcSpawnTable[i].direction;
+					npcSpawnTable[14].richtung = npcSpawnTable[i].richtung;
 					npcSpawnTable[14].speed = npcSpawnTable[i].speed;
 					npcSpawnTable[14].interval = sf::seconds(6.f);
 					npcSpawnTable[14].elapsedTime = sf::seconds(6.f);
@@ -192,9 +192,9 @@ void World::addEnemies()
 
 				enemy->setPosition(npcSpawnTable[i].position);
 				enemy->GeschwindigkeitSetzen(npcSpawnTable[i].speed, 0.f);
-				enemy->RichtungSetzen(npcSpawnTable[i].direction);
+				enemy->RichtungSetzen(npcSpawnTable[i].richtung);
 
-				if (enemy.get()->getCategory() & Category::Type::SwimmingNPC) {
+				if (enemy.get()->getCategory() & Category::Typen::SwimmingNPC) {
 					sceneLayers[River]->attachChild(std::move(enemy));
 				}
 				else {
@@ -302,7 +302,7 @@ void World::collisions()
 
 }
 
-bool World::categories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
+bool World::categories(SceneNode::Pair& colliders, Category::Typen type1, Category::Typen type2)
 {
 	unsigned int category1 = colliders.first->getCategory();
 	unsigned int category2 = colliders.second->getCategory();
@@ -333,7 +333,7 @@ void World::entitiesOutsideView()
 
 void World::liveIndicator(int frogLives)
 {
-	if (playerFrogger->getState() == Arten::State::Death) {
+	if (playerFrogger->getState() == Arten::SpeilStatus::Death) {
 		int interval = 25;
 		int curPosition = 5;
 		int positionY = 570;
@@ -438,11 +438,11 @@ void World::playerPosition()
 }
 
 // Welt Wand und Kontakt
-InteractablePlaceHolder::InteractablePlaceHolder(Category::Type category)
+InteractablePlaceHolder::InteractablePlaceHolder(Category::Typen category)
 	:SceneNode(category)
 {}
 
-InteractablePlaceHolder::InteractablePlaceHolder(Category::Type category, sf::FloatRect pos)
+InteractablePlaceHolder::InteractablePlaceHolder(Category::Typen category, sf::FloatRect pos)
 	: SceneNode(category)
 	, position(pos)
 {

@@ -15,13 +15,13 @@
 
 namespace
 {
-	const std::map<Arten::Type, ActorData> TABLE = initializeActorData();
+	const std::map<Arten::Type, Karachtere> TABLE = initializeActorData();
 }
 
 Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	: Arten(textures, fonts)
-	, state_(State::IdleUp)
-	, sprite_(textures.get(TABLE.at(Arten::Type::Frogger).texture))
+	, state_(SpeilStatus::IdleUp)
+	, sprite_(textures.get(TABLE.at(Arten::Type::Frogger).texturen))
 	, direction_(Direction::Up)
 	, directionIndex_(0)
 	, stateCountdown_(sf::Time::Zero)
@@ -30,12 +30,12 @@ Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	, isMarkedForRemoval_(false)
 	, hasFroggerFilledSlots_(false)
 {
-	for (auto a : TABLE.at(Arten::Type::Frogger).animations)
+	for (auto a : TABLE.at(Arten::Type::Frogger).animationen)
 	{
 		animations_[a.first] = a.second;
 	}
 
-	sprite_.setTextureRect(animations_[Arten::State::IdleUp].gameCurrentFrame());
+	sprite_.setTextureRect(animations_[Arten::SpeilStatus::IdleUp].gameCurrentFrame());
 	centerOrigin(sprite_);
 
 	GeschwindigkeitSetzen(0.f, 0.f);
@@ -61,7 +61,7 @@ float Frogger::getMaxSpeed() const
 	return 0.f;
 }
 
-bool Frogger::isMarkedForRemoval() const
+bool Frogger::zumEntfernen() const
 {
 	return isMarkedForRemoval_;
 }
@@ -81,7 +81,7 @@ void Frogger::setIsWinningSpotTaken()
 	isWinningSpotTaken_ = true;
 }
 
-void Frogger::setState(State state)
+void Frogger::setState(SpeilStatus state)
 {
 	if (state_ != state) {
 		state_ = state;
@@ -89,7 +89,7 @@ void Frogger::setState(State state)
 	}
 }
 
-Frogger::State Frogger::getState() const
+Frogger::SpeilStatus Frogger::getState() const
 {
 	return state_;
 }
@@ -167,26 +167,26 @@ void Frogger::hop(Arten::Direction direction)
 	const float playerSpeedY = 40.f;
 	const float playerSpeedX = 50.f;
 
-	if (state_ == Arten::State::Death)
+	if (state_ == Arten::SpeilStatus::Death)
 		return;
 
 	if (direction == Arten::Direction::Left) {
 		setPosition(sf::Vector2f(getPosition().x - playerSpeedX, getPosition().y));
-		setState(Frogger::State::JumpLeft);
+		setState(Frogger::SpeilStatus::JumpLeft);
 	}
 	else if (direction == Arten::Direction::Right) {
 		setPosition(sf::Vector2f(getPosition().x + playerSpeedX, getPosition().y));
-		setState(Frogger::State::JumpRight);
+		setState(Frogger::SpeilStatus::JumpRight);
 	}
 	else if (direction == Arten::Direction::Up) {
 		setPosition(sf::Vector2f(getPosition().x, getPosition().y - playerSpeedY));
 		score_ += 10;
-		setState(Frogger::State::JumpUp);
+		setState(Frogger::SpeilStatus::JumpUp);
 	}
 	else if (direction == Arten::Direction::Down) {
 		setPosition(sf::Vector2f(getPosition().x, getPosition().y + playerSpeedY));
 		score_ -= 10;
-		setState(Frogger::State::JumpDown);
+		setState(Frogger::SpeilStatus::JumpDown);
 	}
 	setStateCountdownToZero();
 
@@ -195,7 +195,7 @@ void Frogger::hop(Arten::Direction direction)
 
 void Frogger::respawnFrogger()
 {
-	setState(Arten::State::IdleUp);
+	setState(Arten::SpeilStatus::IdleUp);
 	setPosition(respawnPosition_);
 	resetPositionFlags();
 }
@@ -206,26 +206,26 @@ void Frogger::updateStates()
 	const sf::Time JUMP = sf::milliseconds(100);
 	const sf::Time DEATHTIMING = sf::milliseconds(1200);
 
-	if (state_ == Arten::State::Death && stateCountdown_ > DEATHTIMING) {
+	if (state_ == Arten::SpeilStatus::Death && stateCountdown_ > DEATHTIMING) {
 		livesLeft_ -= 1;
 		if (livesLeft_ > 0)
 			respawnFrogger();
 	}
-	else if (state_ == Arten::State::JumpLeft && (stateCountdown_ > JUMP)) {
-		setState(Arten::State::IdleLeft);
+	else if (state_ == Arten::SpeilStatus::JumpLeft && (stateCountdown_ > JUMP)) {
+		setState(Arten::SpeilStatus::IdleLeft);
 	}
-	else if (state_ == Arten::State::JumpRight && (stateCountdown_ > JUMP)) {
-		setState(Arten::State::IdleRight);
+	else if (state_ == Arten::SpeilStatus::JumpRight && (stateCountdown_ > JUMP)) {
+		setState(Arten::SpeilStatus::IdleRight);
 	}
-	else if (state_ == Arten::State::JumpUp && (stateCountdown_ > JUMP)) {
-		setState(Arten::State::IdleUp);
+	else if (state_ == Arten::SpeilStatus::JumpUp && (stateCountdown_ > JUMP)) {
+		setState(Arten::SpeilStatus::IdleUp);
 	}
-	else if (state_ == Arten::State::JumpDown && (stateCountdown_ > JUMP)) {
-		setState(Arten::State::IdleDown);
+	else if (state_ == Arten::SpeilStatus::JumpDown && (stateCountdown_ > JUMP)) {
+		setState(Arten::SpeilStatus::IdleDown);
 	}
 
 	if (isStruckByCar_ || (isInRiver_ && !isOnSwimmingNPC_) || isWinningSpotTaken_) {
-		setState(Arten::State::Death);
+		setState(Arten::SpeilStatus::Death);
 		if (isInRiver_ && !isOnSwimmingNPC_)
 			SoundSystem::Instance().playSound(SoundSystem::Sound::plunk);
 		else if (isStruckByCar_)
@@ -233,7 +233,7 @@ void Frogger::updateStates()
 	}
 }
 
-void Frogger::updateCurrent(sf::Time dt, CommandQueue& commands)
+void Frogger::aktuellesBild(sf::Time dt, CommandQueue& commands)
 {
 	stateCountdown_ += dt;
 	updateStates();
@@ -246,15 +246,15 @@ void Frogger::updateCurrent(sf::Time dt, CommandQueue& commands)
 	centerOrigin(sprite_);
 }
 
-void Frogger::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+void Frogger::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(sprite_, states);
 }
 
 //Huaptmenu Funktionen
-MenuState::MenuState(StateStack& stack, Context context)
+Menu::Menu(StateStack& stack, Context context)
 	: State(stack, context)
-	, options()
+	, optionen()
 	, optionIndex(0)
 {
 
@@ -265,37 +265,37 @@ MenuState::MenuState(StateStack& stack, Context context)
 	playOption.setString("Play");
 	centerOrigin(playOption);
 	playOption.setPosition(context.window->getView().getSize() / 2.f);
-	options.push_back(playOption);
+	optionen.push_back(playOption);
 
 	sf::Text exitOption;
 	exitOption.setFont(font);
 	exitOption.setString("Exit");
 	centerOrigin(exitOption);
 	exitOption.setPosition(playOption.getPosition() + sf::Vector2f(0.f, 30.f));
-	options.push_back(exitOption);
+	optionen.push_back(exitOption);
 
 	updateOptionText();
 
 }
 
-void MenuState::draw()
+void Menu::draw()
 {
 	auto& window = *getContext().window;
 
 	window.setView(window.getDefaultView());
-	window.draw(backgroundSprite);
+	window.draw(hintergrund);
 
-	for (const auto& text : options) {
+	for (const auto& text : optionen) {
 		window.draw(text);
 	}
 }
 
-bool MenuState::update(sf::Time dt)
+bool Menu::update(sf::Time dt)
 {
 	return true;
 }
 
-bool MenuState::handleEvent(const sf::Event& event)
+bool Menu::handleEvent(const sf::Event& event)
 {
 	if (event.type != sf::Event::KeyPressed)
 		return false;
@@ -316,13 +316,13 @@ bool MenuState::handleEvent(const sf::Event& event)
 		if (optionIndex > 0)
 			optionIndex--;
 		else
-			optionIndex = options.size() - 1;
+			optionIndex = optionen.size() - 1;
 
 		updateOptionText();
 	}
 	else if (event.key.code == sf::Keyboard::Down)
 	{
-		if (optionIndex < options.size() - 1)
+		if (optionIndex < optionen.size() - 1)
 			optionIndex++;
 		else
 			optionIndex = 0;
@@ -333,18 +333,18 @@ bool MenuState::handleEvent(const sf::Event& event)
 	return true;
 }
 
-void MenuState::updateOptionText() {
-	if (options.empty())
+void Menu::updateOptionText() {
+	if (optionen.empty())
 		return;
 
-	for (auto& text : options)
+	for (auto& text : optionen)
 		text.setFillColor(sf::Color::White);
 
-	options[optionIndex].setFillColor(sf::Color::Blue);
+	optionen[optionIndex].setFillColor(sf::Color::Blue);
 }
 
 //Pause Menu
-PauseState::PauseState(StateStack& stack, Context context)
+Pause::Pause(StateStack& stack, Context context)
 	: State(stack, context)
 	, hintergrungSprite()
 	, pauseText()
@@ -366,7 +366,7 @@ PauseState::PauseState(StateStack& stack, Context context)
 	hilfeText.setPosition(0.5f * viewSize.x, 0.6f * viewSize.y);
 }
 
-void PauseState::draw()
+void Pause::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
 	window.setView(window.getDefaultView());
@@ -381,12 +381,12 @@ void PauseState::draw()
 	window.draw(hilfeText);
 }
 
-bool PauseState::update(sf::Time dt)
+bool Pause::update(sf::Time dt)
 {
 	return false;
 }
 
-bool PauseState::handleEvent(const sf::Event& event)
+bool Pause::handleEvent(const sf::Event& event)
 {
 	if (event.type != sf::Event::KeyPressed)
 		return false;

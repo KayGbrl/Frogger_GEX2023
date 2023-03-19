@@ -16,7 +16,7 @@ void TextNode::setString(const std::string& text_)
 	centerOrigin(text);
 }
 
-void TextNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+void TextNode::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(text, states);
 }

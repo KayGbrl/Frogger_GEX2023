@@ -11,7 +11,7 @@ public:
 	bool				isEmpty() const;
 
 private:
-	std::queue<Kommando> queue;
+	std::queue<Kommando> warteschleife;
 
 };
 

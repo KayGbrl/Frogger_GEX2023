@@ -20,16 +20,16 @@ bool GameState::update(sf::Time dt)
 	world.update(dt);
 
 	if (!world.playerAlive()) {
-		player.setMissionStatus(Player::MissionStatus::Failure);
+		player.aufgabeGeben(Player::MissionStatus::Failure);
 		requestStackPush(StateID::GameOverState);
 	}
 	else if (world.reachedEnd()) {
-		player.setMissionStatus(Player::MissionStatus::Success);
+		player.aufgabeGeben(Player::MissionStatus::Success);
 		requestStackPush(StateID::GameOverState);
 	}
 
 	CommandQueue& commands = world.getCommands();
-	player.handleRealTimeInput(commands);
+	player.eingabe(commands);
 
 	return true;
 }

@@ -22,7 +22,7 @@ public:
 
 
 protected:
-	virtual void	updateCurrent(sf::Time dt, CommandQueue& commands) override;
+	virtual void	aktuellesBild(sf::Time dt, CommandQueue& commands) override;
 
 protected:
 	sf::Vector2f	geschwindigkeit;

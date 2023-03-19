@@ -2,7 +2,7 @@
 
 namespace Category
 {
-	enum Type
+	enum Typen
 	{
 		None = 0,
 		BackgroundLayer = 1 << 0,

@@ -13,7 +13,7 @@
 using Ptr = std::unique_ptr<SceneNode>;
 
 
-SceneNode::SceneNode(Category::Type category)
+SceneNode::SceneNode(Category::Typen category)
 	: children()
 	, parent(nullptr)
 	, category(category)
@@ -41,15 +41,15 @@ Ptr	SceneNode::detachChild(const SceneNode& node) {
 
 sf::FloatRect SceneNode::getBoundingRect() const
 {
-	if (category == Category::Type::River) {
+	if (category == Category::Typen::River) {
 		return sf::FloatRect(0.f, 0.f, 480.f, 320.f);
 	}
 }
 
 
 void SceneNode::update(sf::Time dt, CommandQueue& commands) {
-	updateCurrent(dt, commands);
-	updateChildren(dt, commands);
+	aktuellesBild(dt, commands);
+	kinderneuern(dt, commands);
 }
 
 sf::Vector2f SceneNode::getWorldPoition()	const {
@@ -90,38 +90,38 @@ void SceneNode::checkSceneCollision(SceneNode& node, std::set<Pair>& collisionPa
 
 void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs)
 {
-	if (this != &node && isColliding(*this, node) && !isDestroyed() && !node.isDestroyed())
+	if (this != &node && isColliding(*this, node) && !zerstoert() && !node.zerstoert())
 		collisionPairs.insert(std::minmax(this, &node));
 
 	for (Ptr& child : children)
 		child->checkNodeCollision(node, collisionPairs);
 }
 
-void SceneNode::removeWrecks()
+void SceneNode::kaputteEntfernen()
 {
-	auto wreckfieldBegin = std::remove_if(children.begin(), children.end(), std::mem_fn(&SceneNode::isMarkedForRemoval)); //generates wrapper objects for pointers to members,
+	auto wreckfieldBegin = std::remove_if(children.begin(), children.end(), std::mem_fn(&SceneNode::zumEntfernen)); //generates wrapper objects for pointers to members,
 																															//which can store,
 																															//copy, and invoke a pointer to member. 
 	children.erase(wreckfieldBegin, children.end());
 
-	std::for_each(children.begin(), children.end(), std::mem_fn(&SceneNode::removeWrecks));
+	std::for_each(children.begin(), children.end(), std::mem_fn(&SceneNode::kaputteEntfernen));
 }
 
-bool SceneNode::isMarkedForRemoval() const
+bool SceneNode::zumEntfernen() const
 {
-	return isDestroyed();
+	return zerstoert();
 }
 
-bool SceneNode::isDestroyed() const
+bool SceneNode::zerstoert() const
 {
 	return false;
 }
 
-void SceneNode::updateCurrent(sf::Time dt, CommandQueue& commands) {
+void SceneNode::aktuellesBild(sf::Time dt, CommandQueue& commands) {
 }
 
 
-void SceneNode::updateChildren(sf::Time dt, CommandQueue& commands) {
+void SceneNode::kinderneuern(sf::Time dt, CommandQueue& commands) {
 	for (auto& child : children) {
 		child->update(dt, commands);
 	}
@@ -131,8 +131,8 @@ void SceneNode::updateChildren(sf::Time dt, CommandQueue& commands) {
 void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	states.transform *= getTransform();
 
-	drawCurrent(target, states);
-	drawChildren(target, states);
+	aktuellezeichnen(target, states);
+	kindZeichnen(target, states);
 }
 
 void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states) const
@@ -149,11 +149,11 @@ void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates stat
 	target.draw(shape);
 }
 
-void SceneNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
+void SceneNode::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const {
 
 }
 
-void SceneNode::drawChildren(sf::RenderTarget& target, sf::RenderStates states) const {
+void SceneNode::kindZeichnen(sf::RenderTarget& target, sf::RenderStates states) const {
 	for (auto& child : children) {
 		child->draw(target, states);
 	}

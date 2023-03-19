@@ -90,8 +90,8 @@ void Application::rendern()
 void Application::Statusregistrieren()
 {
     statusStaffelung.registerState<TitleState>(StateID::Title);
-    statusStaffelung.registerState<MenuState>(StateID::Menu);
+    statusStaffelung.registerState<Menu>(StateID::Menu);
     statusStaffelung.registerState<GameState>(StateID::Game);
-    statusStaffelung.registerState<PauseState>(StateID::Pause);
+    statusStaffelung.registerState<Pause>(StateID::Pause);
     statusStaffelung.registerState<GameOverState>(StateID::GameOverState);
 }

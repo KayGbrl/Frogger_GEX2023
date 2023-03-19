@@ -9,34 +9,34 @@
 
 namespace
 {
-	const std::map<Arten::Type, ActorData> TABLE = initializeActorData();
+	const std::map<Arten::Type, Karachtere> TABLE = initializeActorData();
 }
 
 Arten::Arten(Type type, const TextureHolder_t& textures, const FontHolder_t& fonts)
 	: Entity(100)
-	, type_(type)
-	, state_(State::Idle)
-	, sprite_(textures.get(TABLE.at(type).texture))
-	, direction_(Direction::Up)
+	, typen(type)
+	, status(SpeilStatus::Idle)
+	, sprite_(textures.get(TABLE.at(type).texturen))
+	, richtungen(Direction::Up)
 {
-	for (auto a : TABLE.at(type).animations)
+	for (auto a : TABLE.at(type).animationen)
 	{
-		animations_[a.first] = a.second;
+		animationen[a.first] = a.second;
 	}
 
-	sprite_.setTextureRect(animations_[Arten::State::Idle].gameCurrentFrame());
+	sprite_.setTextureRect(animationen[Arten::SpeilStatus::Idle].gameCurrentFrame());
 	centerOrigin(sprite_);
 
 }
 
 Arten::Arten(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	: Entity(100)
-	, type_(Type::Frogger)
+	, typen(Type::Frogger)
 {}
 
 unsigned int Arten::getCategory() const
 {
-	switch (type_)
+	switch (typen)
 	{
 	case Type::Frogger:
 		return Category::Frogger;
@@ -97,7 +97,7 @@ float Arten::speed() const
 	return 0.f;
 }
 
-bool Arten::isMarkedForRemoval() const
+bool Arten::zumEntfernen() const
 {
 	return isMarkedForRemoval_; 
 }
@@ -107,25 +107,25 @@ void Arten::setMarkedForRemoval(bool b)
 	isMarkedForRemoval_ = b;
 }
 
-void Arten::Statussetzen(State state)
+void Arten::Statussetzen(SpeilStatus state)
 {
-	state_ = state;
-	animations_[state_].restart();
+	status = state;
+	animationen[status].restart();
 }
 
-Arten::State Arten::StatusGeben() const
+Arten::SpeilStatus Arten::StatusGeben() const
 {
-	return state_;
+	return status;
 }
 
 void Arten::RichtungSetzen(Arten::Direction d)
 {
-	direction_ = d;
+	richtungen = d;
 }
 
 Arten::Direction Arten::RichtungGEebn() const
 {
-	return direction_;
+	return richtungen;
 }
 
 void Arten::states()
@@ -133,13 +133,13 @@ void Arten::states()
 	const sf::Time timeToJump = sf::milliseconds(100);
 }
 
-void Arten::updateCurrent(sf::Time dt, CommandQueue& commands)
+void Arten::aktuellesBild(sf::Time dt, CommandQueue& commands)
 {
 	states();
 
-	auto rec = animations_.at(state_).gameCurrentFrame();
+	auto rec = animationen.at(status).gameCurrentFrame();
 	//if (!(type_ == Type::Turtle2 || type_ == Type::Turtle3))
-		rec = animations_.at(state_).update(dt);
+		rec = animationen.at(status).update(dt);
 
 	move(geschwindigkeit * dt.asSeconds());
 
@@ -147,7 +147,7 @@ void Arten::updateCurrent(sf::Time dt, CommandQueue& commands)
 	centerOrigin(sprite_);
 }
 
-void Arten::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+void Arten::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(sprite_, states);
 }

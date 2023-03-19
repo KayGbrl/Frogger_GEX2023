@@ -2,15 +2,15 @@
 
 
 void CommandQueue::push(const Kommando& command) {
-	queue.push(command);
+	warteschleife.push(command);
 }
 
 Kommando	CommandQueue::pop() {
-	Kommando c = queue.front();
-	queue.pop();
+	Kommando c = warteschleife.front();
+	warteschleife.pop();
 	return c;
 }
 
 bool CommandQueue::isEmpty() const {
-	return queue.empty();
+	return warteschleife.empty();
 }

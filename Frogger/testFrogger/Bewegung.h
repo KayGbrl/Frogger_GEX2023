@@ -52,21 +52,21 @@ public:
 	Player();
 
 	void				handleEvent(const sf::Event& event, CommandQueue& commands);
-	void				handleRealTimeInput(CommandQueue& commands);
+	void				eingabe(CommandQueue& commands);
 
-	void				setMissionStatus(MissionStatus status);
-	MissionStatus		getMissionStatus() const;
-
-private:
-	void				initializeActions();
-	void				initializeKeyBindings();
-	static bool			isRealtimeAction(Action action);
-
-	MissionStatus		currentMissionStatus;
+	void				aufgabeGeben(MissionStatus status);
+	MissionStatus		aufgabeBekommen() const;
 
 private:
-	std::map<sf::Keyboard::Key, Action>		keyBindings;
-	std::map<Action, Kommando>				actionBindings;
+	void				actionMachen();
+	void				tastenSchlag();
+	static bool			echtzeit(Action action);
+
+	MissionStatus		missionsZiel;
+
+private:
+	std::map<sf::Keyboard::Key, Action>		tastenBelegung;
+	std::map<Action, Kommando>				bewegungMachen;
 
 };
 

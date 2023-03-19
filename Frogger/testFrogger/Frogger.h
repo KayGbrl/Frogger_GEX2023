@@ -26,15 +26,15 @@ public:
     sf::FloatRect   getBoundingRect() const override;
     float           getMaxSpeed() const;
 
-    bool            isMarkedForRemoval() const override;
+    bool            zumEntfernen() const override;
 
     void            setHasFroggerFilledSlots();
     bool            hasFroggerFilledSlots() const;
 
     void            setIsWinningSpotTaken();
 
-    void            setState(State state);
-    Frogger::State  getState() const;
+    void            setState(SpeilStatus state);
+    Frogger::SpeilStatus  getState() const;
 
     bool            isStruckByCar() const;
     void            setIsStruckByCar(bool b);
@@ -60,13 +60,13 @@ public:
 
 private:
     void            updateStates();
-    void            updateCurrent(sf::Time dt, CommandQueue& commands) override;
-    void            drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void            aktuellesBild(sf::Time dt, CommandQueue& commands) override;
+    void            aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
-    Arten::State                        state_;
+    Arten::SpeilStatus                        state_;
     mutable sf::Sprite                  sprite_;
-    std::map<Arten::State, Animation>   animations_;
+    std::map<Arten::SpeilStatus, Animation>   animations_;
     Direction                           direction_;
 
     std::size_t                         directionIndex_;
@@ -85,11 +85,11 @@ private:
 };
 
 //Hauptmenu
-class MenuState : public State
+class Menu : public State
 {
 
 public:
-    MenuState(StateStack& stack, Context context);
+    Menu(StateStack& stack, Context context);
 
     virtual void	draw() override;
     virtual bool	update(sf::Time dt) override;
@@ -101,23 +101,22 @@ private:
     enum OptionNames {
         Play = 0,
         Exit = 1,
-
     };
 
 private:
-    sf::Sprite				backgroundSprite;
+    sf::Sprite				hintergrund;
 
-    std::vector<sf::Text>	options;
+    std::vector<sf::Text>	optionen;
     std::size_t				optionIndex;
 
 };
 
 //Pause Menu
-class PauseState :
+class Pause :
     public State
 {
 public:
-    PauseState(StateStack& stack, Context context);
+    Pause(StateStack& stack, Context context);
 
     virtual void		draw() override;
     virtual bool		update(sf::Time dt) override;

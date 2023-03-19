@@ -13,16 +13,16 @@
 #include <functional>
 
 
-struct ActorData
+struct Karachtere
 {
-	TextureID							texture;
-	std::map<Arten::State, Animation>	animations;
-	std::vector<Arten::Direction>	    directions;
+	TextureID							texturen;
+	std::map<Arten::SpeilStatus, Animation>	animationen;
+	std::vector<Arten::Direction>	    richtungen;
 };
 
 struct NPCSpawnData {
 	sf::Vector2f						position;
-	Arten::Direction					direction;
+	Arten::Direction					richtung;
 	Arten::Type							type;
 	float								speed;
 	sf::Time							interval;
@@ -30,7 +30,7 @@ struct NPCSpawnData {
 	bool								spawn;
 };
 
-std::map<Arten::Type, ActorData> initializeActorData();
+std::map<Arten::Type, Karachtere> initializeActorData();
 
 std::vector<NPCSpawnData> initializeNPCSpawnData();
 

@@ -101,7 +101,7 @@ private:
 };
 
 //Zuffals system
-namespace sf
+namespace zufall
 {
 	class Sprite;
 	class Text;

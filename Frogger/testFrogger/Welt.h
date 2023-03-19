@@ -42,7 +42,7 @@ private:
 
 	void					addEnemies();
 	void					collisions();
-	bool					categories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2);
+	bool					categories(SceneNode::Pair& colliders, Category::Typen type1, Category::Typen type2);
 	void					entitiesOutsideView();
 
 	void					liveIndicator(int amount);
@@ -100,8 +100,8 @@ private:
 class InteractablePlaceHolder : public SceneNode
 {
 public:
-	InteractablePlaceHolder(Category::Type category);
-	InteractablePlaceHolder(Category::Type category, sf::FloatRect pos);
+	InteractablePlaceHolder(Category::Typen category);
+	InteractablePlaceHolder(Category::Typen category, sf::FloatRect pos);
 
 	sf::FloatRect		getPosition() const;
 	void				setPosition(sf::FloatRect pos);

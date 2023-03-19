@@ -23,12 +23,15 @@ public:
 	using Pair = std::pair<SceneNode*, SceneNode*>;
 
 public:
-	SceneNode(Category::Type c = Category::Type::None);
+	SceneNode(Category::Typen c = Category::Typen::None);
 
 	void				attachChild(Ptr child);
 	Ptr					detachChild(const SceneNode& node);
 
 	virtual sf::FloatRect getBoundingRect() const;
+	virtual bool		zumEntfernen() const;
+	virtual bool		zerstoert() const;
+	virtual unsigned int getCategory() const;
 
 	void				update(sf::Time dt, CommandQueue& commands);
 
@@ -36,30 +39,26 @@ public:
 	sf::Transform		getWorldTransform() const;
 
 	void				onCommand(const Kommando& command, sf::Time dt);
-	virtual unsigned int getCategory() const;
 
 	void				checkSceneCollision(SceneNode& sceneGraph, std::set<Pair>& collisionPairs);
 	void				checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs);
 
-	void				removeWrecks();
-
-	virtual bool		isMarkedForRemoval() const;
-	virtual bool		isDestroyed() const;
+	void				kaputteEntfernen();
 
 private:
-	virtual void		updateCurrent(sf::Time dt, CommandQueue& commands);
-	void				updateChildren(sf::Time dt, CommandQueue& commands);
-
+	virtual void		aktuellesBild(sf::Time dt, CommandQueue& commands);
 	virtual void		draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	virtual void		drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-	void				drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void		aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const;
+	void				kindZeichnen(sf::RenderTarget& target, sf::RenderStates states) const;
+
+	void				kinderneuern(sf::Time dt, CommandQueue& commands);
 
 	void				drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
 	std::vector<Ptr>	children;
 	SceneNode* parent;
-	Category::Type		category;
+	Category::Typen		category;
 };
 
 float calculateDistance(const SceneNode& lhs, const SceneNode& rhs);

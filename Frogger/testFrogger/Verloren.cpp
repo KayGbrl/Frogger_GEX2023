@@ -20,7 +20,7 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 	sf::Vector2f windowSize(context.window->getSize());
 
 	gameOverText.setFont(font);
-	if (context.player->getMissionStatus() == Player::MissionStatus::Failure)
+	if (context.player->aufgabeBekommen() == Player::MissionStatus::Failure)
 		gameOverText.setString("Game over!");
 	else
 		gameOverText.setString("You Won!");
@@ -37,7 +37,7 @@ void GameOverState::draw()
 
 	sf::RectangleShape backgroundShape;
 
-	if (context.player->getMissionStatus() == Player::MissionStatus::Failure)
+	if (context.player->aufgabeBekommen() == Player::MissionStatus::Failure)
 		backgroundShape.setFillColor(sf::Color(255, 0, 0, 150));
 	else
 		backgroundShape.setFillColor(sf::Color(0, 255, 0, 150));
