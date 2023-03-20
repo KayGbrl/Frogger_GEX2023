@@ -30,7 +30,7 @@ struct NPCSpawnData {
 	bool								spawn;
 };
 
-std::map<Arten::Type, Karachtere> initializeActorData();
+std::map<Arten::Type, Karachtere> artenData();
 
 std::vector<NPCSpawnData> initializeNPCSpawnData();
 

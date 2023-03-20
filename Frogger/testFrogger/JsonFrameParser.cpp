@@ -23,7 +23,8 @@ std::vector<sf::IntRect>  JsonFrameParser::getFramesFor(std::string animationNam
 		std::string tmpStr = i["filename"];
 		if (tmpStr.compare(0, animationName.size(), animationName) == 0)
 		{
-			data.push_back(sf::IntRect(i["frame"]["x"],
+			data.push_back(sf::IntRect(
+				i["frame"]["x"],
 				i["frame"]["y"],
 				i["frame"]["w"],
 				i["frame"]["h"]));

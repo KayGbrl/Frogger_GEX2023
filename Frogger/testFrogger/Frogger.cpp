@@ -15,7 +15,7 @@
 
 namespace
 {
-	const std::map<Arten::Type, Karachtere> TABLE = initializeActorData();
+	const std::map<Arten::Type, Karachtere> TABLE = artenData();
 }
 
 Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
@@ -167,7 +167,7 @@ void Frogger::hop(Arten::Direction direction)
 	const float playerSpeedY = 40.f;
 	const float playerSpeedX = 50.f;
 
-	if (state_ == Arten::SpeilStatus::Death)
+	if (state_ == Arten::SpeilStatus::Dead)
 		return;
 
 	if (direction == Arten::Direction::Left) {
@@ -206,7 +206,7 @@ void Frogger::updateStates()
 	const sf::Time JUMP = sf::milliseconds(100);
 	const sf::Time DEATHTIMING = sf::milliseconds(1200);
 
-	if (state_ == Arten::SpeilStatus::Death && stateCountdown_ > DEATHTIMING) {
+	if (state_ == Arten::SpeilStatus::Dead && stateCountdown_ > DEATHTIMING) {
 		livesLeft_ -= 1;
 		if (livesLeft_ > 0)
 			respawnFrogger();
@@ -225,7 +225,7 @@ void Frogger::updateStates()
 	}
 
 	if (isStruckByCar_ || (isInRiver_ && !isOnSwimmingNPC_) || isWinningSpotTaken_) {
-		setState(Arten::SpeilStatus::Death);
+		setState(Arten::SpeilStatus::Dead);
 		if (isInRiver_ && !isOnSwimmingNPC_)
 			SoundSystem::Instance().playSound(SoundSystem::Sound::plunk);
 		else if (isStruckByCar_)

@@ -333,7 +333,7 @@ void World::entitiesOutsideView()
 
 void World::liveIndicator(int frogLives)
 {
-	if (playerFrogger->getState() == Arten::SpeilStatus::Death) {
+	if (playerFrogger->getState() == Arten::SpeilStatus::Dead) {
 		int interval = 25;
 		int curPosition = 5;
 		int positionY = 570;

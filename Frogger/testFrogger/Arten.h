@@ -26,7 +26,7 @@ public:
         JumpUp,
         JumpDown,
         Idle,
-        Death,
+        Dead,
         Respawn,
         count,
         GameOver

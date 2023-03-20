@@ -1,7 +1,7 @@
 {"frames": [
 
 {
-	"filename": "car1.png",
+	"filename": "gelbesauto.png",
 	"frame": {"x":1,"y":1,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -9,7 +9,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "car2.png",
+	"filename": "gruenesauto.png",
 	"frame": {"x":43,"y":1,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -17,7 +17,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "car3.png",
+	"filename": "pinkesauto.png",
 	"frame": {"x":85,"y":1,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -25,7 +25,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "death 1.png",
+	"filename": "tod1.png",
 	"frame": {"x":127,"y":1,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -33,7 +33,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "death 2.png",
+	"filename": "tod2.png",
 	"frame": {"x":169,"y":1,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -41,7 +41,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "death 3.png",
+	"filename": "tod3.png",
 	"frame": {"x":211,"y":1,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -49,7 +49,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "gator-0.png",
+	"filename": "alligator0.png",
 	"frame": {"x":203,"y":169,"w":102,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -57,7 +57,7 @@
 	"sourceSize": {"w":102,"h":40}
 },
 {
-	"filename": "gator-1.png",
+	"filename": "alligator1.png",
 	"frame": {"x":1,"y":211,"w":102,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -65,7 +65,7 @@
 	"sourceSize": {"w":102,"h":40}
 },
 {
-	"filename": "jumpDown 1.png",
+	"filename": "stehenrunter.png",
 	"frame": {"x":253,"y":1,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -73,7 +73,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "jumpDown 2.png",
+	"filename": "runter.png",
 	"frame": {"x":1,"y":43,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -81,7 +81,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "jumpLeft 1.png",
+	"filename": "stehenlinks.png",
 	"frame": {"x":43,"y":43,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -89,7 +89,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "jumpLeft 2.png",
+	"filename": "links.png",
 	"frame": {"x":85,"y":43,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -97,7 +97,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "jumpRight 1.png",
+	"filename": "stehenrechts.png",
 	"frame": {"x":127,"y":43,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -105,7 +105,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "jumpRight 2.png",
+	"filename": "rechts.png",
 	"frame": {"x":169,"y":43,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -113,7 +113,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "jumpUp 1.png",
+	"filename": "stehenhoch.png",
 	"frame": {"x":211,"y":43,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -121,7 +121,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "jumpUp 2.png",
+	"filename": "hoch.png",
 	"frame": {"x":253,"y":43,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -129,7 +129,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "small fly.png",
+	"filename": "kleinefliege.png",
 	"frame": {"x":1,"y":85,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -137,7 +137,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "small frog.png",
+	"filename": "gewinnerfrosh.png",
 	"frame": {"x":43,"y":85,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -153,7 +153,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "tractor.png",
+	"filename": "traktor.png",
 	"frame": {"x":127,"y":85,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -161,7 +161,7 @@
 	"sourceSize": {"w":40,"h":40}
 },
 {
-	"filename": "tree1.png",
+	"filename": "kleinerstamm.png",
 	"frame": {"x":135,"y":127,"w":95,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -169,7 +169,7 @@
 	"sourceSize": {"w":95,"h":40}
 },
 {
-	"filename": "tree2.png",
+	"filename": "grosserstamm.png",
 	"frame": {"x":105,"y":211,"w":196,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -177,7 +177,7 @@
 	"sourceSize": {"w":196,"h":40}
 },
 {
-	"filename": "truck.png",
+	"filename": "lkw.png",
 	"frame": {"x":169,"y":85,"w":60,"h":35},
 	"rotated": false,
 	"trimmed": false,
@@ -185,31 +185,7 @@
 	"sourceSize": {"w":60,"h":35}
 },
 {
-	"filename": "snake 0.png",
-	"frame": {"x":153,"y":253,"w":86,"h":40},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":40},
-	"sourceSize": {"w":86,"h":40}
-},
-{
-	"filename": "snake 1.png",
-	"frame": {"x":243,"y":253,"w":86,"h":40},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":40},
-	"sourceSize": {"w":86,"h":40}
-},
-{
-	"filename": "snake 2.png",
-	"frame": {"x":5,"y":299,"w":86,"h":40},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":40},
-	"sourceSize": {"w":86,"h":40}
-},
-{
-	"filename": "turtle2_float.png",
+	"filename": "zweierkroete_untertauchen.png",
 	"frame": {"x":231,"y":85,"w":65,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -217,7 +193,7 @@
 	"sourceSize": {"w":65,"h":40}
 },
 {
-	"filename": "turtle2 0.png",
+	"filename": "zweierkroete0.png",
 	"frame": {"x":231,"y":85,"w":65,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -225,7 +201,7 @@
 	"sourceSize": {"w":65,"h":40}
 },
 {
-	"filename": "turtle2 1.png",
+	"filename": "zweierkroete1.png",
 	"frame": {"x":1,"y":127,"w":65,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -233,7 +209,7 @@
 	"sourceSize": {"w":65,"h":40}
 },
 {
-	"filename": "turtle2 2.png",
+	"filename": "zweierkroete2.png",
 	"frame": {"x":68,"y":127,"w":65,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -241,7 +217,7 @@
 	"sourceSize": {"w":65,"h":40}
 },
 {
-	"filename": "turtle3_float.png",
+	"filename": "dreierkroete_untertauchen.png",
 	"frame": {"x":232,"y":127,"w":99,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -249,7 +225,7 @@
 	"sourceSize": {"w":99,"h":40}
 },
 {
-	"filename": "turtle3 0.png",
+	"filename": "dreierkroete0.png",
 	"frame": {"x":232,"y":127,"w":99,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -257,7 +233,7 @@
 	"sourceSize": {"w":99,"h":40}
 },
 {
-	"filename": "turtle3 1.png",
+	"filename": "dreierkroete1.png",
 	"frame": {"x":1,"y":169,"w":99,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -265,7 +241,7 @@
 	"sourceSize": {"w":99,"h":40}
 },
 {
-	"filename": "turtle3 2.png",
+	"filename": "dreierkroete2.png",
 	"frame": {"x":102,"y":169,"w":99,"h":40},
 	"rotated": false,
 	"trimmed": false,
@@ -273,29 +249,38 @@
 	"sourceSize": {"w":99,"h":40}
 },
 {
-	"filename": "pinkfrog 0.png",
-	"frame": {"x":1,"y":257,"w":40,"h":40},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
-	"sourceSize": {"w":40,"h":40}
-},
-{
-	"filename": "pinkfrog 1.png",
-	"frame": {"x":50,"y":257,"w":40,"h":40},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
-	"sourceSize": {"w":40,"h":40}
-},
-{
-	"filename": "pinkfrog 2.png",
+	"filename": "pinkerfrosh.png",
 	"frame": {"x":93,"y":257,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":40},
 	"sourceSize": {"w":40,"h":40}
-}],
+},
+{
+	"filename": "schlange 0.png",
+	"frame": {"x":153,"y":253,"w":86,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":40},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "schlange 1.png",
+	"frame": {"x":243,"y":253,"w":86,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":40},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "schlange 2.png",
+	"frame": {"x":5,"y":299,"w":86,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":40},
+	"sourceSize": {"w":86,"h":40}
+}
+ ],
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",

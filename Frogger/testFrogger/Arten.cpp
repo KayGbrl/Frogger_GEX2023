@@ -9,7 +9,7 @@
 
 namespace
 {
-	const std::map<Arten::Type, Karachtere> TABLE = initializeActorData();
+	const std::map<Arten::Type, Karachtere> TABLE = artenData();
 }
 
 Arten::Arten(Type type, const TextureHolder_t& textures, const FontHolder_t& fonts)
