@@ -280,14 +280,5 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":40},
 	"sourceSize": {"w":86,"h":40}
 }
- ],
-"meta": {
-	"app": "https://www.codeandweb.com/texturepacker",
-	"version": "1.0",
-	"image": "frog.png",
-	"format": "RGBA8888",
-	"size": {"w":332,"h":252},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:42c1ec1f48298dc18481238fb1eedb4a:c0156ee3b704c316d250d1bc33d0da98:8dde0dd0197344c2f9f9f01d8d204375$"
-}
+ ]
 }
