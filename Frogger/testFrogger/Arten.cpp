@@ -15,7 +15,7 @@ namespace
 Arten::Arten(Type type, const TextureHolder_t& textures, const FontHolder_t& fonts)
 	: Entity(100)
 	, typen(type)
-	, status(SpeilStatus::Idle)
+	, status(SpeilStatus::Still)
 	, sprite_(textures.get(TABLE.at(type).texturen))
 	, richtungen(Direction::Up)
 {
@@ -24,7 +24,7 @@ Arten::Arten(Type type, const TextureHolder_t& textures, const FontHolder_t& fon
 		animationen[a.first] = a.second;
 	}
 
-	sprite_.setTextureRect(animationen[Arten::SpeilStatus::Idle].gameCurrentFrame());
+	sprite_.setTextureRect(animationen[Arten::SpeilStatus::Still].gameCurrentFrame());
 	centerOrigin(sprite_);
 
 }
@@ -41,39 +41,39 @@ unsigned int Arten::getCategory() const
 	case Type::Frogger:
 		return Category::Frogger;
 		break;
-	case Type::Car1:
-	case Type::Car2:
-	case Type::Car3:
-		return Category::Car;
+	case Type::Gelbesauto:
+	case Type::Gruenesauto:
+	case Type::Pinkesauto:
+		return Category::Auto;
 		break;
-	case Type::Truck1:
-	case Type::Truck2:
+	case Type::Traktor:
+	case Type::Lkw:
 		return Category::Truck;
 		break;
-	case Type::Log1:
-	case Type::Log2:
-		return Category::Log;
+	case Type::Kleinerstamm:
+	case Type::Grosserstamm:
+		return Category::Stamm;
 		break;
 	case Type::Alligator:
 		return Category::Alligator;
 		break;
-	case Type::Turtle2:
-		return Category::Turtle2;
+	case Type::Zweierkroete:
+		return Category::Zweierkroete;
 		break;
-	case Type::Turtle3:
-		return Category::Turtle3;
+	case Type::Dreierkroete:
+		return Category::Dreierkroete;
 		break;
-	case Type::Turtle2_floating:
-		return Category::Turtle2_floating;
+	case Type::Zweierkroete_Untertauchen:
+		return Category::Zweierkroete_Untertauchen;
 		break;
-	case Type::Turtle3_floating:
-		return Category::Turtle3_floating;
+	case Type::Dreierkroete_Untertauchen:
+		return Category::Dreierkroete_Untertauchen;
 		break;
-	case Type::PinkFrog:
-		return Category::PinkFrog;
+	case Type::Pinkerfrosh:
+		return Category::Pinkerfrosh;
 		break;
-	case Type::Snake:
-		return Category::Snake;
+	case Type::Schlange:
+		return Category::Schlange;
 		break;
 	default:
 		return Category::None;

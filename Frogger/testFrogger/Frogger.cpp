@@ -20,7 +20,7 @@ namespace
 
 Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	: Arten(textures, fonts)
-	, state_(SpeilStatus::IdleUp)
+	, state_(SpeilStatus::Stehenhoch)
 	, sprite_(textures.get(TABLE.at(Arten::Type::Frogger).texturen))
 	, direction_(Direction::Up)
 	, directionIndex_(0)
@@ -35,7 +35,7 @@ Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
 		animations_[a.first] = a.second;
 	}
 
-	sprite_.setTextureRect(animations_[Arten::SpeilStatus::IdleUp].gameCurrentFrame());
+	sprite_.setTextureRect(animations_[Arten::SpeilStatus::Stehenhoch].gameCurrentFrame());
 	centerOrigin(sprite_);
 
 	GeschwindigkeitSetzen(0.f, 0.f);
@@ -167,26 +167,26 @@ void Frogger::hop(Arten::Direction direction)
 	const float playerSpeedY = 40.f;
 	const float playerSpeedX = 50.f;
 
-	if (state_ == Arten::SpeilStatus::Dead)
+	if (state_ == Arten::SpeilStatus::Tod)
 		return;
 
 	if (direction == Arten::Direction::Left) {
 		setPosition(sf::Vector2f(getPosition().x - playerSpeedX, getPosition().y));
-		setState(Frogger::SpeilStatus::JumpLeft);
+		setState(Frogger::SpeilStatus::Links);
 	}
 	else if (direction == Arten::Direction::Right) {
 		setPosition(sf::Vector2f(getPosition().x + playerSpeedX, getPosition().y));
-		setState(Frogger::SpeilStatus::JumpRight);
+		setState(Frogger::SpeilStatus::Rechts);
 	}
 	else if (direction == Arten::Direction::Up) {
 		setPosition(sf::Vector2f(getPosition().x, getPosition().y - playerSpeedY));
 		score_ += 10;
-		setState(Frogger::SpeilStatus::JumpUp);
+		setState(Frogger::SpeilStatus::Hoch);
 	}
 	else if (direction == Arten::Direction::Down) {
 		setPosition(sf::Vector2f(getPosition().x, getPosition().y + playerSpeedY));
 		score_ -= 10;
-		setState(Frogger::SpeilStatus::JumpDown);
+		setState(Frogger::SpeilStatus::Runter);
 	}
 	setStateCountdownToZero();
 
@@ -195,7 +195,7 @@ void Frogger::hop(Arten::Direction direction)
 
 void Frogger::respawnFrogger()
 {
-	setState(Arten::SpeilStatus::IdleUp);
+	setState(Arten::SpeilStatus::Stehenhoch);
 	setPosition(respawnPosition_);
 	resetPositionFlags();
 }
@@ -203,29 +203,29 @@ void Frogger::respawnFrogger()
 
 void Frogger::updateStates()
 {
-	const sf::Time JUMP = sf::milliseconds(100);
-	const sf::Time DEATHTIMING = sf::milliseconds(1200);
+	const sf::Time SPRUNG = sf::milliseconds(100);
+	const sf::Time TODESZEITPUNKT = sf::milliseconds(1200);
 
-	if (state_ == Arten::SpeilStatus::Dead && stateCountdown_ > DEATHTIMING) {
+	if (state_ == Arten::SpeilStatus::Tod && stateCountdown_ > TODESZEITPUNKT) {
 		livesLeft_ -= 1;
 		if (livesLeft_ > 0)
 			respawnFrogger();
 	}
-	else if (state_ == Arten::SpeilStatus::JumpLeft && (stateCountdown_ > JUMP)) {
-		setState(Arten::SpeilStatus::IdleLeft);
+	else if (state_ == Arten::SpeilStatus::Links && (stateCountdown_ > SPRUNG)) {
+		setState(Arten::SpeilStatus::Stehenlinks);
 	}
-	else if (state_ == Arten::SpeilStatus::JumpRight && (stateCountdown_ > JUMP)) {
-		setState(Arten::SpeilStatus::IdleRight);
+	else if (state_ == Arten::SpeilStatus::Rechts && (stateCountdown_ > SPRUNG)) {
+		setState(Arten::SpeilStatus::Stehenrechts);
 	}
-	else if (state_ == Arten::SpeilStatus::JumpUp && (stateCountdown_ > JUMP)) {
-		setState(Arten::SpeilStatus::IdleUp);
+	else if (state_ == Arten::SpeilStatus::Hoch && (stateCountdown_ > SPRUNG)) {
+		setState(Arten::SpeilStatus::Stehenhoch);
 	}
-	else if (state_ == Arten::SpeilStatus::JumpDown && (stateCountdown_ > JUMP)) {
-		setState(Arten::SpeilStatus::IdleDown);
+	else if (state_ == Arten::SpeilStatus::Runter && (stateCountdown_ > SPRUNG)) {
+		setState(Arten::SpeilStatus::Stehenrunter);
 	}
 
 	if (isStruckByCar_ || (isInRiver_ && !isOnSwimmingNPC_) || isWinningSpotTaken_) {
-		setState(Arten::SpeilStatus::Dead);
+		setState(Arten::SpeilStatus::Tod);
 		if (isInRiver_ && !isOnSwimmingNPC_)
 			SoundSystem::Instance().playSound(SoundSystem::Sound::plunk);
 		else if (isStruckByCar_)

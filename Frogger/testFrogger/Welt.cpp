@@ -183,7 +183,7 @@ void World::addEnemies()
 				}
 			}
 
-			if (npcSpawnTable[i].type == Arten::Type::Snake) {
+			if (npcSpawnTable[i].type == Arten::Type::Schlange) {
 				npcSpawnTable[i].spawn = (randomInt(10) == 9); // 10% chance that the snake will spawn
 			}
 	
@@ -202,10 +202,10 @@ void World::addEnemies()
 				}
 
 				// only one pink frog at a time
-				if (npcSpawnTable[i].type == Arten::Type::PinkFrog) npcSpawnTable[i].spawn = false;
+				if (npcSpawnTable[i].type == Arten::Type::Pinkerfrosh) npcSpawnTable[i].spawn = false;
 
 				// only one snake at a time
-				if (npcSpawnTable[i].type == Arten::Type::Snake) npcSpawnTable[i].spawn = false;
+				if (npcSpawnTable[i].type == Arten::Type::Schlange) npcSpawnTable[i].spawn = false;
 			}
 		}
 	}
@@ -231,26 +231,26 @@ void World::collisions()
 		if (categories(pair, Category::Frogger, Category::River)) {
 			playerFrogger->setIsInRiver(true);
 		}
-		if (categories(pair, Category::Frogger, Category::PinkFrog)) {
+		if (categories(pair, Category::Frogger, Category::Pinkerfrosh)) {
 			playerFrogger->addScore(5);
 			// place it outside view so it is removed
 			pair.second->setPosition(1000.f, 1000.f);
 			npcSpawnTable[14].spawn = false;
 			frogSpawnTimer = -1.f; // set it so it does not appear any more
 		}
-		if (categories(pair, Category::Frogger, Category::Snake)) {
+		if (categories(pair, Category::Frogger, Category::Schlange)) {
 			playerFrogger->setIsStruckByCar(true);
 			return;
 		}
 		if (categories(pair, Category::Frogger, Category::SwimmingNPC)) {
-			if (pair.second->getCategory() == Category::Turtle2) {
+			if (pair.second->getCategory() == Category::Zweierkroete) {
 				// TURTLE 2 is index 3
 				if (npcSpawnTable[3].elapsedTime < npcSpawnTable[3].interval / 3.f) { // check in which frame is it
 					playerFrogger->setIsInRiver(true);
 					return;
 				}
 			}
-			else if (pair.second->getCategory() == Category::Turtle3) {
+			else if (pair.second->getCategory() == Category::Dreierkroete) {
 				// TURTLE 3 is index 4
 				if (npcSpawnTable[4].elapsedTime < npcSpawnTable[4].interval / 3.f) { // check in which frame is it
 					playerFrogger->setIsInRiver(true);
@@ -333,7 +333,7 @@ void World::entitiesOutsideView()
 
 void World::liveIndicator(int frogLives)
 {
-	if (playerFrogger->getState() == Arten::SpeilStatus::Dead) {
+	if (playerFrogger->getState() == Arten::SpeilStatus::Tod) {
 		int interval = 25;
 		int curPosition = 5;
 		int positionY = 570;

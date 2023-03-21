@@ -12,21 +12,21 @@ class Arten : public Entity
 {
 public:
     enum class Type {
-        Frogger, Car1, Car2, Car3, Truck1, Truck2, Alligator, Turtle2, Turtle2_floating, Turtle3, Turtle3_floating, Log1, Log2, PinkFrog, Snake,
+        Frogger, Gelbesauto, Gruenesauto, Pinkesauto, Traktor, Lkw, Alligator, Zweierkroete, Zweierkroete_Untertauchen, Dreierkroete, Dreierkroete_Untertauchen, Kleinerstamm, Grosserstamm, Pinkerfrosh, Schlange, 
         FroggerWinner,
     };
 
     enum class SpeilStatus {
-        IdleLeft,
-        IdleRight,
-        IdleUp,
-        IdleDown,
-        JumpLeft,
-        JumpRight,
-        JumpUp,
-        JumpDown,
-        Idle,
-        Dead,
+        Stehenlinks,
+        Stehenrechts,
+        Stehenhoch,
+        Stehenrunter,
+        Links,
+        Rechts,
+        Hoch,
+        Runter,
+        Still,
+        Tod,
         Respawn,
         count,
         GameOver
