@@ -76,43 +76,43 @@ std::map<Arten::Type, Karachtere> artenData()
     informationen[Arten::Type::Pinkesauto].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Pinkesauto].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    //Tractor state
+    //Traktor
     informationen[Arten::Type::Traktor].texturen = TextureID::Frogger;
     informationen[Arten::Type::Traktor].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("traktor"));
     informationen[Arten::Type::Traktor].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Traktor].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    //Truck state
+    //Lkw
     informationen[Arten::Type::Lkw].texturen = TextureID::Frogger;
     informationen[Arten::Type::Lkw].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("lkw"));
     informationen[Arten::Type::Lkw].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Lkw].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    //Turtle2 state
+    //Zweierkroete
     informationen[Arten::Type::Zweierkroete].texturen = TextureID::Frogger;
     informationen[Arten::Type::Zweierkroete].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("zweierkroete"));
     informationen[Arten::Type::Zweierkroete].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(3.f));
     informationen[Arten::Type::Zweierkroete].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    // floating turtle2
+    // Zweierkroete_Untertauchen
     informationen[Arten::Type::Zweierkroete_Untertauchen].texturen = TextureID::Frogger;
     informationen[Arten::Type::Zweierkroete_Untertauchen].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("zweierkroete_untertauchen"));
     informationen[Arten::Type::Zweierkroete_Untertauchen].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(3.f));
     informationen[Arten::Type::Zweierkroete_Untertauchen].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    //Turtle3 State
+    //Dreierkroete
     informationen[Arten::Type::Dreierkroete].texturen = TextureID::Frogger;
     informationen[Arten::Type::Dreierkroete].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("dreierkroete"));
     informationen[Arten::Type::Dreierkroete].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(5.f));
     informationen[Arten::Type::Dreierkroete].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    // floating turtle3
+    // Dreierkroete_Untertauchen
     informationen[Arten::Type::Dreierkroete_Untertauchen].texturen = TextureID::Frogger;
     informationen[Arten::Type::Dreierkroete_Untertauchen].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("dreierkroete_untertauchen"));
     informationen[Arten::Type::Dreierkroete_Untertauchen].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(3.f));
     informationen[Arten::Type::Dreierkroete_Untertauchen].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    //Log State
+    //Stamm
     informationen[Arten::Type::Kleinerstamm].texturen = TextureID::Frogger;
     informationen[Arten::Type::Kleinerstamm].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("kleinerstamm"));
     informationen[Arten::Type::Kleinerstamm].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));
@@ -123,13 +123,13 @@ std::map<Arten::Type, Karachtere> artenData()
     informationen[Arten::Type::Grosserstamm].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Grosserstamm].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    //Pink frog
+    //Pinkerfrosh
     informationen[Arten::Type::Pinkerfrosh].texturen = TextureID::Frogger;
     informationen[Arten::Type::Pinkerfrosh].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("pinkerfrosh"));
     informationen[Arten::Type::Pinkerfrosh].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(3.f));
     informationen[Arten::Type::Pinkerfrosh].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    //Snake 
+    //Schlange 
     informationen[Arten::Type::Schlange].texturen = TextureID::Frogger;
     informationen[Arten::Type::Schlange].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("schlange"));
     informationen[Arten::Type::Schlange].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));
