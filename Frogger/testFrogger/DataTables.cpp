@@ -135,6 +135,13 @@ std::map<Arten::Type, Karachtere> artenData()
     informationen[Arten::Type::Schlange].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Schlange].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
+    //Fliege
+    informationen[Arten::Type::Fliege].texturen = TextureID::Frogger;
+    informationen[Arten::Type::Fliege].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("fliege"));
+    informationen[Arten::Type::Fliege].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(3.f));
+    informationen[Arten::Type::Fliege].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
+
+
     return informationen;
 }
 
@@ -287,7 +294,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[14].elapsedTime = sf::seconds(3);
     spawnData[14].spawn = true;
 
-    // Leave always as index 16
+    // Leave always as index 15
     spawnData[15] = NPCSpawnData();
     spawnData[15].position = sf::Vector2f(-50.f, 340.f);
     spawnData[15].richtung = Arten::Direction::Left;
@@ -296,6 +303,17 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[15].interval = sf::seconds(2);
     spawnData[15].elapsedTime = sf::seconds(2);
     spawnData[15].spawn = false;
+
+    // Leave always as index 16
+    spawnData[16] = NPCSpawnData();
+    sf::FloatRect pos = getWinningSpotPositions()[randomInt(5)];
+    spawnData[16].position = sf::Vector2f(pos.left + 20.f, pos.top + 20.f);
+    spawnData[16].richtung = Arten::Direction::Up;
+    spawnData[16].type = Arten::Type::Fliege;
+    spawnData[16].speed = 0.f;
+    spawnData[16].interval = sf::seconds(1.f);
+    spawnData[16].elapsedTime = sf::seconds(1.f);
+    spawnData[16].spawn = true;
 
     return spawnData;
 }

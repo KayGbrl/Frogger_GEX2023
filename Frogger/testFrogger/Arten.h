@@ -12,7 +12,7 @@ class Arten : public Entity
 {
 public:
     enum class Type {
-        Frogger, Gelbesauto, Gruenesauto, Pinkesauto, Traktor, Lkw, Alligator, Zweierkroete, Zweierkroete_Untertauchen, Dreierkroete, Dreierkroete_Untertauchen, Kleinerstamm, Grosserstamm, Pinkerfrosh, Schlange, 
+        Frogger, Gelbesauto, Gruenesauto, Pinkesauto, Traktor, Lkw, Alligator, Zweierkroete, Zweierkroete_Untertauchen, Dreierkroete, Dreierkroete_Untertauchen, Kleinerstamm, Grosserstamm, Pinkerfrosh, Schlange, Fliege,
         FroggerWinner,
     };
 

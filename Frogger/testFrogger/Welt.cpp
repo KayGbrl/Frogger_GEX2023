@@ -242,6 +242,12 @@ void World::collisions()
 			playerFrogger->setIsStruckByCar(true);
 			return;
 		}
+		if (categories(pair, Category::Frogger, Category::Fliege)) {
+			playerFrogger->addScore(5);
+			// place it outside view so it is removed
+			pair.second->setPosition(1000.f, 1000.f);
+			npcSpawnTable[16].spawn = false;
+		}
 		if (categories(pair, Category::Frogger, Category::SwimmingNPC)) {
 			if (pair.second->getCategory() == Category::Zweierkroete) {
 				// TURTLE 2 is index 3

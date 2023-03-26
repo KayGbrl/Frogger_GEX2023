@@ -75,6 +75,9 @@ unsigned int Arten::getCategory() const
 	case Type::Schlange:
 		return Category::Schlange;
 		break;
+	case Type::Fliege:
+		return Category::Fliege;
+		break;
 	default:
 		return Category::None;
 	}

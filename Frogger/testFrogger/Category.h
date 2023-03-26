@@ -18,6 +18,7 @@ namespace Category
 		Stamm = 1 << 9,
 		Pinkerfrosh = 1 << 10,
 		Schlange = 1 << 11,
+		Fliege = 1 << 12,
 		
 
 		River = 1 << 13,
