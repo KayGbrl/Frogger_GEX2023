@@ -170,20 +170,20 @@ void Frogger::hop(Arten::Direction direction)
 	if (state_ == Arten::SpeilStatus::Tod)
 		return;
 
-	if (direction == Arten::Direction::Left) {
+	if (direction == Arten::Direction::Links) {
 		setPosition(sf::Vector2f(getPosition().x - playerSpeedX, getPosition().y));
 		setState(Frogger::SpeilStatus::Links);
 	}
-	else if (direction == Arten::Direction::Right) {
+	else if (direction == Arten::Direction::Rechts) {
 		setPosition(sf::Vector2f(getPosition().x + playerSpeedX, getPosition().y));
 		setState(Frogger::SpeilStatus::Rechts);
 	}
-	else if (direction == Arten::Direction::Up) {
+	else if (direction == Arten::Direction::Oben) {
 		setPosition(sf::Vector2f(getPosition().x, getPosition().y - playerSpeedY));
 		score_ += 10;
 		setState(Frogger::SpeilStatus::Hoch);
 	}
-	else if (direction == Arten::Direction::Down) {
+	else if (direction == Arten::Direction::Unten) {
 		setPosition(sf::Vector2f(getPosition().x, getPosition().y + playerSpeedY));
 		score_ -= 10;
 		setState(Frogger::SpeilStatus::Runter);

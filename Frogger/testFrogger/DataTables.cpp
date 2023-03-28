@@ -154,7 +154,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // logs always as 0, 1 and 2, other code depends on it
     spawnData[0] = NPCSpawnData();
     spawnData[0].position = sf::Vector2f(-50.f, 260.f);
-    spawnData[0].richtung = Arten::Direction::Right;
+    spawnData[0].richtung = Arten::Direction::Rechts;
     spawnData[0].type = Arten::Type::Kleinerstamm;
     spawnData[0].speed = 60.f;
     spawnData[0].interval = sf::seconds(6);
@@ -163,7 +163,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
 
     spawnData[1] = NPCSpawnData();
     spawnData[1].position = sf::Vector2f(-50.f, 180.f);
-    spawnData[1].richtung = Arten::Direction::Right;
+    spawnData[1].richtung = Arten::Direction::Rechts;
     spawnData[1].type = Arten::Type::Kleinerstamm;
     spawnData[1].speed = 70.f;
     spawnData[1].interval = sf::seconds(5);
@@ -172,7 +172,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
 
     spawnData[2] = NPCSpawnData();
     spawnData[2].position = sf::Vector2f(530.f, 300);
-    spawnData[2].richtung = Arten::Direction::Left;
+    spawnData[2].richtung = Arten::Direction::Links;
     spawnData[2].type = Arten::Type::Grosserstamm;
     spawnData[2].speed = -70.f;
     spawnData[2].interval = sf::seconds(5);
@@ -182,7 +182,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // Leave always turtle 2 and 3 as index 3 and 4, other code depends on it
     spawnData[3] = NPCSpawnData();
     spawnData[3].position = sf::Vector2f(530.f, 230.f);
-    spawnData[3].richtung = Arten::Direction::Left;
+    spawnData[3].richtung = Arten::Direction::Links;
     spawnData[3].type = Arten::Type::Zweierkroete;
     spawnData[3].speed = -100.f;
     spawnData[3].interval = sf::seconds(4);
@@ -191,7 +191,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
 
     spawnData[4] = NPCSpawnData();
     spawnData[4].position = sf::Vector2f(530.f, 140.f);
-    spawnData[4].richtung = Arten::Direction::Left;
+    spawnData[4].richtung = Arten::Direction::Links;
     spawnData[4].type = Arten::Type::Dreierkroete;
     spawnData[4].speed = -50.f;
     spawnData[4].interval = sf::seconds(5);
@@ -201,7 +201,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // Leave always Car 1, 2 and 3 as Index 5,6 and 7
     spawnData[5] = NPCSpawnData();
     spawnData[5].position = sf::Vector2f(530.f, 530.f);
-    spawnData[5].richtung = Arten::Direction::Left;
+    spawnData[5].richtung = Arten::Direction::Links;
     spawnData[5].type = Arten::Type::Gelbesauto;
     spawnData[5].speed = -100.f;
     spawnData[5].interval = sf::seconds(2);
@@ -210,7 +210,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
 
     spawnData[6] = NPCSpawnData();
     spawnData[6].position = sf::Vector2f(530.f, 450.f);
-    spawnData[6].richtung = Arten::Direction::Left;
+    spawnData[6].richtung = Arten::Direction::Links;
     spawnData[6].type = Arten::Type::Pinkesauto;
     spawnData[6].speed = -150.f;
     spawnData[6].interval = sf::seconds(2);
@@ -219,7 +219,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
 
     spawnData[7] = NPCSpawnData();
     spawnData[7].position = sf::Vector2f(-50.f, 410.f);
-    spawnData[7].richtung = Arten::Direction::Right;
+    spawnData[7].richtung = Arten::Direction::Rechts;
     spawnData[7].type = Arten::Type::Gruenesauto;
     spawnData[7].speed = 100.f;
     spawnData[7].interval = sf::seconds(4);
@@ -229,7 +229,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // Leave always Truck 1 and 2 as Index 8 and 9
     spawnData[8] = NPCSpawnData();
     spawnData[8].position = sf::Vector2f(530.f, 370.f);
-    spawnData[8].richtung = Arten::Direction::Left;
+    spawnData[8].richtung = Arten::Direction::Links;
     spawnData[8].type = Arten::Type::Lkw;
     spawnData[8].speed = -60.f;
     spawnData[8].interval = sf::seconds(3);
@@ -237,7 +237,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[8].spawn = true;
 
     spawnData[9].position = sf::Vector2f(-50.f, 490.f);
-    spawnData[9].richtung = Arten::Direction::Right;
+    spawnData[9].richtung = Arten::Direction::Rechts;
     spawnData[9].type = Arten::Type::Traktor;
     spawnData[9].speed = 40.f;
     spawnData[9].interval = sf::seconds(3);
@@ -247,7 +247,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // Leave alligaton as Index 10
     spawnData[10] = NPCSpawnData();
     spawnData[10].position = sf::Vector2f(-50.f, 260.f);
-    spawnData[10].richtung = Arten::Direction::Right;
+    spawnData[10].richtung = Arten::Direction::Rechts;
     spawnData[10].type = Arten::Type::Alligator;
     spawnData[10].speed = 70.f;
     spawnData[10].interval = sf::seconds(6);
@@ -257,7 +257,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // Leave floating turtle2 as Index 11
     spawnData[11] = NPCSpawnData();
     spawnData[11].position = sf::Vector2f(530.f, 230.f);
-    spawnData[11].richtung = Arten::Direction::Left;
+    spawnData[11].richtung = Arten::Direction::Links;
     spawnData[11].type = Arten::Type::Zweierkroete_Untertauchen;
     spawnData[11].speed = -100.f;
     spawnData[11].interval = sf::seconds(4);
@@ -267,7 +267,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // Leave floating turtle3 as Index 12
     spawnData[12] = NPCSpawnData();
     spawnData[12].position = sf::Vector2f(530.f, 140.f);
-    spawnData[12].richtung = Arten::Direction::Left;
+    spawnData[12].richtung = Arten::Direction::Links;
     spawnData[12].type = Arten::Type::Dreierkroete_Untertauchen;
     spawnData[12].speed = -50.f;
     spawnData[12].interval = sf::seconds(5);
@@ -277,7 +277,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     //Leave alligator swimming left Index 13
     spawnData[13] = NPCSpawnData();
     spawnData[13].position = sf::Vector2f(-50.f, 180.f);
-    spawnData[13].richtung = Arten::Direction::Left;
+    spawnData[13].richtung = Arten::Direction::Links;
     spawnData[13].type = Arten::Type::Alligator;
     spawnData[13].speed = 80.f;
     spawnData[13].interval = sf::seconds(5);
@@ -287,7 +287,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // Leave always as index 14
     spawnData[14] = NPCSpawnData();
     spawnData[14].position = sf::Vector2f(0.f, 0.f); // variable
-    spawnData[14].richtung = Arten::Direction::Right;
+    spawnData[14].richtung = Arten::Direction::Rechts;
     spawnData[14].type = Arten::Type::Pinkerfrosh;
     spawnData[14].speed = 60.f;
     spawnData[14].interval = sf::seconds(6);
@@ -297,7 +297,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     // Leave always as index 15
     spawnData[15] = NPCSpawnData();
     spawnData[15].position = sf::Vector2f(-50.f, 340.f);
-    spawnData[15].richtung = Arten::Direction::Left;
+    spawnData[15].richtung = Arten::Direction::Links;
     spawnData[15].type = Arten::Type::Schlange;
     spawnData[15].speed = 80.f;
     spawnData[15].interval = sf::seconds(2);
@@ -306,9 +306,9 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
 
     // Leave always as index 16
     spawnData[16] = NPCSpawnData();
-    sf::FloatRect pos = getWinningSpotPositions()[randomInt(5)];
+    sf::FloatRect pos = ZielPosition()[randomInt(5)];
     spawnData[16].position = sf::Vector2f(pos.left + 20.f, pos.top + 20.f);
-    spawnData[16].richtung = Arten::Direction::Up;
+    spawnData[16].richtung = Arten::Direction::Oben;
     spawnData[16].type = Arten::Type::Fliege;
     spawnData[16].speed = 0.f;
     spawnData[16].interval = sf::seconds(1.f);
@@ -318,7 +318,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     return spawnData;
 }
 
-std::vector<sf::FloatRect> getWinningSpotPositions()
+std::vector<sf::FloatRect> ZielPosition()
 {
     std::vector<sf::FloatRect> positions;
 

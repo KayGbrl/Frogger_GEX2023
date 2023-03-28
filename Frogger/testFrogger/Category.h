@@ -21,15 +21,15 @@ namespace Category
 		Fliege = 1 << 12,
 		
 
-		River = 1 << 13,
-		WinningSpot = 1 << 14,
+		Fluss = 1 << 13,
+		Ziel = 1 << 14,
 
-		Score = 1 << 15,
+		Punkte = 1 << 15,
 
-		Vehicle = Auto | Truck,
-		SwimmingNPC = Alligator | Zweierkroete | Zweierkroete_Untertauchen | Dreierkroete | Dreierkroete_Untertauchen | Stamm | WinningSpot,
+		Fahrzeuge = Auto | Truck,
+		SchwimmendeGegner = Alligator | Zweierkroete | Zweierkroete_Untertauchen | Dreierkroete | Dreierkroete_Untertauchen | Stamm | Ziel,
 
-		NPC = Vehicle | SwimmingNPC
+		NPC = Fahrzeuge | SchwimmendeGegner
 	};
 }
 

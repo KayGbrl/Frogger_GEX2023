@@ -34,5 +34,5 @@ std::map<Arten::Type, Karachtere> artenData();
 
 std::vector<NPCSpawnData> initializeNPCSpawnData();
 
-std::vector<sf::FloatRect> getWinningSpotPositions();
+std::vector<sf::FloatRect> ZielPosition();
 

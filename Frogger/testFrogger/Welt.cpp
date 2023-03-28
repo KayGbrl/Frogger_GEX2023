@@ -115,7 +115,7 @@ void World::buildScene() {
 			category = Category::Typen::BackgroundLayer;
 			break;
 		case River:
-			category = Category::Typen::River;
+			category = Category::Typen::Fluss;
 			break;
 		default:
 			category = Category::Typen::None;
@@ -129,10 +129,10 @@ void World::buildScene() {
 		sceneGraph.attachChild(std::move(layer));
 	}
 
-	auto positions = getWinningSpotPositions();
+	auto positions = ZielPosition();
 
 	for (int i = 0; i < positions.size(); ++i) {
-		SceneNode::Ptr winningSpot(new InteractablePlaceHolder(Category::Typen::WinningSpot, positions[i]));
+		SceneNode::Ptr winningSpot(new InteractablePlaceHolder(Category::Typen::Ziel, positions[i]));
 		winningSpotsFilled.push_back(false);
 
 		sceneLayers[River]->attachChild(std::move(winningSpot));
@@ -194,7 +194,7 @@ void World::addEnemies()
 				enemy->GeschwindigkeitSetzen(npcSpawnTable[i].speed, 0.f);
 				enemy->RichtungSetzen(npcSpawnTable[i].richtung);
 
-				if (enemy.get()->getCategory() & Category::Typen::SwimmingNPC) {
+				if (enemy.get()->getCategory() & Category::Typen::SchwimmendeGegner) {
 					sceneLayers[River]->attachChild(std::move(enemy));
 				}
 				else {
@@ -220,7 +220,7 @@ void World::collisions()
 	playerFrogger->resetPositionFlags();
 
 	for (auto pair : collisionPairs) {
-		if (categories(pair, Category::Frogger, Category::Vehicle)) {
+		if (categories(pair, Category::Frogger, Category::Fahrzeuge)) {
 			playerFrogger->setIsStruckByCar(true);
 			return;
 		}
@@ -228,7 +228,7 @@ void World::collisions()
 			playerFrogger->setIsStruckByCar(true);
 			return;
 		}
-		if (categories(pair, Category::Frogger, Category::River)) {
+		if (categories(pair, Category::Frogger, Category::Fluss)) {
 			playerFrogger->setIsInRiver(true);
 		}
 		if (categories(pair, Category::Frogger, Category::Pinkerfrosh)) {
@@ -248,7 +248,7 @@ void World::collisions()
 			pair.second->setPosition(1000.f, 1000.f);
 			npcSpawnTable[16].spawn = false;
 		}
-		if (categories(pair, Category::Frogger, Category::SwimmingNPC)) {
+		if (categories(pair, Category::Frogger, Category::SchwimmendeGegner)) {
 			if (pair.second->getCategory() == Category::Zweierkroete) {
 				// TURTLE 2 is index 3
 				if (npcSpawnTable[3].elapsedTime < npcSpawnTable[3].interval / 3.f) { // check in which frame is it
@@ -270,7 +270,7 @@ void World::collisions()
 
 			playerFrogger->GeschwindigkeitSetzen(velocity);
 		}
-		if (categories(pair, Category::Frogger, Category::WinningSpot)) {
+		if (categories(pair, Category::Frogger, Category::Ziel)) {
 			Kommando command;
 			command.category = Category::BackgroundLayer;
 			command.action = derivedAction<Frogger>([this, pair](Frogger& f, sf::Time t) {
@@ -399,7 +399,7 @@ sf::FloatRect World::gameBounds() const
 
 int World::winnningSpotIndex(sf::FloatRect pos)
 {
-	auto v = getWinningSpotPositions();
+	auto v = ZielPosition();
 
 	for (int i = 0; i < winningSpotsFilled.size(); ++i) {
 		if (abs(pos.left - v[i].left) < 0.1) {

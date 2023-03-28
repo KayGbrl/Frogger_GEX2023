@@ -34,7 +34,7 @@ public:
 
     enum class Direction
     {
-        Left, Right, Up, Down
+        Links, Rechts, Oben, Unten
     };
 
 

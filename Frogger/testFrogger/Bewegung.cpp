@@ -69,22 +69,22 @@ void Player::actionMachen()
 {
 	bewegungMachen[Action::MoveLeft].action = derivedAction<Frogger>(
 		[](Frogger& a, sf::Time dt) {
-			a.hop(Arten::Direction::Left);
+			a.hop(Arten::Direction::Links);
 		});
 
 	bewegungMachen[Action::MoveRight].action = derivedAction<Frogger>(
 		[](Frogger& a, sf::Time dt) {
-			a.hop(Arten::Direction::Right);
+			a.hop(Arten::Direction::Rechts);
 		});
 
 	bewegungMachen[Action::MoveUp].action = derivedAction<Frogger>(
 		[](Frogger& a, sf::Time dt) {
-			a.hop(Arten::Direction::Up);
+			a.hop(Arten::Direction::Oben);
 		});
 
 	bewegungMachen[Action::MoveDown].action = derivedAction<Frogger>(
 		[](Frogger& a, sf::Time dt) {
-			a.hop(Arten::Direction::Down);
+			a.hop(Arten::Direction::Unten);
 		});
 }
 

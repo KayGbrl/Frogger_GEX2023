@@ -3,7 +3,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 TextNode::TextNode(const FontHolder_t& fonts, const std::string& text_)
-	:SceneNode(Category::Score)
+	:SceneNode(Category::Punkte)
 {
 	text.setFont(fonts.get(FontID::Main));
 	text.setCharacterSize(30);

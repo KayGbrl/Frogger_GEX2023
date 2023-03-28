@@ -17,7 +17,7 @@ Arten::Arten(Type type, const TextureHolder_t& textures, const FontHolder_t& fon
 	, typen(type)
 	, status(SpeilStatus::Still)
 	, sprite_(textures.get(TABLE.at(type).texturen))
-	, richtungen(Direction::Up)
+	, richtungen(Direction::Oben)
 {
 	for (auto a : TABLE.at(type).animationen)
 	{

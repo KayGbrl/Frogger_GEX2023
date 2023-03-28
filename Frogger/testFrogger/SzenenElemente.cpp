@@ -41,7 +41,7 @@ Ptr	SceneNode::detachChild(const SceneNode& node) {
 
 sf::FloatRect SceneNode::getBoundingRect() const
 {
-	if (category == Category::Typen::River) {
+	if (category == Category::Typen::Fluss) {
 		return sf::FloatRect(0.f, 0.f, 480.f, 320.f);
 	}
 }
