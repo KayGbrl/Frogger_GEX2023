@@ -13,7 +13,7 @@ class Arten : public Entity
 public:
     enum class Type {
         Frogger, Gelbesauto, Gruenesauto, Pinkesauto, Traktor, Lkw, Alligator, Zweierkroete, Zweierkroete_Untertauchen, Dreierkroete, Dreierkroete_Untertauchen, Kleinerstamm, Grosserstamm, Pinkerfrosh, Schlange, Fliege,
-        FroggerWinner,
+        FroggerWinner, KleinerAlligator
     };
 
     enum class SpeilStatus {
@@ -48,7 +48,7 @@ public:
     float                 speed() const;
 
     bool                  zumEntfernen() const override;
-    void                  setMarkedForRemoval(bool b);
+    void                  zumEntfernenMArker(bool b);
 
     void                  Statussetzen(SpeilStatus state);
     Arten::SpeilStatus    StatusGeben() const;

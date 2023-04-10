@@ -162,7 +162,7 @@ void SceneNode::kindZeichnen(sf::RenderTarget& target, sf::RenderStates states) 
 
 float calculateDistance(const SceneNode& lhs, const SceneNode& rhs)
 {
-	return length(lhs.getWorldPoition() - rhs.getWorldPoition());
+	return lange(lhs.getWorldPoition() - rhs.getWorldPoition());
 }
 
 bool isColliding(const SceneNode& lhs, const SceneNode& rhs)

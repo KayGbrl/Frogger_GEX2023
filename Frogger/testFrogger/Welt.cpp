@@ -76,6 +76,10 @@ void World::update(sf::Time dt) {
 		}
 	}
 
+	// Alligator Kopf
+	if (alligHeadTimer != -1)
+		alligHeadTimer += dt.asSeconds();
+
 	addEnemies();
 	updateNPCSpawnTable(dt);
 
@@ -101,9 +105,9 @@ void World::draw() {
 }
 
 void World::loadTextures() {
-	textures.laden(TextureID::Background, "Media/Textures/background.png");
+	textures.laden(TextureID::Hintergrund, "Media/Textures/background.png");
 	textures.laden(TextureID::Frogger, "Media/Textures/frog.png");
-	textures.laden(TextureID::Live, "Media/Textures/lives.png");
+	textures.laden(TextureID::Leben, "Media/Textures/lives.png");
 }
 
 void World::buildScene() {
@@ -138,7 +142,7 @@ void World::buildScene() {
 		sceneLayers[River]->attachChild(std::move(winningSpot));
 	}
 
-	sf::Texture& texture = textures.get(TextureID::Background);
+	sf::Texture& texture = textures.get(TextureID::Hintergrund);
 	texture.setRepeated(true);
 
 	float viewHeight = worldView.getSize().y;
@@ -184,7 +188,11 @@ void World::addEnemies()
 			}
 
 			if (npcSpawnTable[i].type == Arten::Type::Schlange) {
-				npcSpawnTable[i].spawn = (randomInt(10) == 9); // 10% chance that the snake will spawn
+				npcSpawnTable[i].spawn = (zuffalsZahl(10) == 9); // 10% chance that the snake will spawn
+			}
+
+			if (npcSpawnTable[i].type == Arten::Type::KleinerAlligator && alligHeadTimer != -1 && !npcSpawnTable[i].spawn) {
+				npcSpawnTable[i].spawn = (zuffalsZahl(10) < 2); // 20% chance that the AlligatorHead will spawn
 			}
 	
 			if (npcSpawnTable[i].spawn) {
@@ -206,6 +214,9 @@ void World::addEnemies()
 
 				// only one snake at a time
 				if (npcSpawnTable[i].type == Arten::Type::Schlange) npcSpawnTable[i].spawn = false;
+
+				// only one Alligato head at a time
+				if (npcSpawnTable[i].type == Arten::Type::KleinerAlligator) npcSpawnTable[i].spawn = false;
 			}
 		}
 	}
@@ -248,6 +259,16 @@ void World::collisions()
 			pair.second->setPosition(1000.f, 1000.f);
 			npcSpawnTable[16].spawn = false;
 		}
+		if (categories(pair, Category::Ziel, Category::KleinerAlligator)) {
+			if (alligHeadTimer > 12.f) { // despawn
+				alligHeadTimer = -1; // end
+				// set outside view
+
+				pair.second->setPosition(1000.f, 1000.f);
+				npcSpawnTable[17].spawn = false;
+				//return;
+			}
+		}
 		if (categories(pair, Category::Frogger, Category::SchwimmendeGegner)) {
 			if (pair.second->getCategory() == Category::Zweierkroete) {
 				// TURTLE 2 is index 3
@@ -271,6 +292,23 @@ void World::collisions()
 			playerFrogger->GeschwindigkeitSetzen(velocity);
 		}
 		if (categories(pair, Category::Frogger, Category::Ziel)) {
+
+			if (alligHeadTimer > 0.f && alligHeadTimer < 12.f) {
+				sf::FloatRect alligHeadSpot;
+				alligHeadSpot.left = npcSpawnTable[17].position.x;
+				alligHeadSpot.top = npcSpawnTable[17].position.y;
+				alligHeadSpot.height = 40;
+				alligHeadSpot.width = 40;
+
+				int allegHeadIndex = winnningSpotIndex(alligHeadSpot);
+				sf::FloatRect posRect = (static_cast<InteractablePlaceHolder&>(*pair.first)).getPosition();
+				int spotIndex = winnningSpotIndex(posRect);
+
+				if (spotIndex == allegHeadIndex) { // if on same spot
+					playerFrogger->setIsStruckByCar(true);
+					return;
+				}
+			}
 			Kommando command;
 			command.category = Category::BackgroundLayer;
 			command.action = derivedAction<Frogger>([this, pair](Frogger& f, sf::Time t) {
@@ -331,7 +369,7 @@ void World::entitiesOutsideView()
 	command.category = Category::NPC;
 	command.action = derivedAction<Arten>([this](Arten& a, sf::Time t) {
 		if (!gameBounds().intersects(a.getBoundingRect())) {
-			a.setMarkedForRemoval(true);
+			a.zumEntfernenMArker(true);
 		}
 		});
 	commandQueue.push(command);
@@ -350,7 +388,7 @@ void World::liveIndicator(int frogLives)
 		SceneNode::Ptr lives(new SceneNode(Category::None));
 
 		for (int i = 0; i < frogLives - 1; ++i) {
-			std::unique_ptr<SpriteNode> live(new SpriteNode(textures.get(TextureID::Live)));
+			std::unique_ptr<SpriteNode> live(new SpriteNode(textures.get(TextureID::Leben)));
 			live->setPosition(curPosition, positionY);
 			curPosition += interval;
 			lives->attachChild(std::move(live));
@@ -368,7 +406,7 @@ void World::buildLivesIndicator(int frogLives)
 	int positionY = 570;
 
 	for (int i = 0; i < frogLives; ++i) {
-		std::unique_ptr<SpriteNode> live(new SpriteNode(textures.get(TextureID::Live)));
+		std::unique_ptr<SpriteNode> live(new SpriteNode(textures.get(TextureID::Leben)));
 		live->setPosition(curPosition, positionY);
 		curPosition += interval;
 		sceneLayers[Lives]->attachChild(std::move(live));
@@ -481,43 +519,43 @@ namespace {
 	auto RandomEngine = createRandomEngine();
 }
 
-void centerOrigin(sf::Sprite& sprite)
+void zentrierterPunkt(sf::Sprite& sprite)
 {
 	sf::FloatRect bounds = sprite.getLocalBounds();
 	sprite.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }
 
-void centerOrigin(sf::Text& text)
+void zentrierterPunkt(sf::Text& text)
 {
 	sf::FloatRect bounds = text.getLocalBounds();
 	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }
 
-float toDegree(float radian) {
+float mass(float radian) {
 	return (radian * 180) / PI;
 }
 
-float toRadian(float degree) {
+float radiant(float degree) {
 	return (degree * PI) / 180;
 }
 
-float length(sf::Vector2f v) {
+float lange(sf::Vector2f v) {
 	return sqrt(v.x * v.x + v.y * v.y);
 }
 
-sf::Vector2f normalize(sf::Vector2f v) {
-	if (length(v) > 0) {
-		return (v / length(v));
+sf::Vector2f normalisieren(sf::Vector2f v) {
+	if (lange(v) > 0) {
+		return (v / lange(v));
 	}
 	return v;
 }
 
-int	randomInt(int exclusiveMax) {
+int	zuffalsZahl(int exclusiveMax) {
 	std::uniform_int_distribution<> distr(0, exclusiveMax - 1);
 	return distr(RandomEngine);
 }
 
-sf::IntRect flip(const sf::IntRect& rec)
+sf::IntRect drehen(const sf::IntRect& rec)
 {
 	auto tmp = rec;
 	tmp.left += tmp.width;

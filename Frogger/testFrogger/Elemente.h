@@ -32,8 +32,6 @@ private:
 
 private:
 	std::map<Id, std::unique_ptr<R> > resourceMap;
-
-
 };
 
 template <typename R, typename Id>
@@ -93,11 +91,11 @@ public:
 	virtual bool	handleEvent(const sf::Event& event) override;
 
 private:
-	sf::Sprite		backgroundSprite;
+	sf::Sprite		hintergrundBild;
 	sf::Text		text;
 
-	bool			showText;
-	sf::Time		textEffectTime;
+	bool			textZeigen;
+	sf::Time		textEffekte;
 };
 
 //Zuffals system
@@ -109,14 +107,14 @@ namespace zufall
 
 class Animation;
 
-void			centerOrigin(sf::Sprite& sprite);
-void			centerOrigin(sf::Text& text);
+void			zentrierterPunkt(sf::Sprite& sprite);
+void			zentrierterPunkt(sf::Text& text);
 
 
-float			toDegree(float radian);
-float			toRadian(float degree);
-float			length(sf::Vector2f v);
-sf::Vector2f	normalize(sf::Vector2f v);
-int				randomInt(int exclusiveMax);
+float			mass(float radian);
+float			radiant(float degree);
+float			lange(sf::Vector2f v);
+sf::Vector2f	normalisieren(sf::Vector2f v);
+int				zuffalsZahl(int exclusiveMax);
 
-sf::IntRect		flip(const sf::IntRect& rec);
+sf::IntRect		drehen(const sf::IntRect& rec);

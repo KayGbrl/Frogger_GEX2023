@@ -25,7 +25,7 @@ Arten::Arten(Type type, const TextureHolder_t& textures, const FontHolder_t& fon
 	}
 
 	sprite_.setTextureRect(animationen[Arten::SpeilStatus::Still].gameCurrentFrame());
-	centerOrigin(sprite_);
+	zentrierterPunkt(sprite_);
 
 }
 
@@ -78,6 +78,9 @@ unsigned int Arten::getCategory() const
 	case Type::Fliege:
 		return Category::Fliege;
 		break;
+	case Type::KleinerAlligator:
+		return Category::KleinerAlligator;
+		break;
 	default:
 		return Category::None;
 	}
@@ -105,7 +108,7 @@ bool Arten::zumEntfernen() const
 	return isMarkedForRemoval_; 
 }
 
-void Arten::setMarkedForRemoval(bool b)
+void Arten::zumEntfernenMArker(bool b)
 {
 	isMarkedForRemoval_ = b;
 }
@@ -147,7 +150,7 @@ void Arten::aktuellesBild(sf::Time dt, CommandQueue& commands)
 	move(geschwindigkeit * dt.asSeconds());
 
 	sprite_.setTextureRect(rec);
-	centerOrigin(sprite_);
+	zentrierterPunkt(sprite_);
 }
 
 void Arten::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const

@@ -10,11 +10,11 @@ namespace sf
 enum class TextureID
 {
 	TitleScreen,
-	Background,
+	Hintergrund,
 	Frogger,
-	Live,
-	PinkFrog,
-	Snake
+	Leben,
+	PinkerFrosch,
+	Schlange
 };
 
 enum class FontID {

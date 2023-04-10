@@ -7,34 +7,34 @@
 TitleState::TitleState(StateStack& stack, Context context)
 	: State(stack, context)
 	, text()
-	, showText(true)
-	, textEffectTime(sf::Time::Zero)
+	, textZeigen(true)
+	, textEffekte(sf::Time::Zero)
 {
-	backgroundSprite.setTexture(context.textures->get(TextureID::TitleScreen));
+	hintergrundBild.setTexture(context.textures->get(TextureID::TitleScreen));
 
 	text.setFont(context.fonts->get(FontID::Main));
 	text.setString("Press Enter");
 
-	centerOrigin(text);
+	zentrierterPunkt(text);
 	text.setPosition(context.window->getView().getSize() / 2.f);
 }
 
 void TitleState::draw()
 {
 	auto& window = *getContext().window;
-	window.draw(backgroundSprite);
+	window.draw(hintergrundBild);
 
-	if (showText)
+	if (textZeigen)
 		window.draw(text);
 }
 
 bool TitleState::update(sf::Time dt)
 {
-	textEffectTime += dt;
+	textEffekte += dt;
 
-	if (textEffectTime >= sf::seconds(0.5f)) {
-		showText = !showText;
-		textEffectTime = sf::Time::Zero;
+	if (textEffekte >= sf::seconds(0.5f)) {
+		textZeigen = !textZeigen;
+		textEffekte = sf::Time::Zero;
 	}
 
 	return true;

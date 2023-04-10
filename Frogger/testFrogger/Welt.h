@@ -93,6 +93,7 @@ private:
 	std::vector<std::unique_ptr<SpriteNode>>			livesToShow;
 
 	float frogSpawnTimer = 0.f;
+	float alligHeadTimer = 0.f;
 
 };
 

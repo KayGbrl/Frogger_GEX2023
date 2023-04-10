@@ -3,83 +3,83 @@
 #include <cassert>
 
 StateStack::StateStack(State::Context context)
-	: stack()
-	, pendingList()
-	, context(context)
-	, factories()
+	: stapeln()
+	, ausstehend()
+	, kontext(context)
+	, factoren()
 {}
 
-void StateStack::update(sf::Time dt)
+void StateStack::aktualisiren(sf::Time dt)
 {
-	for (auto itr = stack.rbegin(); itr != stack.rend(); itr++) {
+	for (auto itr = stapeln.rbegin(); itr != stapeln.rend(); itr++) {
 		if (!(*itr)->update(dt))
 			break;
 	}
-	applyPendingChanges();
+	veraenderungenAktualisieren();
 }
 
-void StateStack::draw()
+void StateStack::zeichnen()
 {
-	for (auto& state : stack) {
+	for (auto& state : stapeln) {
 		state->draw();
 	}
 }
 
 void StateStack::handleEvent(const sf::Event& event)
 {
-	for (auto itr = stack.rbegin(); itr != stack.rend(); ++itr) {
+	for (auto itr = stapeln.rbegin(); itr != stapeln.rend(); ++itr) {
 		if (!(*itr)->handleEvent(event))
 			break;
 	}
-	applyPendingChanges();
+	veraenderungenAktualisieren();
 }
 
-void StateStack::pushState(StateID stateID)
+void StateStack::stapelAbgeben(StateID stateID)
 {
-	pendingList.push_back(PendingChange(Action::Push, stateID));
+	ausstehend.push_back(PendingChange(Action::Push, stateID));
 }
 
-void StateStack::popState()
+void StateStack::stapelRausdrucken()
 {
-	pendingList.push_back(PendingChange(Action::Pop));
+	ausstehend.push_back(PendingChange(Action::Pop));
 }
 
-void StateStack::clearStates()
+void StateStack::statusLeeren()
 {
-	pendingList.push_back(PendingChange(Action::Clear));
+	ausstehend.push_back(PendingChange(Action::Clear));
 }
 
-bool StateStack::isEmpty() const
+bool StateStack::istLeer() const
 {
-	return stack.empty();
+	return stapeln.empty();
 }
 
-State::Ptr StateStack::createState(StateID stateID)
+State::Ptr StateStack::stapelErstellen(StateID stateID)
 {
-	auto found = factories.find(stateID);
-	assert(found != factories.end());
+	auto found = factoren.find(stateID);
+	assert(found != factoren.end());
 
 	return found->second();
 }
 
-void StateStack::applyPendingChanges()
+void StateStack::veraenderungenAktualisieren()
 {
-	for (PendingChange change : pendingList)
+	for (PendingChange change : ausstehend)
 	{
 		switch (change.action)
 		{
 		case Action::Push:
-			stack.push_back(createState(change.stateID));
+			stapeln.push_back(stapelErstellen(change.stateID));
 			break;
 		case Action::Pop:
-			stack.pop_back();
+			stapeln.pop_back();
 			break;
 		case Action::Clear:
-			stack.clear();
+			stapeln.clear();
 			break;
 		}
 	}
-	pendingList.clear();
+	ausstehend.clear();
 }
 
 StateStack::PendingChange::PendingChange(Action action, StateID stateID)

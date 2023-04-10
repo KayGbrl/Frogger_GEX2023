@@ -30,7 +30,7 @@ Application::Application()
     textStatus.setCharacterSize(10u);
 
     Statusregistrieren();
-    statusStaffelung.pushState(StateID::Title);
+    statusStaffelung.stapelAbgeben(StateID::Title);
 }
 
 void Application::starten()
@@ -49,7 +49,7 @@ void Application::starten()
             eingabe();
             update(zeitImFrame);
 
-            if (statusStaffelung.isEmpty())
+            if (statusStaffelung.istLeer())
                 fenster.close();
         }
 
@@ -73,13 +73,13 @@ void Application::eingabe()
 
 void Application::update(sf::Time dt)
 {
-    statusStaffelung.update(dt);
+    statusStaffelung.aktualisiren(dt);
 }
 
 void Application::rendern()
 {
     fenster.clear();
-    statusStaffelung.draw();
+    statusStaffelung.zeichnen();
 
     fenster.setView(fenster.getDefaultView());
     fenster.draw(textStatus);
@@ -89,9 +89,9 @@ void Application::rendern()
 
 void Application::Statusregistrieren()
 {
-    statusStaffelung.registerState<TitleState>(StateID::Title);
-    statusStaffelung.registerState<Menu>(StateID::Menu);
-    statusStaffelung.registerState<GameState>(StateID::Game);
-    statusStaffelung.registerState<Pause>(StateID::Pause);
-    statusStaffelung.registerState<GameOverState>(StateID::GameOverState);
+    statusStaffelung.statusRegistrieren<TitleState>(StateID::Title);
+    statusStaffelung.statusRegistrieren<Menu>(StateID::Menu);
+    statusStaffelung.statusRegistrieren<GameState>(StateID::Game);
+    statusStaffelung.statusRegistrieren<Pause>(StateID::Pause);
+    statusStaffelung.statusRegistrieren<GameOverState>(StateID::GameOverState);
 }

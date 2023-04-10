@@ -33,22 +33,22 @@ public:
 	explicit			StateStack(State::Context context);
 
 	template <typename T>
-	void				registerState(StateID stateID);
+	void				statusRegistrieren(StateID stateID);
 
-	void				update(sf::Time dt);
-	void				draw();
+	void				aktualisiren(sf::Time dt);
+	void				zeichnen();
 	void				handleEvent(const sf::Event& event);
 
-	void				pushState(StateID stateID);
-	void				popState();
-	void				clearStates();
+	void				stapelAbgeben(StateID stateID);
+	void				stapelRausdrucken();
+	void				statusLeeren();
 
-	bool				isEmpty() const;
+	bool				istLeer() const;
 
 
 private:
-	State::Ptr			createState(StateID stateID);
-	void				applyPendingChanges();
+	State::Ptr			stapelErstellen(StateID stateID);
+	void				veraenderungenAktualisieren();
 
 private:
 	struct PendingChange
@@ -59,19 +59,19 @@ private:
 	};
 
 private:
-	std::vector<State::Ptr>								stack;
-	std::vector<PendingChange>							pendingList;
+	std::vector<State::Ptr>								stapeln;
+	std::vector<PendingChange>							ausstehend;
 
-	State::Context										context;
-	std::map<StateID, std::function<State::Ptr()>>		factories;
+	State::Context										kontext;
+	std::map<StateID, std::function<State::Ptr()>>		factoren;
 };
 
 
 template <typename T>
-void StateStack::registerState(StateID stateID)
+void StateStack::statusRegistrieren(StateID stateID)
 {
-	factories[stateID] = [this]()
+	factoren[stateID] = [this]()
 	{
-		return State::Ptr(new T(*this, context));
+		return State::Ptr(new T(*this, kontext));
 	};
 }

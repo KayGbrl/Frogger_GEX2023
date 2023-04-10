@@ -26,7 +26,7 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 		gameOverText.setString("You Won!");
 
 	gameOverText.setCharacterSize(50);
-	centerOrigin(gameOverText);
+	zentrierterPunkt(gameOverText);
 	gameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 }
 
@@ -51,8 +51,8 @@ void GameOverState::draw()
 bool GameOverState::update(sf::Time dt)
 {
 	if (elapsedTime >= sf::seconds(3)) {
-		stack->clearStates();
-		stack->pushState(StateID::Title);
+		stack->statusLeeren();
+		stack->stapelAbgeben(StateID::Title);
 	}
 	elapsedTime += dt;
 

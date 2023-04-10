@@ -141,13 +141,18 @@ std::map<Arten::Type, Karachtere> artenData()
     informationen[Arten::Type::Fliege].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(3.f));
     informationen[Arten::Type::Fliege].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
+    //Alligator Koplf
+    informationen[Arten::Type::KleinerAlligator].texturen = TextureID::Frogger;
+    informationen[Arten::Type::KleinerAlligator].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("kleineralligator"));
+    informationen[Arten::Type::KleinerAlligator].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(3.f));
+    informationen[Arten::Type::KleinerAlligator].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
     return informationen;
 }
 
 std::vector<NPCSpawnData> initializeNPCSpawnData()
 {
-    std::vector<NPCSpawnData> spawnData(17);
+    std::vector<NPCSpawnData> spawnData(18);
 
     sf::Time time;
 
@@ -306,7 +311,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
 
     // Leave always as index 16
     spawnData[16] = NPCSpawnData();
-    sf::FloatRect pos = ZielPosition()[randomInt(5)];
+    sf::FloatRect pos = ZielPosition()[zuffalsZahl(5)];
     spawnData[16].position = sf::Vector2f(pos.left + 20.f, pos.top + 20.f);
     spawnData[16].richtung = Arten::Direction::Oben;
     spawnData[16].type = Arten::Type::Fliege;
@@ -314,6 +319,21 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[16].interval = sf::seconds(1.f);
     spawnData[16].elapsedTime = sf::seconds(1.f);
     spawnData[16].spawn = true;
+
+    // Leave always as index 17
+    spawnData[17] = NPCSpawnData();
+    sf::FloatRect pos2;
+    do { // different spot that the one for the fly
+        pos2 = ZielPosition()[zuffalsZahl(5)];
+    } while (pos2.top == pos.top && pos2.left == pos.left);
+
+    spawnData[17].position = sf::Vector2f(pos2.left + 20.f, pos2.top + 20.f);
+    spawnData[17].richtung = Arten::Direction::Oben;
+    spawnData[17].type = Arten::Type::KleinerAlligator;
+    spawnData[17].speed = 0.f;
+    spawnData[17].interval = sf::seconds(1.f);
+    spawnData[17].elapsedTime = sf::seconds(1.f);
+    spawnData[17].spawn = true;
 
     return spawnData;
 }

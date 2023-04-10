@@ -19,15 +19,16 @@ namespace Category
 		Pinkerfrosh = 1 << 10,
 		Schlange = 1 << 11,
 		Fliege = 1 << 12,
+		KleinerAlligator = 1 << 13,
 		
 
-		Fluss = 1 << 13,
-		Ziel = 1 << 14,
+		Fluss = 1 << 14,
+		Ziel = 1 << 15,
 
-		Punkte = 1 << 15,
+		Punkte = 1 << 16,
 
 		Fahrzeuge = Auto | Truck,
-		SchwimmendeGegner = Alligator | Zweierkroete | Zweierkroete_Untertauchen | Dreierkroete | Dreierkroete_Untertauchen | Stamm | Ziel,
+		SchwimmendeGegner = Alligator | Zweierkroete | Zweierkroete_Untertauchen | Dreierkroete | Dreierkroete_Untertauchen | Stamm | KleinerAlligator,
 
 		NPC = Fahrzeuge | SchwimmendeGegner
 	};

@@ -36,7 +36,7 @@ Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	}
 
 	sprite_.setTextureRect(animations_[Arten::SpeilStatus::Stehenhoch].gameCurrentFrame());
-	centerOrigin(sprite_);
+	zentrierterPunkt(sprite_);
 
 	GeschwindigkeitSetzen(0.f, 0.f);
 }
@@ -243,7 +243,7 @@ void Frogger::aktuellesBild(sf::Time dt, CommandQueue& commands)
 	move(geschwindigkeit * dt.asSeconds());
 
 	sprite_.setTextureRect(rec);
-	centerOrigin(sprite_);
+	zentrierterPunkt(sprite_);
 }
 
 void Frogger::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const
@@ -263,14 +263,14 @@ Menu::Menu(StateStack& stack, Context context)
 	sf::Text playOption;
 	playOption.setFont(font);
 	playOption.setString("Play");
-	centerOrigin(playOption);
+	zentrierterPunkt(playOption);
 	playOption.setPosition(context.window->getView().getSize() / 2.f);
 	optionen.push_back(playOption);
 
 	sf::Text exitOption;
 	exitOption.setFont(font);
 	exitOption.setString("Exit");
-	centerOrigin(exitOption);
+	zentrierterPunkt(exitOption);
 	exitOption.setPosition(playOption.getPosition() + sf::Vector2f(0.f, 30.f));
 	optionen.push_back(exitOption);
 
@@ -356,13 +356,13 @@ Pause::Pause(StateStack& stack, Context context)
 	pauseText.setFont(font);
 	pauseText.setString("Game Paused");
 	pauseText.setCharacterSize(30);
-	centerOrigin(pauseText);
+	zentrierterPunkt(pauseText);
 	pauseText.setPosition(0.5f * viewSize.x, 0.4f * viewSize.y);
 
 	hilfeText.setFont(font);
 	hilfeText.setString("Escape to go to main Menu");
 	hilfeText.setCharacterSize(20);
-	centerOrigin(hilfeText);
+	zentrierterPunkt(hilfeText);
 	hilfeText.setPosition(0.5f * viewSize.x, 0.6f * viewSize.y);
 }
 

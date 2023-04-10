@@ -20,17 +20,17 @@ State::State(StateStack& stack, Context context)
 
 void State::requestStackPush(StateID stateID)
 {
-	stack->pushState(stateID);
+	stack->stapelAbgeben(stateID);
 }
 
 void State::requestStackPop()
 {
-	stack->popState();
+	stack->stapelRausdrucken();
 }
 
 void State::requestStateClear()
 {
-	stack->clearStates();
+	stack->statusLeeren();
 }
 
 State::Context State::getContext()
