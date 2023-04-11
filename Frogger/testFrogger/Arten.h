@@ -68,5 +68,5 @@ protected:
     std::map<Arten::SpeilStatus, Animation>   animationen;
     Direction                                 richtungen;
 
-    bool                                      isMarkedForRemoval_;
+    bool                                      zumentfernenFreigegeben;
 };

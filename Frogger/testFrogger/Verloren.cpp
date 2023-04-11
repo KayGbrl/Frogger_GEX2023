@@ -13,21 +13,21 @@
 
 GameOverState::GameOverState(StateStack& stack, Context context)
 	: State(stack, context)
-	, gameOverText()
-	, elapsedTime(sf::Time::Zero)
+	, verlorenText_()
+	, abgelaufeneZeit_(sf::Time::Zero)
 {
 	sf::Font& font = context.fonts->get(FontID::Main);
 	sf::Vector2f windowSize(context.window->getSize());
 
-	gameOverText.setFont(font);
+	verlorenText_.setFont(font);
 	if (context.player->aufgabeBekommen() == Player::MissionStatus::Failure)
-		gameOverText.setString("Game over!");
+		verlorenText_.setString("Game over!");
 	else
-		gameOverText.setString("You Won!");
+		verlorenText_.setString("You Won!");
 
-	gameOverText.setCharacterSize(50);
-	zentrierterPunkt(gameOverText);
-	gameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+	verlorenText_.setCharacterSize(50);
+	zentrierterPunkt(verlorenText_);
+	verlorenText_.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 }
 
 void GameOverState::draw()
@@ -45,16 +45,16 @@ void GameOverState::draw()
 	backgroundShape.setSize(window.getView().getSize());
 
 	window.draw(backgroundShape);
-	window.draw(gameOverText);
+	window.draw(verlorenText_);
 }
 
 bool GameOverState::aktualisieren(sf::Time dt)
 {
-	if (elapsedTime >= sf::seconds(3)) {
+	if (abgelaufeneZeit_ >= sf::seconds(3)) {
 		stapel->statusLeeren();
 		stapel->stapelAbgeben(StateID::Title);
 	}
-	elapsedTime += dt;
+	abgelaufeneZeit_ += dt;
 
 	return false;
 }

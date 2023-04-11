@@ -25,24 +25,25 @@ public:
 public:
 	SceneNode(Category::Typen c = Category::Typen::None);
 
-	void				attachChild(Ptr child);
-	Ptr					detachChild(const SceneNode& node);
-
 	void				update(sf::Time dt, CommandQueue& commands);
 	void				checkSceneCollision(SceneNode& sceneGraph, std::set<Pair>& collisionPairs);
 	void				checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs);
 	void				kaputteEntfernen();
 
 
-	sf::Vector2f		getWorldPoition()	const;
-	sf::Transform		getWorldTransform() const;
+	sf::Vector2f		  weltPosition()	const;
+	sf::Transform		  weltTransformiert() const;
 	virtual sf::FloatRect ruckstossBekommenRechteck() const;
 	virtual bool		  zumEntfernen() const;
 	virtual bool		  zerstoert() const;
 	virtual unsigned int  kategoryBekommen() const;
-	void				onCommand(const Kommando& command, sf::Time dt);
+	void				  onCommand(const Kommando& command, sf::Time dt);
+
+	void				kindangehangt(Ptr child);
+	Ptr					detachChild(const SceneNode& node);
 
 private:
+
 	virtual void		aktuellesBild(sf::Time dt, CommandQueue& commands);
 	virtual void		draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void		aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -60,6 +61,6 @@ private:
 	Category::Typen		Kategory;
 };
 
-float calculateDistance(const SceneNode& lhs, const SceneNode& rhs);
-bool isColliding(const SceneNode& lhs, const SceneNode& rhs);
+float distanzAusrechnen(const SceneNode& lhs, const SceneNode& rhs);
+bool istKolidiert(const SceneNode& lhs, const SceneNode& rhs);
 

@@ -24,39 +24,33 @@ public:
 
     unsigned int    kategoryBekommen() const override;
     sf::FloatRect   ruckstossBekommenRechteck() const override;
-    float           getMaxSpeed() const;
-
     bool            zumEntfernen() const override;
 
-    void            setHasFroggerFilledSlots();
-    bool            hasFroggerFilledSlots() const;
+    float           GeschwindigkeitMax() const;
+    bool            SPielerZielErreicht() const;
+    bool            vomAutoGetrofen() const;
+    bool            insWasserGefallen() const;
+    bool            aufSchwimmendeGegenr() const;
 
-    void            setIsWinningSpotTaken();
+    void            alleZielegefullt();
+    void            Zieleingenommen();
+    void            zurusetzenFlagge();
+    void            limitAufNull();
+    int             scorebekommen();
+    int             ueberbleibendeLeben();
+    void            lebenAbziehen();
+    void            respawnFrogger();
 
-    void            setState(SpeilStatus state);
-    Frogger::SpeilStatus  getState() const;
+    void            statusSetzen(SpeilStatus state);
+    Frogger::SpeilStatus  statusBekommen() const;
 
-    bool            isStruckByCar() const;
-    void            setIsStruckByCar(bool b);
-    bool            isInRiver() const;
-    void            setIsInRiver(bool b);
-    bool            isOnSwimmingNPC() const;
-    void            playerOnSwimmingNPC(bool b);
-
-    void            resetPositionFlags();
-
-    void            setStateCountdownToZero();
     sf::Time        getStateCountdown();
 
-    int             getScore();
-    void            addScore(int score);
-
-    int             getLivesLeft();
-    void            deductLife();
-
+    void            imWasser(bool b);
+    void            imWasserGestzt(bool b);
+    void            spielerAufSchwimmendeGegner(bool b);
+    void            punkteAufrechnen(int score);
     void            hop(Arten::Direction direction);
-
-    void            respawnFrogger();
 
 private:
     void            updateStates();
@@ -64,24 +58,24 @@ private:
     void            aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
-    Arten::SpeilStatus                        state_;
-    mutable sf::Sprite                  sprite_;
-    std::map<Arten::SpeilStatus, Animation>   animations_;
-    Direction                           direction_;
-
-    std::size_t                         directionIndex_;
-    sf::Time                            stateCountdown_;
-
+    Arten::SpeilStatus                        status_;
+    std::map<Arten::SpeilStatus, Animation>   animationen_;
+    Direction                           richtung_;
+    std::size_t                         richtungI_;
+    sf::Time                            Status_;
     sf::Vector2f                        respawnPosition_;
-    bool                                isStruckByCar_;
-    bool                                isInRiver_;
-    bool                                isOnSwimmingNPC_;
 
-    int                                 score_;
-    int                                 livesLeft_;
-    bool                                isMarkedForRemoval_;
-    bool                                hasFroggerFilledSlots_;
-    bool                                isWinningSpotTaken_;
+    int                                 punktezahl_;
+    int                                 Leben_;
+
+    bool                                vomAutogetroffen;
+    bool                                ImWasser;
+    bool                                aufSchwimmendenGeggner_;
+    bool                                zumEntfernen_;
+    bool                                spielerImZielSpot_;
+    bool                                zielGefuhllt_;
+
+    mutable sf::Sprite                  bilder_;
 };
 
 //Hauptmenu

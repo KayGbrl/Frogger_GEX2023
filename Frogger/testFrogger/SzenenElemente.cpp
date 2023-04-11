@@ -19,7 +19,7 @@ SceneNode::SceneNode(Category::Typen category)
 	, Kategory(category)
 {}
 
-void SceneNode::attachChild(Ptr child) {
+void SceneNode::kindangehangt(Ptr child) {
 	child->parent = this;
 	kinder.push_back(std::move(child));
 }
@@ -52,11 +52,11 @@ void SceneNode::update(sf::Time dt, CommandQueue& commands) {
 	kinderneuern(dt, commands);
 }
 
-sf::Vector2f SceneNode::getWorldPoition()	const {
-	return getWorldTransform() * sf::Vector2f();
+sf::Vector2f SceneNode::weltPosition()	const {
+	return weltTransformiert() * sf::Vector2f();
 }
 
-sf::Transform SceneNode::getWorldTransform() const {
+sf::Transform SceneNode::weltTransformiert() const {
 	sf::Transform tx = sf::Transform::Identity;
 
 	for (const SceneNode* node = this; node != nullptr; node = node->parent) {
@@ -90,7 +90,7 @@ void SceneNode::checkSceneCollision(SceneNode& node, std::set<Pair>& collisionPa
 
 void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs)
 {
-	if (this != &node && isColliding(*this, node) && !zerstoert() && !node.zerstoert())
+	if (this != &node && istKolidiert(*this, node) && !zerstoert() && !node.zerstoert())
 		collisionPairs.insert(std::minmax(this, &node));
 
 	for (Ptr& child : kinder)
@@ -159,12 +159,12 @@ void SceneNode::kindZeichnen(sf::RenderTarget& target, sf::RenderStates states) 
 }
 
 
-float calculateDistance(const SceneNode& lhs, const SceneNode& rhs)
+float distanzAusrechnen(const SceneNode& lhs, const SceneNode& rhs)
 {
-	return lange(lhs.getWorldPoition() - rhs.getWorldPoition());
+	return lange(lhs.weltPosition() - rhs.weltPosition());
 }
 
-bool isColliding(const SceneNode& lhs, const SceneNode& rhs)
+bool istKolidiert(const SceneNode& lhs, const SceneNode& rhs)
 {
 	return lhs.ruckstossBekommenRechteck().intersects(rhs.ruckstossBekommenRechteck());
 }

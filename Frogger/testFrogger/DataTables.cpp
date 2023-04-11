@@ -163,7 +163,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[0].type = Arten::Type::Kleinerstamm;
     spawnData[0].speed = 60.f;
     spawnData[0].interval = sf::seconds(6);
-    spawnData[0].elapsedTime = sf::seconds(3);
+    spawnData[0].abgelaufeneZeit = sf::seconds(3);
     spawnData[0].spawn = true;
 
     spawnData[1] = NPCSpawnData();
@@ -172,7 +172,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[1].type = Arten::Type::Kleinerstamm;
     spawnData[1].speed = 70.f;
     spawnData[1].interval = sf::seconds(5);
-    spawnData[1].elapsedTime = sf::seconds(5);
+    spawnData[1].abgelaufeneZeit = sf::seconds(5);
     spawnData[1].spawn = true;
 
     spawnData[2] = NPCSpawnData();
@@ -181,7 +181,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[2].type = Arten::Type::Grosserstamm;
     spawnData[2].speed = -70.f;
     spawnData[2].interval = sf::seconds(5);
-    spawnData[2].elapsedTime = spawnData[2].interval;
+    spawnData[2].abgelaufeneZeit = spawnData[2].interval;
     spawnData[2].spawn = true;
 
     // Leave always turtle 2 and 3 as index 3 and 4, other code depends on it
@@ -191,7 +191,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[3].type = Arten::Type::Zweierkroete;
     spawnData[3].speed = -100.f;
     spawnData[3].interval = sf::seconds(4);
-    spawnData[3].elapsedTime = spawnData[3].interval;
+    spawnData[3].abgelaufeneZeit = spawnData[3].interval;
     spawnData[3].spawn = true;
 
     spawnData[4] = NPCSpawnData();
@@ -200,7 +200,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[4].type = Arten::Type::Dreierkroete;
     spawnData[4].speed = -50.f;
     spawnData[4].interval = sf::seconds(5);
-    spawnData[4].elapsedTime = spawnData[4].interval;
+    spawnData[4].abgelaufeneZeit = spawnData[4].interval;
     spawnData[4].spawn = true;
 
     // Leave always Car 1, 2 and 3 as Index 5,6 and 7
@@ -210,7 +210,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[5].type = Arten::Type::Gelbesauto;
     spawnData[5].speed = -100.f;
     spawnData[5].interval = sf::seconds(2);
-    spawnData[5].elapsedTime = spawnData[5].interval;
+    spawnData[5].abgelaufeneZeit = spawnData[5].interval;
     spawnData[5].spawn = true;
 
     spawnData[6] = NPCSpawnData();
@@ -219,7 +219,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[6].type = Arten::Type::Pinkesauto;
     spawnData[6].speed = -150.f;
     spawnData[6].interval = sf::seconds(2);
-    spawnData[6].elapsedTime = spawnData[6].interval;
+    spawnData[6].abgelaufeneZeit = spawnData[6].interval;
     spawnData[6].spawn = true;
 
     spawnData[7] = NPCSpawnData();
@@ -228,7 +228,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[7].type = Arten::Type::Gruenesauto;
     spawnData[7].speed = 100.f;
     spawnData[7].interval = sf::seconds(4);
-    spawnData[7].elapsedTime = spawnData[7].interval;
+    spawnData[7].abgelaufeneZeit = spawnData[7].interval;
     spawnData[7].spawn = true;
 
     // Leave always Truck 1 and 2 as Index 8 and 9
@@ -238,7 +238,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[8].type = Arten::Type::Lkw;
     spawnData[8].speed = -60.f;
     spawnData[8].interval = sf::seconds(3);
-    spawnData[8].elapsedTime = spawnData[8].interval;
+    spawnData[8].abgelaufeneZeit = spawnData[8].interval;
     spawnData[8].spawn = true;
 
     spawnData[9].position = sf::Vector2f(-50.f, 490.f);
@@ -246,7 +246,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[9].type = Arten::Type::Traktor;
     spawnData[9].speed = 40.f;
     spawnData[9].interval = sf::seconds(3);
-    spawnData[9].elapsedTime = spawnData[9].interval;
+    spawnData[9].abgelaufeneZeit = spawnData[9].interval;
     spawnData[9].spawn = true;
 
     // Leave alligaton as Index 10
@@ -256,7 +256,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[10].type = Arten::Type::Alligator;
     spawnData[10].speed = 70.f;
     spawnData[10].interval = sf::seconds(6);
-    spawnData[10].elapsedTime = sf::seconds(6);
+    spawnData[10].abgelaufeneZeit = sf::seconds(6);
     spawnData[10].spawn = true;
 
     // Leave floating turtle2 as Index 11
@@ -266,7 +266,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[11].type = Arten::Type::Zweierkroete_Untertauchen;
     spawnData[11].speed = -100.f;
     spawnData[11].interval = sf::seconds(4);
-    spawnData[11].elapsedTime = spawnData[11].interval / 2.f;
+    spawnData[11].abgelaufeneZeit = spawnData[11].interval / 2.f;
     spawnData[11].spawn = true;
 
     // Leave floating turtle3 as Index 12
@@ -276,7 +276,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[12].type = Arten::Type::Dreierkroete_Untertauchen;
     spawnData[12].speed = -50.f;
     spawnData[12].interval = sf::seconds(5);
-    spawnData[12].elapsedTime = spawnData[12].interval / 2.f;
+    spawnData[12].abgelaufeneZeit = spawnData[12].interval / 2.f;
     spawnData[12].spawn = true;
 
     //Leave alligator swimming left Index 13
@@ -286,7 +286,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[13].type = Arten::Type::Alligator;
     spawnData[13].speed = 80.f;
     spawnData[13].interval = sf::seconds(5);
-    spawnData[13].elapsedTime = sf::seconds(2.5);
+    spawnData[13].abgelaufeneZeit = sf::seconds(2.5);
     spawnData[13].spawn = true;
 
     // Leave always as index 14
@@ -296,7 +296,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[14].type = Arten::Type::Pinkerfrosh;
     spawnData[14].speed = 60.f;
     spawnData[14].interval = sf::seconds(6);
-    spawnData[14].elapsedTime = sf::seconds(3);
+    spawnData[14].abgelaufeneZeit = sf::seconds(3);
     spawnData[14].spawn = true;
 
     // Leave always as index 15
@@ -306,7 +306,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[15].type = Arten::Type::Schlange;
     spawnData[15].speed = 80.f;
     spawnData[15].interval = sf::seconds(2);
-    spawnData[15].elapsedTime = sf::seconds(2);
+    spawnData[15].abgelaufeneZeit = sf::seconds(2);
     spawnData[15].spawn = false;
 
     // Leave always as index 16
@@ -317,7 +317,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[16].type = Arten::Type::Fliege;
     spawnData[16].speed = 0.f;
     spawnData[16].interval = sf::seconds(1.f);
-    spawnData[16].elapsedTime = sf::seconds(1.f);
+    spawnData[16].abgelaufeneZeit = sf::seconds(1.f);
     spawnData[16].spawn = true;
 
     // Leave always as index 17
@@ -332,7 +332,7 @@ std::vector<NPCSpawnData> initializeNPCSpawnData()
     spawnData[17].type = Arten::Type::KleinerAlligator;
     spawnData[17].speed = 0.f;
     spawnData[17].interval = sf::seconds(1.f);
-    spawnData[17].elapsedTime = sf::seconds(1.f);
+    spawnData[17].abgelaufeneZeit = sf::seconds(1.f);
     spawnData[17].spawn = true;
 
     return spawnData;

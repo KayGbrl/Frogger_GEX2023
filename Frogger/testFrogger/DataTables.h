@@ -26,7 +26,7 @@ struct NPCSpawnData {
 	Arten::Type							type;
 	float								speed;
 	sf::Time							interval;
-	sf::Time							elapsedTime;
+	sf::Time							abgelaufeneZeit;
 	bool								spawn;
 };
 

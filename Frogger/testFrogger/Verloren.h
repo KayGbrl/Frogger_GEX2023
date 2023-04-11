@@ -18,7 +18,7 @@ public:
 	virtual bool			ereiknissHandeln(const sf::Event& event) override;
 
 private:
-	sf::Text				gameOverText;
-	sf::Time				elapsedTime;
+	sf::Text				verlorenText_;
+	sf::Time				abgelaufeneZeit_;
 };
 

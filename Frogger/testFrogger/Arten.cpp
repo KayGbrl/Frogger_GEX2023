@@ -90,7 +90,7 @@ unsigned int Arten::kategoryBekommen() const
 
 sf::FloatRect Arten::ruckstossBekommenRechteck() const
 {
-	auto box = getWorldTransform().transformRect(sprite_.getGlobalBounds());
+	auto box = weltTransformiert().transformRect(sprite_.getGlobalBounds());
 	box.width -= 10; 
 	box.left += 5;
 	box.top += 5;
@@ -105,12 +105,12 @@ float Arten::speed() const
 
 bool Arten::zumEntfernen() const
 {
-	return isMarkedForRemoval_; 
+	return zumentfernenFreigegeben;
 }
 
 void Arten::zumEntfernenMArker(bool b)
 {
-	isMarkedForRemoval_ = b;
+	zumentfernenFreigegeben = b;
 }
 
 void Arten::Statussetzen(SpeilStatus state)

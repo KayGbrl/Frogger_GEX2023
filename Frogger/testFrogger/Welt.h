@@ -74,32 +74,30 @@ private:
 private:
 
 	sf::RenderTarget& target;
-	sf::RenderTexture					sceneTexture;
-	sf::View							worldView;
-	CommandQueue						commandQueue;
+	sf::RenderTexture					texturenWelt_;
+	sf::View							weltSicht_;
+	CommandQueue						kommandoAbwarten_;
 	const FontHolder_t& fonts;
 	TextNode* score;
 
-	SceneNode							sceneGraph;
-	std::array<SceneNode*, LayerCount>	sceneLayers;
+	SceneNode							Szene_;
+	std::array<SceneNode*, LayerCount>	SzenenStaffel_;
 	
 
-	sf::FloatRect						worldBounds;
-	sf::Vector2f						spawnPosition;
-	float								scrollSpeed;
+	sf::FloatRect						weltLimit_;
+	sf::Vector2f						spawnPosition_;
 	Frogger* playerFrogger;
 
-	TextureHolder_t						textures;
-	std::vector<NPCSpawnData>			npcSpawnTable;
-	std::vector<bool>					winningSpotsFilled;
-	std::vector<std::unique_ptr<SpriteNode>>			livesToShow;
+	TextureHolder_t						texturen_;
+	std::vector<NPCSpawnData>			spawnTablefurNPC_;
+	std::vector<bool>					zielGefulklt_;
 
 	float frogSpawnTimer = 0.f;
 	float alligHeadTimer = 0.f;
 
 };
 
-//Positionen und wand der welt elemente
+//Positionen und wand der welt elemente, kategorien halter
 class InteractablePlaceHolder : public SceneNode
 {
 public:
