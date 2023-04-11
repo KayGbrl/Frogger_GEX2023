@@ -7,20 +7,20 @@ std::map<Arten::Type, Karachtere> artenData()
 
     informationen[Arten::Type::Frogger].texturen = TextureID::Frogger;
 
-    JsonFrameParser frames = JsonFrameParser("Media/Textures/frog.json");
+    JsonFrameParser frames = JsonFrameParser("Media/Textures/froggerdata.json");
 
-     // WinnigSpot Frog
+     // Ziel
     informationen[Arten::Type::FroggerWinner].texturen = TextureID::Frogger;
     informationen[Arten::Type::FroggerWinner].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("gewinnerfrosh"));
     informationen[Arten::Type::FroggerWinner].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(3.f));
     informationen[Arten::Type::FroggerWinner].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    // Death State 
+    // Tod
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Tod].gameFrameSet(frames.getFramesFor("tod"));
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Tod].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Tod].gameRepeating(false);
     
-    // Idle state for direction Up, down, left, right 
+    // Still status
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Stehenhoch].gameFrameSet(frames.getFramesFor("stehenhoch"));
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Stehenhoch].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Stehenhoch].gameRepeating(true);
@@ -37,7 +37,7 @@ std::map<Arten::Type, Karachtere> artenData()
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Stehenrechts].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Stehenrechts].gameRepeating(true);
 
-    // state for direction Up, down, left, right 
+    // status Oben, Unten, linlks , rechts 
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Runter].gameFrameSet(frames.getFramesFor("runter"));
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Runter].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Runter].gameRepeating(true);
@@ -54,13 +54,13 @@ std::map<Arten::Type, Karachtere> artenData()
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Rechts].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Frogger].animationen[Arten::SpeilStatus::Rechts].gameRepeating(false);
 
-    // Alligator state
+    // Alligator 
     informationen[Arten::Type::Alligator].texturen = TextureID::Frogger;
     informationen[Arten::Type::Alligator].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("alligator"));
     informationen[Arten::Type::Alligator].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));
     informationen[Arten::Type::Alligator].animationen[Arten::SpeilStatus::Still].gameRepeating(true);
 
-    // Car state
+    //Auto
     informationen[Arten::Type::Gelbesauto].texturen = TextureID::Frogger;
     informationen[Arten::Type::Gelbesauto].animationen[Arten::SpeilStatus::Still].gameFrameSet(frames.getFramesFor("gelbesauto"));
     informationen[Arten::Type::Gelbesauto].animationen[Arten::SpeilStatus::Still].gameSetDuration(sf::seconds(1.f));

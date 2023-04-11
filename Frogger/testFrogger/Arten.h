@@ -43,8 +43,8 @@ public:
     Arten(const TextureHolder_t& textures, const FontHolder_t& fonts);
     ~Arten() = default;
 
-    unsigned int          getCategory() const override;
-    sf::FloatRect         getBoundingRect() const override;
+    unsigned int          kategoryBekommen() const override;
+    sf::FloatRect         ruckstossBekommenRechteck() const override;
     float                 speed() const;
 
     bool                  zumEntfernen() const override;

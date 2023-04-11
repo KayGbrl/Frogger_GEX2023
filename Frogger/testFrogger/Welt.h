@@ -72,22 +72,24 @@ private:
 
 
 private:
+
 	sf::RenderTarget& target;
 	sf::RenderTexture					sceneTexture;
 	sf::View							worldView;
-	TextureHolder_t						textures;
+	CommandQueue						commandQueue;
 	const FontHolder_t& fonts;
 	TextNode* score;
 
 	SceneNode							sceneGraph;
 	std::array<SceneNode*, LayerCount>	sceneLayers;
-	CommandQueue						commandQueue;
+	
 
 	sf::FloatRect						worldBounds;
 	sf::Vector2f						spawnPosition;
 	float								scrollSpeed;
 	Frogger* playerFrogger;
 
+	TextureHolder_t						textures;
 	std::vector<NPCSpawnData>			npcSpawnTable;
 	std::vector<bool>					winningSpotsFilled;
 	std::vector<std::unique_ptr<SpriteNode>>			livesToShow;

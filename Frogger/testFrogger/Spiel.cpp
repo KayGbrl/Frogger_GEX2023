@@ -14,28 +14,28 @@ State::Context::Context(
 {}
 
 State::State(StateStack& stack, Context context)
-	: stack(&stack)
-	, context(context)
+	: stapel(&stack)
+	, Kontext(context)
 {}
 
-void State::requestStackPush(StateID stateID)
+void State::anordnungDrucken(StateID stateID)
 {
-	stack->stapelAbgeben(stateID);
+	stapel->stapelAbgeben(stateID);
 }
 
-void State::requestStackPop()
+void State::anordnungplepen()
 {
-	stack->stapelRausdrucken();
+	stapel->stapelRausdrucken();
 }
 
-void State::requestStateClear()
+void State::anordnungLeeren()
 {
-	stack->statusLeeren();
+	stapel->statusLeeren();
 }
 
-State::Context State::getContext()
+State::Context State::spielKontext()
 {
-	return context;
+	return Kontext;
 }
 
 

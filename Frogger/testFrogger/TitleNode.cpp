@@ -21,14 +21,14 @@ TitleState::TitleState(StateStack& stack, Context context)
 
 void TitleState::draw()
 {
-	auto& window = *getContext().window;
+	auto& window = *spielKontext().window;
 	window.draw(hintergrundBild);
 
 	if (textZeigen)
 		window.draw(text);
 }
 
-bool TitleState::update(sf::Time dt)
+bool TitleState::aktualisieren(sf::Time dt)
 {
 	textEffekte += dt;
 
@@ -40,12 +40,12 @@ bool TitleState::update(sf::Time dt)
 	return true;
 }
 
-bool TitleState::handleEvent(const sf::Event& event)
+bool TitleState::ereiknissHandeln(const sf::Event& event)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{
-		requestStackPop();
-		requestStackPush(StateID::Menu);
+		anordnungplepen();
+		anordnungDrucken(StateID::Menu);
 	}
 	return true;
 }

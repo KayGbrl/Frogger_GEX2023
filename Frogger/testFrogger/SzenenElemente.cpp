@@ -14,34 +14,34 @@ using Ptr = std::unique_ptr<SceneNode>;
 
 
 SceneNode::SceneNode(Category::Typen category)
-	: children()
+	: kinder()
 	, parent(nullptr)
-	, category(category)
+	, Kategory(category)
 {}
 
 void SceneNode::attachChild(Ptr child) {
 	child->parent = this;
-	children.push_back(std::move(child));
+	kinder.push_back(std::move(child));
 }
 
 Ptr	SceneNode::detachChild(const SceneNode& node) {
 
-	auto found = std::find_if(children.begin(), children.end(),
+	auto found = std::find_if(kinder.begin(), kinder.end(),
 		[&](Ptr& p) {return p.get() == &node; });
 
-	assert(found != children.end());
+	assert(found != kinder.end());
 
 	Ptr res = std::move(*found);
 	res->parent = nullptr;
 
-	children.erase(found);
+	kinder.erase(found);
 
 	return res;
 }
 
-sf::FloatRect SceneNode::getBoundingRect() const
+sf::FloatRect SceneNode::ruckstossBekommenRechteck() const
 {
-	if (category == Category::Typen::Fluss) {
+	if (Kategory == Category::Typen::Fluss) {
 		return sf::FloatRect(0.f, 0.f, 480.f, 320.f);
 	}
 }
@@ -68,23 +68,23 @@ sf::Transform SceneNode::getWorldTransform() const {
 
 void SceneNode::onCommand(const Kommando& command, sf::Time dt) {
 
-	if (command.category & getCategory()) {
+	if (command.category & kategoryBekommen()) {
 		command.action(*this, dt);
 	}
-	for (Ptr& c : children) {
+	for (Ptr& c : kinder) {
 		c->onCommand(command, dt);
 	}
 }
 
-unsigned int SceneNode::getCategory() const {
-	return category;
+unsigned int SceneNode::kategoryBekommen() const {
+	return Kategory;
 }
 
 void SceneNode::checkSceneCollision(SceneNode& node, std::set<Pair>& collisionPairs)
 {
 	checkNodeCollision(node, collisionPairs);
 
-	for (Ptr& child : node.children)
+	for (Ptr& child : node.kinder)
 		checkSceneCollision(*child, collisionPairs);
 }
 
@@ -93,18 +93,17 @@ void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPai
 	if (this != &node && isColliding(*this, node) && !zerstoert() && !node.zerstoert())
 		collisionPairs.insert(std::minmax(this, &node));
 
-	for (Ptr& child : children)
+	for (Ptr& child : kinder)
 		child->checkNodeCollision(node, collisionPairs);
 }
 
 void SceneNode::kaputteEntfernen()
 {
-	auto wreckfieldBegin = std::remove_if(children.begin(), children.end(), std::mem_fn(&SceneNode::zumEntfernen)); //generates wrapper objects for pointers to members,
-																															//which can store,
-																															//copy, and invoke a pointer to member. 
-	children.erase(wreckfieldBegin, children.end());
+	auto wreckfieldBegin = std::remove_if(kinder.begin(), kinder.end(), std::mem_fn(&SceneNode::zumEntfernen)); 
 
-	std::for_each(children.begin(), children.end(), std::mem_fn(&SceneNode::kaputteEntfernen));
+	kinder.erase(wreckfieldBegin, kinder.end());
+
+	std::for_each(kinder.begin(), kinder.end(), std::mem_fn(&SceneNode::kaputteEntfernen));
 }
 
 bool SceneNode::zumEntfernen() const
@@ -122,7 +121,7 @@ void SceneNode::aktuellesBild(sf::Time dt, CommandQueue& commands) {
 
 
 void SceneNode::kinderneuern(sf::Time dt, CommandQueue& commands) {
-	for (auto& child : children) {
+	for (auto& child : kinder) {
 		child->update(dt, commands);
 	}
 
@@ -137,7 +136,7 @@ void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	sf::FloatRect rect = getBoundingRect();
+	sf::FloatRect rect = ruckstossBekommenRechteck();
 
 	sf::RectangleShape shape;
 	shape.setPosition(sf::Vector2f(rect.left, rect.top));
@@ -154,7 +153,7 @@ void SceneNode::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates stat
 }
 
 void SceneNode::kindZeichnen(sf::RenderTarget& target, sf::RenderStates states) const {
-	for (auto& child : children) {
+	for (auto& child : kinder) {
 		child->draw(target, states);
 	}
 }
@@ -167,5 +166,5 @@ float calculateDistance(const SceneNode& lhs, const SceneNode& rhs)
 
 bool isColliding(const SceneNode& lhs, const SceneNode& rhs)
 {
-	return lhs.getBoundingRect().intersects(rhs.getBoundingRect());
+	return lhs.ruckstossBekommenRechteck().intersects(rhs.ruckstossBekommenRechteck());
 }

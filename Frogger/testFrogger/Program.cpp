@@ -24,7 +24,7 @@ Application::Application()
 
     fonts.laden(FontID::Main, "Media/Sansation.ttf");
 
-    texturen.laden(TextureID::TitleScreen, "Media/Textures/Placeholder.png");
+    texturen.laden(TextureID::TitleScreen, "Media/Textures/FrogerMain.png");
     textStatus.setFont(fonts.get(FontID::Main));
     textStatus.setPosition(5.f, 5.f);
     textStatus.setCharacterSize(10u);

@@ -34,7 +34,7 @@ Arten::Arten(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	, typen(Type::Frogger)
 {}
 
-unsigned int Arten::getCategory() const
+unsigned int Arten::kategoryBekommen() const
 {
 	switch (typen)
 	{
@@ -88,7 +88,7 @@ unsigned int Arten::getCategory() const
 	return Category::NPC;
 }
 
-sf::FloatRect Arten::getBoundingRect() const
+sf::FloatRect Arten::ruckstossBekommenRechteck() const
 {
 	auto box = getWorldTransform().transformRect(sprite_.getGlobalBounds());
 	box.width -= 10; 

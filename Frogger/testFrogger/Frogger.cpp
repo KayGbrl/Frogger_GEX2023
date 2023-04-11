@@ -41,12 +41,12 @@ Frogger::Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	GeschwindigkeitSetzen(0.f, 0.f);
 }
 
-unsigned int Frogger::getCategory() const
+unsigned int Frogger::kategoryBekommen() const
 {
 	return Category::Frogger;
 }
 
-sf::FloatRect Frogger::getBoundingRect() const
+sf::FloatRect Frogger::ruckstossBekommenRechteck() const
 {
 	auto box = getWorldTransform().transformRect(sprite_.getGlobalBounds());
 	box.width -= 10; 
@@ -280,7 +280,7 @@ Menu::Menu(StateStack& stack, Context context)
 
 void Menu::draw()
 {
-	auto& window = *getContext().window;
+	auto& window = *spielKontext().window;
 
 	window.setView(window.getDefaultView());
 	window.draw(hintergrund);
@@ -290,12 +290,12 @@ void Menu::draw()
 	}
 }
 
-bool Menu::update(sf::Time dt)
+bool Menu::aktualisieren(sf::Time dt)
 {
 	return true;
 }
 
-bool Menu::handleEvent(const sf::Event& event)
+bool Menu::ereiknissHandeln(const sf::Event& event)
 {
 	if (event.type != sf::Event::KeyPressed)
 		return false;
@@ -303,12 +303,12 @@ bool Menu::handleEvent(const sf::Event& event)
 	if (event.key.code == sf::Keyboard::Return)
 	{
 		if (optionIndex == Play) {
-			requestStackPop();
-			requestStackPush(StateID::Game);
+			anordnungplepen();
+			anordnungDrucken(StateID::Game);
 		}
 		else if (optionIndex == Exit)
 		{
-			requestStackPop();
+			anordnungplepen();
 		}
 	}
 	else if (event.key.code == sf::Keyboard::Up)
@@ -368,7 +368,7 @@ Pause::Pause(StateStack& stack, Context context)
 
 void Pause::draw()
 {
-	sf::RenderWindow& window = *getContext().window;
+	sf::RenderWindow& window = *spielKontext().window;
 	window.setView(window.getDefaultView());
 
 	sf::RectangleShape backgroundShape;
@@ -381,23 +381,23 @@ void Pause::draw()
 	window.draw(hilfeText);
 }
 
-bool Pause::update(sf::Time dt)
+bool Pause::aktualisieren(sf::Time dt)
 {
 	return false;
 }
 
-bool Pause::handleEvent(const sf::Event& event)
+bool Pause::ereiknissHandeln(const sf::Event& event)
 {
 	if (event.type != sf::Event::KeyPressed)
 		return false;
 	if (event.key.code == sf::Keyboard::P)
 	{
-		requestStackPop();
+		anordnungplepen();
 	}
 	if (event.key.code == sf::Keyboard::Escape)
 	{
-		requestStateClear();
-		requestStackPush(StateID::Menu);
+		anordnungLeeren();
+		anordnungDrucken(StateID::Menu);
 	}
 	return false;
 }

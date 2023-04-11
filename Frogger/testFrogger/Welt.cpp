@@ -106,7 +106,7 @@ void World::draw() {
 
 void World::loadTextures() {
 	textures.laden(TextureID::Hintergrund, "Media/Textures/background.png");
-	textures.laden(TextureID::Frogger, "Media/Textures/frog.png");
+	textures.laden(TextureID::Frogger, "Media/Textures/froggerDataSheet.png");
 	textures.laden(TextureID::Leben, "Media/Textures/lives.png");
 }
 
@@ -202,7 +202,7 @@ void World::addEnemies()
 				enemy->GeschwindigkeitSetzen(npcSpawnTable[i].speed, 0.f);
 				enemy->RichtungSetzen(npcSpawnTable[i].richtung);
 
-				if (enemy.get()->getCategory() & Category::Typen::SchwimmendeGegner) {
+				if (enemy.get()->kategoryBekommen() & Category::Typen::SchwimmendeGegner) {
 					sceneLayers[River]->attachChild(std::move(enemy));
 				}
 				else {
@@ -263,21 +263,20 @@ void World::collisions()
 			if (alligHeadTimer > 12.f) { // despawn
 				alligHeadTimer = -1; // end
 				// set outside view
-
 				pair.second->setPosition(1000.f, 1000.f);
 				npcSpawnTable[17].spawn = false;
 				//return;
 			}
 		}
 		if (categories(pair, Category::Frogger, Category::SchwimmendeGegner)) {
-			if (pair.second->getCategory() == Category::Zweierkroete) {
+			if (pair.second->kategoryBekommen() == Category::Zweierkroete) {
 				// TURTLE 2 is index 3
 				if (npcSpawnTable[3].elapsedTime < npcSpawnTable[3].interval / 3.f) { // check in which frame is it
 					playerFrogger->setIsInRiver(true);
 					return;
 				}
 			}
-			else if (pair.second->getCategory() == Category::Dreierkroete) {
+			else if (pair.second->kategoryBekommen() == Category::Dreierkroete) {
 				// TURTLE 3 is index 4
 				if (npcSpawnTable[4].elapsedTime < npcSpawnTable[4].interval / 3.f) { // check in which frame is it
 					playerFrogger->setIsInRiver(true);
@@ -346,10 +345,11 @@ void World::collisions()
 
 }
 
+// Check what category it belongs
 bool World::categories(SceneNode::Pair& colliders, Category::Typen type1, Category::Typen type2)
 {
-	unsigned int category1 = colliders.first->getCategory();
-	unsigned int category2 = colliders.second->getCategory();
+	unsigned int category1 = colliders.first->kategoryBekommen();
+	unsigned int category2 = colliders.second->kategoryBekommen();
 
 	if (type1 & category1 && type2 & category2) {
 		return true;
@@ -363,12 +363,13 @@ bool World::categories(SceneNode::Pair& colliders, Category::Typen type1, Catego
 	}
 }
 
+//Remove entities outside view
 void World::entitiesOutsideView()
 {
 	Kommando command;
 	command.category = Category::NPC;
 	command.action = derivedAction<Arten>([this](Arten& a, sf::Time t) {
-		if (!gameBounds().intersects(a.getBoundingRect())) {
+		if (!gameBounds().intersects(a.ruckstossBekommenRechteck())) {
 			a.zumEntfernenMArker(true);
 		}
 		});

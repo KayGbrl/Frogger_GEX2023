@@ -32,12 +32,12 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 
 void GameOverState::draw()
 {
-	sf::RenderWindow& window = *getContext().window;
+	sf::RenderWindow& window = *spielKontext().window;
 	window.setView(window.getDefaultView());
 
 	sf::RectangleShape backgroundShape;
 
-	if (context.player->aufgabeBekommen() == Player::MissionStatus::Failure)
+	if (Kontext.player->aufgabeBekommen() == Player::MissionStatus::Failure)
 		backgroundShape.setFillColor(sf::Color(255, 0, 0, 150));
 	else
 		backgroundShape.setFillColor(sf::Color(0, 255, 0, 150));
@@ -48,18 +48,18 @@ void GameOverState::draw()
 	window.draw(gameOverText);
 }
 
-bool GameOverState::update(sf::Time dt)
+bool GameOverState::aktualisieren(sf::Time dt)
 {
 	if (elapsedTime >= sf::seconds(3)) {
-		stack->statusLeeren();
-		stack->stapelAbgeben(StateID::Title);
+		stapel->statusLeeren();
+		stapel->stapelAbgeben(StateID::Title);
 	}
 	elapsedTime += dt;
 
 	return false;
 }
 
-bool GameOverState::handleEvent(const sf::Event& event)
+bool GameOverState::ereiknissHandeln(const sf::Event& event)
 {
 	return false;
 }

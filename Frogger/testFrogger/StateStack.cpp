@@ -12,7 +12,7 @@ StateStack::StateStack(State::Context context)
 void StateStack::aktualisiren(sf::Time dt)
 {
 	for (auto itr = stapeln.rbegin(); itr != stapeln.rend(); itr++) {
-		if (!(*itr)->update(dt))
+		if (!(*itr)->aktualisieren(dt))
 			break;
 	}
 	veraenderungenAktualisieren();
@@ -28,7 +28,7 @@ void StateStack::zeichnen()
 void StateStack::handleEvent(const sf::Event& event)
 {
 	for (auto itr = stapeln.rbegin(); itr != stapeln.rend(); ++itr) {
-		if (!(*itr)->handleEvent(event))
+		if (!(*itr)->ereiknissHandeln(event))
 			break;
 	}
 	veraenderungenAktualisieren();

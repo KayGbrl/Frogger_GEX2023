@@ -22,8 +22,8 @@ public:
     Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts);
     ~Frogger() = default;
 
-    unsigned int    getCategory() const override;
-    sf::FloatRect   getBoundingRect() const override;
+    unsigned int    kategoryBekommen() const override;
+    sf::FloatRect   ruckstossBekommenRechteck() const override;
     float           getMaxSpeed() const;
 
     bool            zumEntfernen() const override;
@@ -92,8 +92,8 @@ public:
     Menu(StateStack& stack, Context context);
 
     virtual void	draw() override;
-    virtual bool	update(sf::Time dt) override;
-    virtual bool	handleEvent(const sf::Event& event) override;
+    virtual bool	aktualisieren(sf::Time dt) override;
+    virtual bool	ereiknissHandeln(const sf::Event& event) override;
 
     void			updateOptionText();
 
@@ -119,8 +119,8 @@ public:
     Pause(StateStack& stack, Context context);
 
     virtual void		draw() override;
-    virtual bool		update(sf::Time dt) override;
-    virtual bool		handleEvent(const sf::Event& event) override;
+    virtual bool		aktualisieren(sf::Time dt) override;
+    virtual bool		ereiknissHandeln(const sf::Event& event) override;
 
 private:
     sf::Sprite			hintergrungSprite;
