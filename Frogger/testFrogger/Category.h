@@ -20,7 +20,6 @@ namespace Category
 		Schlange = 1 << 11,
 		Fliege = 1 << 12,
 		KleinerAlligator = 1 << 13,
-		
 
 		Fluss = 1 << 14,
 		Ziel = 1 << 15,
@@ -28,7 +27,8 @@ namespace Category
 		Punkte = 1 << 16,
 
 		Fahrzeuge = Auto | Truck,
-		SchwimmendeGegner = Alligator | Zweierkroete | Zweierkroete_Untertauchen | Dreierkroete | Dreierkroete_Untertauchen | Stamm | KleinerAlligator,
+
+		SchwimmendeGegner = Alligator | Zweierkroete | Zweierkroete_Untertauchen | Dreierkroete | Dreierkroete_Untertauchen | Stamm | Ziel | KleinerAlligator,
 
 		NPC = Fahrzeuge | SchwimmendeGegner
 	};

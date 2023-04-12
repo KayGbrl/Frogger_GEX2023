@@ -3,83 +3,83 @@
 #include <cassert>
 
 StateStack::StateStack(State::Context context)
-	: stapeln()
-	, ausstehend()
-	, kontext(context)
-	, factoren()
+	: stapel_()
+	, wartenListe_()
+	, context(context)
+	, factories()
 {}
 
-void StateStack::aktualisiren(sf::Time dt)
+void StateStack::update(sf::Time dt)
 {
-	for (auto itr = stapeln.rbegin(); itr != stapeln.rend(); itr++) {
-		if (!(*itr)->aktualisieren(dt))
+	for (auto itr = stapel_.rbegin(); itr != stapel_.rend(); itr++) {
+		if (!(*itr)->update(dt))
 			break;
 	}
-	veraenderungenAktualisieren();
+	austehendeAnderungenAnwenden();
 }
 
-void StateStack::zeichnen()
+void StateStack::zeichen()
 {
-	for (auto& state : stapeln) {
+	for (auto& state : stapel_) {
 		state->draw();
 	}
 }
 
 void StateStack::handleEvent(const sf::Event& event)
 {
-	for (auto itr = stapeln.rbegin(); itr != stapeln.rend(); ++itr) {
-		if (!(*itr)->ereiknissHandeln(event))
+	for (auto itr = stapel_.rbegin(); itr != stapel_.rend(); ++itr) {
+		if (!(*itr)->handleEvent(event))
 			break;
 	}
-	veraenderungenAktualisieren();
+	austehendeAnderungenAnwenden();
 }
 
-void StateStack::stapelAbgeben(StateID stateID)
+void StateStack::statusDrucken(StateID stateID)
 {
-	ausstehend.push_back(PendingChange(Action::Push, stateID));
+	wartenListe_.push_back(PendingChange(Action::Push, stateID));
 }
 
-void StateStack::stapelRausdrucken()
+void StateStack::statusWeg()
 {
-	ausstehend.push_back(PendingChange(Action::Pop));
+	wartenListe_.push_back(PendingChange(Action::Pop));
 }
 
-void StateStack::statusLeeren()
+void StateStack::statusleeren()
 {
-	ausstehend.push_back(PendingChange(Action::Clear));
+	wartenListe_.push_back(PendingChange(Action::Clear));
 }
 
 bool StateStack::istLeer() const
 {
-	return stapeln.empty();
+	return stapel_.empty();
 }
 
-State::Ptr StateStack::stapelErstellen(StateID stateID)
+State::Ptr StateStack::statusKreieren(StateID stateID)
 {
-	auto found = factoren.find(stateID);
-	assert(found != factoren.end());
+	auto found = factories.find(stateID);
+	assert(found != factories.end());
 
 	return found->second();
 }
 
-void StateStack::veraenderungenAktualisieren()
+void StateStack::austehendeAnderungenAnwenden()
 {
-	for (PendingChange change : ausstehend)
+	for (PendingChange change : wartenListe_)
 	{
 		switch (change.action)
 		{
 		case Action::Push:
-			stapeln.push_back(stapelErstellen(change.stateID));
+			stapel_.push_back(statusKreieren(change.stateID));
 			break;
 		case Action::Pop:
-			stapeln.pop_back();
+			stapel_.pop_back();
 			break;
 		case Action::Clear:
-			stapeln.clear();
+			stapel_.clear();
 			break;
 		}
 	}
-	ausstehend.clear();
+	wartenListe_.clear();
 }
 
 StateStack::PendingChange::PendingChange(Action action, StateID stateID)

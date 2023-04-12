@@ -10,21 +10,20 @@ namespace sf
 enum class TextureID
 {
 	TitleScreen,
-	Hintergrund,
+	Background,
 	Frogger,
-	Leben,
-	PinkerFrosch,
-	Schlange
+	Live,
+	PinkFrog,
+	Snake
 };
 
 enum class FontID {
 	Main
 };
 
-// Resourcen werden hier abgelagert in bei nutzung abgerufen
-
 template <typename Resource, typename Identifier>
 class ResourceHolder;
+
 using TextureHolder_t = ResourceHolder<sf::Texture, TextureID>;
 using FontHolder_t = ResourceHolder<sf::Font, FontID>;
 

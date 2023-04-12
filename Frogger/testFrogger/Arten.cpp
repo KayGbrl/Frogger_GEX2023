@@ -25,7 +25,7 @@ Arten::Arten(Type type, const TextureHolder_t& textures, const FontHolder_t& fon
 	}
 
 	sprite_.setTextureRect(animationen[Arten::SpeilStatus::Still].gameCurrentFrame());
-	zentrierterPunkt(sprite_);
+	centerOrigin(sprite_);
 
 }
 
@@ -34,7 +34,7 @@ Arten::Arten(const TextureHolder_t& textures, const FontHolder_t& fonts)
 	, typen(Type::Frogger)
 {}
 
-unsigned int Arten::kategoryBekommen() const
+unsigned int Arten::getCategory() const
 {
 	switch (typen)
 	{
@@ -88,9 +88,9 @@ unsigned int Arten::kategoryBekommen() const
 	return Category::NPC;
 }
 
-sf::FloatRect Arten::ruckstossBekommenRechteck() const
+sf::FloatRect Arten::getBoundingRect() const
 {
-	auto box = weltTransformiert().transformRect(sprite_.getGlobalBounds());
+	auto box = weltAndern().transformRect(sprite_.getGlobalBounds());
 	box.width -= 10; 
 	box.left += 5;
 	box.top += 5;
@@ -105,12 +105,12 @@ float Arten::speed() const
 
 bool Arten::zumEntfernen() const
 {
-	return zumentfernenFreigegeben;
+	return isMarkedForRemoval_; 
 }
 
-void Arten::zumEntfernenMArker(bool b)
+void Arten::setMarkedForRemoval(bool b)
 {
-	zumentfernenFreigegeben = b;
+	isMarkedForRemoval_ = b;
 }
 
 void Arten::Statussetzen(SpeilStatus state)
@@ -150,7 +150,7 @@ void Arten::aktuellesBild(sf::Time dt, CommandQueue& commands)
 	move(geschwindigkeit * dt.asSeconds());
 
 	sprite_.setTextureRect(rec);
-	zentrierterPunkt(sprite_);
+	centerOrigin(sprite_);
 }
 
 void Arten::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const

@@ -22,35 +22,41 @@ public:
     Frogger(const TextureHolder_t& textures, const FontHolder_t& fonts);
     ~Frogger() = default;
 
-    unsigned int    kategoryBekommen() const override;
-    sf::FloatRect   ruckstossBekommenRechteck() const override;
+    unsigned int    getCategory() const override;
+    sf::FloatRect   getBoundingRect() const override;
+    float           getMaxSpeed() const;
+
     bool            zumEntfernen() const override;
 
-    float           GeschwindigkeitMax() const;
-    bool            SPielerZielErreicht() const;
-    bool            vomAutoGetrofen() const;
-    bool            insWasserGefallen() const;
-    bool            aufSchwimmendeGegenr() const;
+    void            hatFroggerZielGefulltsetzen();
+    bool            froggerhatZielErreicht() const;
 
-    void            alleZielegefullt();
-    void            Zieleingenommen();
-    void            zurusetzenFlagge();
-    void            limitAufNull();
-    int             scorebekommen();
-    int             ueberbleibendeLeben();
-    void            lebenAbziehen();
-    void            respawnFrogger();
+    void            istImZiel();
 
-    void            statusSetzen(SpeilStatus state);
-    Frogger::SpeilStatus  statusBekommen() const;
+    void            setState(SpeilStatus state);
+    Frogger::SpeilStatus  getState() const;
 
-    sf::Time        getStateCountdown();
+    bool            vomAutoGetriffen() const;
+    void            vomAutiGetroffenFestsetzen(bool b);
+    bool            imFluss() const;
+    void            imFlussFestgesetzt(bool b);
+    bool            aufSchwimmendenGegener() const;
+    void            spieleraufSchwimmendenGegener(bool b);
 
-    void            imWasser(bool b);
-    void            imWasserGestzt(bool b);
-    void            spielerAufSchwimmendeGegner(bool b);
-    void            punkteAufrechnen(int score);
+    void            zuruscksetzenPosition();
+
+    void            zeitStatusSetzen();
+    sf::Time        zeitStatusbekommen();
+
+    int             punktezahlBekommen();
+    void            punktezahldDraufrechnen(int score);
+
+    int             lebenUbrigBekommen();
+    void            lebenReduzieren();
+
     void            hop(Arten::Direction direction);
+
+    void            respawnFrogger();
 
 private:
     void            updateStates();
@@ -59,23 +65,23 @@ private:
 
 private:
     Arten::SpeilStatus                        status_;
+    mutable sf::Sprite                        sprite_;
     std::map<Arten::SpeilStatus, Animation>   animationen_;
-    Direction                           richtung_;
-    std::size_t                         richtungI_;
-    sf::Time                            Status_;
+    Direction                                 richtungen_;
+
+    std::size_t                         richtungIndex_;
+    sf::Time                            stateCountdown_;
+
     sf::Vector2f                        respawnPosition_;
+    bool                                vomAutoGetroffen_;
+    bool                                imFluss_;
+    bool                                aufSchwimmendenGegner_;
 
-    int                                 punktezahl_;
-    int                                 Leben_;
-
-    bool                                vomAutogetroffen;
-    bool                                ImWasser;
-    bool                                aufSchwimmendenGeggner_;
-    bool                                zumEntfernen_;
-    bool                                spielerImZielSpot_;
-    bool                                zielGefuhllt_;
-
-    mutable sf::Sprite                  bilder_;
+    int                                 punkteZahl_;
+    int                                 lebenUbrig_;
+    bool                                zumEnfernenMarkiet_;
+    bool                                hatSpielerspotgefullt_;
+    bool                                zielGebietGefullt_;
 };
 
 //Hauptmenu
@@ -86,8 +92,8 @@ public:
     Menu(StateStack& stack, Context context);
 
     virtual void	draw() override;
-    virtual bool	aktualisieren(sf::Time dt) override;
-    virtual bool	ereiknissHandeln(const sf::Event& event) override;
+    virtual bool	update(sf::Time dt) override;
+    virtual bool	handleEvent(const sf::Event& event) override;
 
     void			updateOptionText();
 
@@ -113,8 +119,8 @@ public:
     Pause(StateStack& stack, Context context);
 
     virtual void		draw() override;
-    virtual bool		aktualisieren(sf::Time dt) override;
-    virtual bool		ereiknissHandeln(const sf::Event& event) override;
+    virtual bool		update(sf::Time dt) override;
+    virtual bool		handleEvent(const sf::Event& event) override;
 
 private:
     sf::Sprite			hintergrungSprite;

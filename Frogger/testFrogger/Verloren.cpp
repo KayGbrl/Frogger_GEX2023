@@ -13,31 +13,31 @@
 
 GameOverState::GameOverState(StateStack& stack, Context context)
 	: State(stack, context)
-	, verlorenText_()
-	, abgelaufeneZeit_(sf::Time::Zero)
+	, gameOverText()
+	, elapsedTime(sf::Time::Zero)
 {
 	sf::Font& font = context.fonts->get(FontID::Main);
 	sf::Vector2f windowSize(context.window->getSize());
 
-	verlorenText_.setFont(font);
+	gameOverText.setFont(font);
 	if (context.player->aufgabeBekommen() == Player::MissionStatus::Failure)
-		verlorenText_.setString("Game over!");
+		gameOverText.setString("Game over!");
 	else
-		verlorenText_.setString("You Won!");
+		gameOverText.setString("You Won!");
 
-	verlorenText_.setCharacterSize(50);
-	zentrierterPunkt(verlorenText_);
-	verlorenText_.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+	gameOverText.setCharacterSize(50);
+	centerOrigin(gameOverText);
+	gameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 }
 
 void GameOverState::draw()
 {
-	sf::RenderWindow& window = *spielKontext().window;
+	sf::RenderWindow& window = *getContext().window;
 	window.setView(window.getDefaultView());
 
 	sf::RectangleShape backgroundShape;
 
-	if (Kontext.player->aufgabeBekommen() == Player::MissionStatus::Failure)
+	if (context.player->aufgabeBekommen() == Player::MissionStatus::Failure)
 		backgroundShape.setFillColor(sf::Color(255, 0, 0, 150));
 	else
 		backgroundShape.setFillColor(sf::Color(0, 255, 0, 150));
@@ -45,21 +45,21 @@ void GameOverState::draw()
 	backgroundShape.setSize(window.getView().getSize());
 
 	window.draw(backgroundShape);
-	window.draw(verlorenText_);
+	window.draw(gameOverText);
 }
 
-bool GameOverState::aktualisieren(sf::Time dt)
+bool GameOverState::update(sf::Time dt)
 {
-	if (abgelaufeneZeit_ >= sf::seconds(3)) {
-		stapel->statusLeeren();
-		stapel->stapelAbgeben(StateID::Title);
+	if (elapsedTime >= sf::seconds(3)) {
+		stack->statusleeren();
+		stack->statusDrucken(StateID::Title);
 	}
-	abgelaufeneZeit_ += dt;
+	elapsedTime += dt;
 
 	return false;
 }
 
-bool GameOverState::ereiknissHandeln(const sf::Event& event)
+bool GameOverState::handleEvent(const sf::Event& event)
 {
 	return false;
 }

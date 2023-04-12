@@ -37,21 +37,21 @@ public:
 	virtual		~State();
 
 	virtual void draw() = 0;
-	virtual bool aktualisieren(sf::Time dt) = 0;
-	virtual bool ereiknissHandeln(const sf::Event& event) = 0;
+	virtual bool update(sf::Time dt) = 0;
+	virtual bool handleEvent(const sf::Event& event) = 0;
 
 
 protected:
 
-	void		anordnungDrucken(StateID stateID);
-	void		anordnungplepen();
-	void		anordnungLeeren();
+	void		erwarteStapelDrucken(StateID stateID);
+	void		erwarteStapelkaput();
+	void		erwarteStatusReinigung();
 
-	Context		spielKontext();
+	Context		getContext();
 
 protected:
-	StateStack* stapel;
-	Context		Kontext;
+	StateStack* stack;
+	Context		context;
 
 };
 

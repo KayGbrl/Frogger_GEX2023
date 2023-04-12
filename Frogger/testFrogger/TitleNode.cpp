@@ -7,45 +7,45 @@
 TitleState::TitleState(StateStack& stack, Context context)
 	: State(stack, context)
 	, text()
-	, textZeigen(true)
-	, textEffekte(sf::Time::Zero)
+	, showText(true)
+	, textEffectTime(sf::Time::Zero)
 {
-	hintergrundBild.setTexture(context.textures->get(TextureID::TitleScreen));
+	backgroundSprite.setTexture(context.textures->get(TextureID::TitleScreen));
 
 	text.setFont(context.fonts->get(FontID::Main));
 	text.setString("Press Enter");
 
-	zentrierterPunkt(text);
+	centerOrigin(text);
 	text.setPosition(context.window->getView().getSize() / 2.f);
 }
 
 void TitleState::draw()
 {
-	auto& window = *spielKontext().window;
-	window.draw(hintergrundBild);
+	auto& window = *getContext().window;
+	window.draw(backgroundSprite);
 
-	if (textZeigen)
+	if (showText)
 		window.draw(text);
 }
 
-bool TitleState::aktualisieren(sf::Time dt)
+bool TitleState::update(sf::Time dt)
 {
-	textEffekte += dt;
+	textEffectTime += dt;
 
-	if (textEffekte >= sf::seconds(0.5f)) {
-		textZeigen = !textZeigen;
-		textEffekte = sf::Time::Zero;
+	if (textEffectTime >= sf::seconds(0.5f)) {
+		showText = !showText;
+		textEffectTime = sf::Time::Zero;
 	}
 
 	return true;
 }
 
-bool TitleState::ereiknissHandeln(const sf::Event& event)
+bool TitleState::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{
-		anordnungplepen();
-		anordnungDrucken(StateID::Menu);
+		erwarteStapelkaput();
+		erwarteStapelDrucken(StateID::Menu);
 	}
 	return true;
 }

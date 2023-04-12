@@ -6,41 +6,41 @@
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context)
-	, welt(*context.window, *context.fonts)
+	, world(*context.window, *context.fonts)
 	, player(*context.player)
 {}
 
 void GameState::draw()
 {
-	welt.draw();
+	world.draw();
 }
 
-bool GameState::aktualisieren(sf::Time dt)
+bool GameState::update(sf::Time dt)
 {
-	welt.update(dt);
+	world.update(dt);
 
-	if (!welt.playerAlive()) {
+	if (!world.playerAlive()) {
 		player.aufgabeGeben(Player::MissionStatus::Failure);
-		anordnungDrucken(StateID::GameOverState);
+		erwarteStapelDrucken(StateID::SpielVerloren);
 	}
-	else if (welt.reachedEnd()) {
+	else if (world.reachedEnd()) {
 		player.aufgabeGeben(Player::MissionStatus::Success);
-		anordnungDrucken(StateID::GameOverState);
+		erwarteStapelDrucken(StateID::SpielVerloren);
 	}
 
-	CommandQueue& commands = welt.getCommands();
+	CommandQueue& commands = world.getCommands();
 	player.eingabe(commands);
 
 	return true;
 }
 
-bool GameState::ereiknissHandeln(const sf::Event& event)
+bool GameState::handleEvent(const sf::Event& event)
 {
-	CommandQueue& commands = welt.getCommands();
+	CommandQueue& commands = world.getCommands();
 	player.handleEvent(event, commands);
 
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::P)
-		anordnungDrucken(StateID::Pause);
+		erwarteStapelDrucken(StateID::Pause);
 
 	return true;
 }

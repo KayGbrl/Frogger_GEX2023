@@ -39,7 +39,7 @@ public:
 		MoveUp,
 		MoveDown,
 
-		ActionCount,
+		ActionCound,
 	};
 
 	enum class MissionStatus {

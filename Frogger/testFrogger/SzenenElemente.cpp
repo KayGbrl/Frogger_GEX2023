@@ -14,34 +14,34 @@ using Ptr = std::unique_ptr<SceneNode>;
 
 
 SceneNode::SceneNode(Category::Typen category)
-	: kinder()
+	: kinder_()
 	, parent(nullptr)
-	, Kategory(category)
+	, Kategory_(category)
 {}
 
-void SceneNode::kindangehangt(Ptr child) {
+void SceneNode::kindAnhenagen(Ptr child) {
 	child->parent = this;
-	kinder.push_back(std::move(child));
+	kinder_.push_back(std::move(child));
 }
 
-Ptr	SceneNode::detachChild(const SceneNode& node) {
+Ptr	SceneNode::kindentfernen(const SceneNode& node) {
 
-	auto found = std::find_if(kinder.begin(), kinder.end(),
+	auto found = std::find_if(kinder_.begin(), kinder_.end(),
 		[&](Ptr& p) {return p.get() == &node; });
 
-	assert(found != kinder.end());
+	assert(found != kinder_.end());
 
 	Ptr res = std::move(*found);
 	res->parent = nullptr;
 
-	kinder.erase(found);
+	kinder_.erase(found);
 
 	return res;
 }
 
-sf::FloatRect SceneNode::ruckstossBekommenRechteck() const
+sf::FloatRect SceneNode::getBoundingRect() const
 {
-	if (Kategory == Category::Typen::Fluss) {
+	if (Kategory_ == Category::Typen::Fluss) {
 		return sf::FloatRect(0.f, 0.f, 480.f, 320.f);
 	}
 }
@@ -52,11 +52,11 @@ void SceneNode::update(sf::Time dt, CommandQueue& commands) {
 	kinderneuern(dt, commands);
 }
 
-sf::Vector2f SceneNode::weltPosition()	const {
-	return weltTransformiert() * sf::Vector2f();
+sf::Vector2f SceneNode::weltBekommen()	const {
+	return weltAndern() * sf::Vector2f();
 }
 
-sf::Transform SceneNode::weltTransformiert() const {
+sf::Transform SceneNode::weltAndern() const {
 	sf::Transform tx = sf::Transform::Identity;
 
 	for (const SceneNode* node = this; node != nullptr; node = node->parent) {
@@ -66,44 +66,44 @@ sf::Transform SceneNode::weltTransformiert() const {
 }
 
 
-void SceneNode::onCommand(const Kommando& command, sf::Time dt) {
+void SceneNode::kommandAbgeben(const Kommando& command, sf::Time dt) {
 
-	if (command.category & kategoryBekommen()) {
+	if (command.category & getCategory()) {
 		command.action(*this, dt);
 	}
-	for (Ptr& c : kinder) {
-		c->onCommand(command, dt);
+	for (Ptr& c : kinder_) {
+		c->kommandAbgeben(command, dt);
 	}
 }
 
-unsigned int SceneNode::kategoryBekommen() const {
-	return Kategory;
+unsigned int SceneNode::getCategory() const {
+	return Kategory_;
 }
 
-void SceneNode::checkSceneCollision(SceneNode& node, std::set<Pair>& collisionPairs)
+void SceneNode::collisionInSzene(SceneNode& node, std::set<Pair>& collisionPairs)
 {
-	checkNodeCollision(node, collisionPairs);
+	collisionKnoten(node, collisionPairs);
 
-	for (Ptr& child : node.kinder)
-		checkSceneCollision(*child, collisionPairs);
+	for (Ptr& child : node.kinder_)
+		collisionInSzene(*child, collisionPairs);
 }
 
-void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisionPairs)
+void SceneNode::collisionKnoten(SceneNode& node, std::set<Pair>& collisionPairs)
 {
-	if (this != &node && istKolidiert(*this, node) && !zerstoert() && !node.zerstoert())
+	if (this != &node && kolidiert(*this, node) && !zerstoert() && !node.zerstoert())
 		collisionPairs.insert(std::minmax(this, &node));
 
-	for (Ptr& child : kinder)
-		child->checkNodeCollision(node, collisionPairs);
+	for (Ptr& child : kinder_)
+		child->collisionKnoten(node, collisionPairs);
 }
 
 void SceneNode::kaputteEntfernen()
 {
-	auto wreckfieldBegin = std::remove_if(kinder.begin(), kinder.end(), std::mem_fn(&SceneNode::zumEntfernen)); 
+	auto wreckfieldBegin = std::remove_if(kinder_.begin(), kinder_.end(), std::mem_fn(&SceneNode::zumEntfernen));
 
-	kinder.erase(wreckfieldBegin, kinder.end());
+	kinder_.erase(wreckfieldBegin, kinder_.end());
 
-	std::for_each(kinder.begin(), kinder.end(), std::mem_fn(&SceneNode::kaputteEntfernen));
+	std::for_each(kinder_.begin(), kinder_.end(), std::mem_fn(&SceneNode::kaputteEntfernen));
 }
 
 bool SceneNode::zumEntfernen() const
@@ -121,7 +121,7 @@ void SceneNode::aktuellesBild(sf::Time dt, CommandQueue& commands) {
 
 
 void SceneNode::kinderneuern(sf::Time dt, CommandQueue& commands) {
-	for (auto& child : kinder) {
+	for (auto& child : kinder_) {
 		child->update(dt, commands);
 	}
 
@@ -136,7 +136,7 @@ void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	sf::FloatRect rect = ruckstossBekommenRechteck();
+	sf::FloatRect rect = getBoundingRect();
 
 	sf::RectangleShape shape;
 	shape.setPosition(sf::Vector2f(rect.left, rect.top));
@@ -153,18 +153,18 @@ void SceneNode::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates stat
 }
 
 void SceneNode::kindZeichnen(sf::RenderTarget& target, sf::RenderStates states) const {
-	for (auto& child : kinder) {
+	for (auto& child : kinder_) {
 		child->draw(target, states);
 	}
 }
 
 
-float distanzAusrechnen(const SceneNode& lhs, const SceneNode& rhs)
+float entfernungRechnen(const SceneNode& lhs, const SceneNode& rhs)
 {
-	return lange(lhs.weltPosition() - rhs.weltPosition());
+	return length(lhs.weltBekommen() - rhs.weltBekommen());
 }
 
-bool istKolidiert(const SceneNode& lhs, const SceneNode& rhs)
+bool kolidiert(const SceneNode& lhs, const SceneNode& rhs)
 {
-	return lhs.ruckstossBekommenRechteck().intersects(rhs.ruckstossBekommenRechteck());
+	return lhs.getBoundingRect().intersects(rhs.getBoundingRect());
 }

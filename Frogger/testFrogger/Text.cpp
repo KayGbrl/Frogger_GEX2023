@@ -13,7 +13,7 @@ TextNode::TextNode(const FontHolder_t& fonts, const std::string& text_)
 void TextNode::setString(const std::string& text_)
 {
 	text.setString(text_);
-	zentrierterPunkt(text);
+	centerOrigin(text);
 }
 
 void TextNode::aktuellezeichnen(sf::RenderTarget& target, sf::RenderStates states) const

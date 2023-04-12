@@ -13,49 +13,10 @@
 #include <map>
 #include <stdexcept>
 
-
-class TitleState : public State
-{
-public:
-	TitleState(StateStack& stack, Context context);
-	virtual void	draw() override;
-	virtual bool	aktualisieren(sf::Time dt) override;
-	virtual bool	ereiknissHandeln(const sf::Event& event) override;
-
-private:
-	sf::Sprite		hintergrundBild;
-	sf::Text		text;
-
-	bool			textZeigen;
-	sf::Time		textEffekte;
-};
-
-//Zuffals system
-namespace zufall
-{
-	class Sprite;
-	class Text;
-}
-
-class Animation;
-
-void			zentrierterPunkt(sf::Sprite& sprite);
-void			zentrierterPunkt(sf::Text& text);
-
-
-float			mass(float radian);
-float			radiant(float degree);
-float			lange(sf::Vector2f v);
-sf::Vector2f	normalisieren(sf::Vector2f v);
-int				zuffalsZahl(int exclusiveMax);
-
-sf::IntRect		drehen(const sf::IntRect& rec);
-
-
 template <typename R, typename Id>
 class ResourceHolder
 {
-	// Alle resourcen werden hier geladen und gespiechert bis sie abgerufen werden 
+
 public:
 	void					laden(Id id, const std::string& filename);
 
@@ -70,7 +31,9 @@ private:
 	void					insertResource(Id id, std::unique_ptr<R> resource);
 
 private:
-	std::map<Id, std::unique_ptr<R> > resourcenMappe;
+	std::map<Id, std::unique_ptr<R> > resourceMap;
+
+
 };
 
 template <typename R, typename Id>
@@ -98,8 +61,8 @@ void ResourceHolder<R, Id>::laden(Id id, const std::string& filename, const P& s
 
 template <typename R, typename Id>
 R& ResourceHolder<R, Id>::get(Id id) {
-	auto found = resourcenMappe.find(id);
-	assert(found != resourcenMappe.end());
+	auto found = resourceMap.find(id);
+	assert(found != resourceMap.end());
 
 	return *found->second;
 }
@@ -107,8 +70,8 @@ R& ResourceHolder<R, Id>::get(Id id) {
 
 template <typename R, typename Id>
 const R& ResourceHolder<R, Id>::get(Id id) const {
-	auto found = resourcenMappe.find(id);
-	assert(found != resourcenMappe.end());
+	auto found = resourceMap.find(id);
+	assert(found != resourceMap.end());
 
 	return *found->second;
 }
@@ -117,6 +80,43 @@ const R& ResourceHolder<R, Id>::get(Id id) const {
 template <typename R, typename Id>
 void ResourceHolder<R, Id>::insertResource(Id id, std::unique_ptr<R> resource)
 {
-	auto inserted = resourcenMappe.insert(std::make_pair(id, std::move(resource)));
+	auto inserted = resourceMap.insert(std::make_pair(id, std::move(resource)));
 	assert(inserted.second);
 }
+
+class TitleState : public State
+{
+public:
+	TitleState(StateStack& stack, Context context);
+	virtual void	draw() override;
+	virtual bool	update(sf::Time dt) override;
+	virtual bool	handleEvent(const sf::Event& event) override;
+
+private:
+	sf::Sprite		backgroundSprite;
+	sf::Text		text;
+
+	bool			showText;
+	sf::Time		textEffectTime;
+};
+
+//Zuffals system
+namespace zufall
+{
+	class Sprite;
+	class Text;
+}
+
+class Animation;
+
+void			centerOrigin(sf::Sprite& sprite);
+void			centerOrigin(sf::Text& text);
+
+
+float			toDegree(float radian);
+float			toRadian(float degree);
+float			length(sf::Vector2f v);
+sf::Vector2f	normalize(sf::Vector2f v);
+int				randomInt(int exclusiveMax);
+
+sf::IntRect		flip(const sf::IntRect& rec);

@@ -14,11 +14,11 @@ public:
 	GameOverState(StateStack& stack, Context context);
 
 	virtual void			draw() override;
-	virtual bool			aktualisieren(sf::Time dt) override;
-	virtual bool			ereiknissHandeln(const sf::Event& event) override;
+	virtual bool			update(sf::Time dt) override;
+	virtual bool			handleEvent(const sf::Event& event) override;
 
 private:
-	sf::Text				verlorenText_;
-	sf::Time				abgelaufeneZeit_;
+	sf::Text				gameOverText;
+	sf::Time				elapsedTime;
 };
 

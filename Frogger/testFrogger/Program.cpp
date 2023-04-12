@@ -24,13 +24,13 @@ Application::Application()
 
     fonts.laden(FontID::Main, "Media/Sansation.ttf");
 
-    texturen.laden(TextureID::TitleScreen, "Media/Textures/FrogerMain.png");
+    texturen.laden(TextureID::TitleScreen, "Media/Textures/FrogerMain2.png");
     textStatus.setFont(fonts.get(FontID::Main));
     textStatus.setPosition(5.f, 5.f);
     textStatus.setCharacterSize(10u);
 
     Statusregistrieren();
-    statusStaffelung.stapelAbgeben(StateID::Title);
+    statusStaffelung.statusDrucken(StateID::Title);
 }
 
 void Application::starten()
@@ -73,13 +73,13 @@ void Application::eingabe()
 
 void Application::update(sf::Time dt)
 {
-    statusStaffelung.aktualisiren(dt);
+    statusStaffelung.update(dt);
 }
 
 void Application::rendern()
 {
     fenster.clear();
-    statusStaffelung.zeichnen();
+    statusStaffelung.zeichen();
 
     fenster.setView(fenster.getDefaultView());
     fenster.draw(textStatus);
@@ -89,9 +89,9 @@ void Application::rendern()
 
 void Application::Statusregistrieren()
 {
-    statusStaffelung.statusRegistrieren<TitleState>(StateID::Title);
-    statusStaffelung.statusRegistrieren<Menu>(StateID::Menu);
-    statusStaffelung.statusRegistrieren<GameState>(StateID::Game);
-    statusStaffelung.statusRegistrieren<Pause>(StateID::Pause);
-    statusStaffelung.statusRegistrieren<GameOverState>(StateID::GameOverState);
+    statusStaffelung.registerState<TitleState>(StateID::Title);
+    statusStaffelung.registerState<Menu>(StateID::Menu);
+    statusStaffelung.registerState<GameState>(StateID::Spiel);
+    statusStaffelung.registerState<Pause>(StateID::Pause);
+    statusStaffelung.registerState<GameOverState>(StateID::SpielVerloren);
 }

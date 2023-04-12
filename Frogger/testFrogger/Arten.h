@@ -13,7 +13,7 @@ class Arten : public Entity
 public:
     enum class Type {
         Frogger, Gelbesauto, Gruenesauto, Pinkesauto, Traktor, Lkw, Alligator, Zweierkroete, Zweierkroete_Untertauchen, Dreierkroete, Dreierkroete_Untertauchen, Kleinerstamm, Grosserstamm, Pinkerfrosh, Schlange, Fliege,
-        FroggerWinner, KleinerAlligator
+        KleinerAlligator, FroggerWinner,
     };
 
     enum class SpeilStatus {
@@ -43,12 +43,12 @@ public:
     Arten(const TextureHolder_t& textures, const FontHolder_t& fonts);
     ~Arten() = default;
 
-    unsigned int          kategoryBekommen() const override;
-    sf::FloatRect         ruckstossBekommenRechteck() const override;
+    unsigned int          getCategory() const override;
+    sf::FloatRect         getBoundingRect() const override;
     float                 speed() const;
 
     bool                  zumEntfernen() const override;
-    void                  zumEntfernenMArker(bool b);
+    void                  setMarkedForRemoval(bool b);
 
     void                  Statussetzen(SpeilStatus state);
     Arten::SpeilStatus    StatusGeben() const;
@@ -68,5 +68,5 @@ protected:
     std::map<Arten::SpeilStatus, Animation>   animationen;
     Direction                                 richtungen;
 
-    bool                                      zumentfernenFreigegeben;
+    bool                                      isMarkedForRemoval_;
 };

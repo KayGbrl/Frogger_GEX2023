@@ -17,108 +17,104 @@
 
 World::World(sf::RenderTarget& outputTarget, const FontHolder_t& fonts)
 	: target(outputTarget)
-	, texturenWelt_()
-	, weltSicht_(outputTarget.getDefaultView())
+	, texturenSzene_()
+	, weltAnsicht_(outputTarget.getDefaultView())
 	, texturen_()
 	, fonts(fonts)
-	, Szene_()
-	, SzenenStaffel_()
-	, kommandoAbwarten_()
-	, weltLimit_(0.f, 0.f, weltSicht_.getSize().x, weltSicht_.getSize().y)
-	, spawnPosition_(weltSicht_.getSize().x / 2.f, weltLimit_.height - 20.f)
+	, szenen_()
+	, szenenSchichten_()
+	, kommando_()
+	, worldBounds(0.f, 0.f, weltAnsicht_.getSize().x, weltAnsicht_.getSize().y)
+	, spawnPosition(weltAnsicht_.getSize().x / 2.f, worldBounds.height - 20.f)
 	, playerFrogger(nullptr)
 {
-	texturenWelt_.create(target.getSize().x, target.getSize().y);
+	texturenSzene_.create(target.getSize().x, target.getSize().y);
 
 	loadTextures();
 	buildScene();
 
-	spawnTablefurNPC_ = initializeNPCSpawnData();
+	npcErscheinung_ = initializeNPCSpawnData();
 
-	weltSicht_.setCenter(weltSicht_.getSize().x / 2.f, weltLimit_.height - weltSicht_.getSize().y / 2.f);
+	weltAnsicht_.setCenter(weltAnsicht_.getSize().x / 2.f, worldBounds.height - weltAnsicht_.getSize().y / 2.f);
 
 	SoundSystem::Instance().playMusic();
 }
 
 CommandQueue& World::getCommands()
 {
-	return kommandoAbwarten_;
+	return kommando_;
 }
 
 bool World::playerAlive() const
 {
-	return playerFrogger->ueberbleibendeLeben() > 0;
+	return playerFrogger->lebenUbrigBekommen() > 0;
 }
 
 bool World::reachedEnd() const
 {
-	return playerFrogger->SPielerZielErreicht();
+	return playerFrogger->froggerhatZielErreicht();
 }
 
 void World::update(sf::Time dt) {
 
 	entitiesOutsideView();
 
-	Szene_.kaputteEntfernen();
+	szenen_.kaputteEntfernen();
 
 	collisions();
 
-	while (!kommandoAbwarten_.isEmpty()) {
-		Szene_.onCommand(kommandoAbwarten_.pop(), dt);
+	while (!kommando_.isEmpty()) {
+		szenen_.kommandAbgeben(kommando_.pop(), dt);
 	}
 
 	// Pink Frog
 	if (frogSpawnTimer != -1.f) { // not grabbed by player yet
 		frogSpawnTimer += dt.asSeconds();
 		if (frogSpawnTimer > 8.f) { // 8 seconds
-			spawnTablefurNPC_[14].spawn = true;
+			npcErscheinung_[14].spawn = true;
 			frogSpawnTimer = 0.f;
 		}
 	}
 
-	// Alligator Kopf
-	if (alligHeadTimer != -1)
-		alligHeadTimer += dt.asSeconds();
-
 	addEnemies();
-	updateNPCSpawnTable(dt);
+	NPCDaten(dt);
 
-	Szene_.update(dt, getCommands());
+	szenen_.update(dt, getCommands());
 
 	updateText();
 
-	liveIndicator(playerFrogger->ueberbleibendeLeben() - 1);
+	lebensAnzeige(playerFrogger->lebenUbrigBekommen() - 1);
 
 	playerPosition();
 }
 
 void World::updateText()
 {
-	score->setString("" + std::to_string(playerFrogger->scorebekommen()));
+	score->setString("" + std::to_string(playerFrogger->punktezahlBekommen()));
 	score->setPosition(370.f, 30.f);
 }
 
 void World::draw() {
 
-	target.setView(weltSicht_);
-	target.draw(Szene_);
+	target.setView(weltAnsicht_);
+	target.draw(szenen_);
 }
 
 void World::loadTextures() {
-	texturen_.laden(TextureID::Hintergrund, "Media/Textures/background.png");
-	texturen_.laden(TextureID::Frogger, "Media/Textures/froggerDataSheet.png");
-	texturen_.laden(TextureID::Leben, "Media/Textures/lives.png");
+	texturen_.laden(TextureID::Background, "Media/Textures/background.png");
+	texturen_.laden(TextureID::Frogger, "Media/Textures/frogger.png");
+	texturen_.laden(TextureID::Live, "Media/Textures/lives.png");
 }
 
 void World::buildScene() {
 
-	for (std::size_t i = 0; i < LayerCount; ++i) {
+	for (std::size_t i = 0; i < LagenDerWelt; ++i) {
 		Category::Typen category;
 		switch (i) {
-		case PlayingLayer:
+		case SpielFeld:
 			category = Category::Typen::BackgroundLayer;
 			break;
-		case River:
+		case Fluss:
 			category = Category::Typen::Fluss;
 			break;
 		default:
@@ -128,95 +124,95 @@ void World::buildScene() {
 
 		SceneNode::Ptr layer(new SceneNode(category));
 
-		SzenenStaffel_[i] = layer.get();
+		szenenSchichten_[i] = layer.get();
 
-		Szene_.kindangehangt(std::move(layer));
+		szenen_.kindAnhenagen(std::move(layer));
 	}
 
 	auto positions = ZielPosition();
 
 	for (int i = 0; i < positions.size(); ++i) {
 		SceneNode::Ptr winningSpot(new InteractablePlaceHolder(Category::Typen::Ziel, positions[i]));
-		zielGefulklt_.push_back(false);
+		zielistGefullt_.push_back(false);
 
-		SzenenStaffel_[River]->kindangehangt(std::move(winningSpot));
+		szenenSchichten_[Fluss]->kindAnhenagen(std::move(winningSpot));
 	}
 
-	sf::Texture& texture = texturen_.get(TextureID::Hintergrund);
+	sf::Texture& texture = texturen_.get(TextureID::Background);
 	texture.setRepeated(true);
 
-	float viewHeight = weltSicht_.getSize().y;
-	sf::IntRect textureRect(weltLimit_);
+	float viewHeight = weltAnsicht_.getSize().y;
+	sf::IntRect textureRect(worldBounds);
 	textureRect.height += static_cast<int>(viewHeight);
 
 	std::unique_ptr<SpriteNode> background(new SpriteNode(texture, textureRect));
-	background->setPosition(weltLimit_.left, weltLimit_.top - viewHeight);
-	SzenenStaffel_[Background]->kindangehangt(std::move(background));
+	background->setPosition(worldBounds.left, worldBounds.top - viewHeight);
+	szenenSchichten_[Hintergrund]->kindAnhenagen(std::move(background));
 
 	std::unique_ptr<TextNode> scoreField(new TextNode(fonts, ""));
 	score = scoreField.get();
-	SzenenStaffel_[Background]->kindangehangt(std::move(scoreField));
+	szenenSchichten_[Hintergrund]->kindAnhenagen(std::move(scoreField));
 
 	std::unique_ptr<Frogger> frog(new Frogger(texturen_, fonts));
-	frog.get()->setPosition(spawnPosition_);
+	frog.get()->setPosition(spawnPosition);
 	frog.get()->GeschwindigkeitSetzen(0.f, 0.f);
 
 	playerFrogger = frog.get();
 
-	SzenenStaffel_[PlayingLayer]->kindangehangt(std::move(frog));
+	szenenSchichten_[SpielFeld]->kindAnhenagen(std::move(frog));
 
-	buildLivesIndicator(playerFrogger->ueberbleibendeLeben() - 1);
+	lebensAnzeigeAufbauen(playerFrogger->lebenUbrigBekommen() - 1);
 }
 
 void World::addEnemies()
 {
-	for (int i = 0; i < spawnTablefurNPC_.size(); ++i) {
-		if (spawnTablefurNPC_[i].abgelaufeneZeit >= spawnTablefurNPC_[i].interval) {
-			spawnTablefurNPC_[i].abgelaufeneZeit = sf::Time(sf::seconds(0.f));
+	for (int i = 0; i < npcErscheinung_.size(); ++i) {
+		if (npcErscheinung_[i].elapsedTime >= npcErscheinung_[i].interval) {
+			npcErscheinung_[i].elapsedTime = sf::Time(sf::seconds(0.f));
 
 			// pink frog:
 			// if ready to spawn and we're going to spawn a log -> (re)spawn
 			// pink frog is index 14
-			if (spawnTablefurNPC_[14].spawn && i < 3) {
-				if (spawnTablefurNPC_[14].spawn) { // set to log values
-					spawnTablefurNPC_[14].position = spawnTablefurNPC_[i].position;
-					spawnTablefurNPC_[14].richtung = spawnTablefurNPC_[i].richtung;
-					spawnTablefurNPC_[14].speed = spawnTablefurNPC_[i].speed;
-					spawnTablefurNPC_[14].interval = sf::seconds(6.f);
-					spawnTablefurNPC_[14].abgelaufeneZeit = sf::seconds(6.f);
+			if (npcErscheinung_[14].spawn && i < 3) {
+				if (npcErscheinung_[14].spawn) { // set to log values
+					npcErscheinung_[14].position = npcErscheinung_[i].position;
+					npcErscheinung_[14].richtung = npcErscheinung_[i].richtung;
+					npcErscheinung_[14].speed = npcErscheinung_[i].speed;
+					npcErscheinung_[14].interval = sf::seconds(6.f);
+					npcErscheinung_[14].elapsedTime = sf::seconds(6.f);
 				}
 			}
 
-			if (spawnTablefurNPC_[i].type == Arten::Type::Schlange) {
-				spawnTablefurNPC_[i].spawn = (zuffalsZahl(10) == 9); // 10% chance that the snake will spawn
+			if (npcErscheinung_[i].type == Arten::Type::Schlange) {
+				npcErscheinung_[i].spawn = (randomInt(10) == 9); // 10% chance that the snake will spawn
 			}
 
-			if (spawnTablefurNPC_[i].type == Arten::Type::KleinerAlligator && alligHeadTimer != -1 && !spawnTablefurNPC_[i].spawn) {
-				spawnTablefurNPC_[i].spawn = (zuffalsZahl(10) < 2); // 20% chance that the AlligatorHead will spawn
+			if (npcErscheinung_[i].type == Arten::Type::KleinerAlligator && alligHeadTimer != -1 && !npcErscheinung_[i].spawn) {
+				npcErscheinung_[i].spawn = (randomInt(10) < 2); // 20% chance that the AlligatorHead will spawn
 			}
 	
-			if (spawnTablefurNPC_[i].spawn) {
-				std::unique_ptr<Arten> enemy(new Arten(spawnTablefurNPC_[i].type, texturen_, fonts));
+			if (npcErscheinung_[i].spawn) {
+				std::unique_ptr<Arten> enemy(new Arten(npcErscheinung_[i].type, texturen_, fonts));
 
-				enemy->setPosition(spawnTablefurNPC_[i].position);
-				enemy->GeschwindigkeitSetzen(spawnTablefurNPC_[i].speed, 0.f);
-				enemy->RichtungSetzen(spawnTablefurNPC_[i].richtung);
+				enemy->setPosition(npcErscheinung_[i].position);
+				enemy->GeschwindigkeitSetzen(npcErscheinung_[i].speed, 0.f);
+				enemy->RichtungSetzen(npcErscheinung_[i].richtung);
 
-				if (enemy.get()->kategoryBekommen() & Category::Typen::SchwimmendeGegner) {
-					SzenenStaffel_[River]->kindangehangt(std::move(enemy));
+				if (enemy.get()->getCategory() & Category::Typen::SchwimmendeGegner) {
+					szenenSchichten_[Fluss]->kindAnhenagen(std::move(enemy));
 				}
 				else {
-					SzenenStaffel_[PlayingLayer]->kindangehangt(std::move(enemy));
+					szenenSchichten_[SpielFeld]->kindAnhenagen(std::move(enemy));
 				}
 
 				// only one pink frog at a time
-				if (spawnTablefurNPC_[i].type == Arten::Type::Pinkerfrosh) spawnTablefurNPC_[i].spawn = false;
+				if (npcErscheinung_[i].type == Arten::Type::Pinkerfrosh) npcErscheinung_[i].spawn = false;
 
 				// only one snake at a time
-				if (spawnTablefurNPC_[i].type == Arten::Type::Schlange) spawnTablefurNPC_[i].spawn = false;
+				if (npcErscheinung_[i].type == Arten::Type::Schlange) npcErscheinung_[i].spawn = false;
 
 				// only one Alligato head at a time
-				if (spawnTablefurNPC_[i].type == Arten::Type::KleinerAlligator) spawnTablefurNPC_[i].spawn = false;
+				if (npcErscheinung_[i].type == Arten::Type::KleinerAlligator) npcErscheinung_[i].spawn = false;
 			}
 		}
 	}
@@ -225,89 +221,90 @@ void World::addEnemies()
 void World::collisions()
 {
 	std::set<SceneNode::Pair> collisionPairs;
-	Szene_.checkSceneCollision(Szene_, collisionPairs);
+	szenen_.collisionInSzene(szenen_, collisionPairs);
 
 	playerFrogger->GeschwindigkeitSetzen(0.f, 0.f);
-	playerFrogger->zurusetzenFlagge();
+	playerFrogger->zuruscksetzenPosition();
 
 	for (auto pair : collisionPairs) {
-		if (categories(pair, Category::Frogger, Category::Fahrzeuge)) {
-			playerFrogger->imWasser(true);
+		if (kategorien(pair, Category::Frogger, Category::Fahrzeuge)) {
+			playerFrogger->vomAutiGetroffenFestsetzen(true);
 			return;
 		}
-		if (categories(pair, Category::Frogger, Category::Alligator)) {
-			playerFrogger->imWasser(true);
+		if (kategorien(pair, Category::Frogger, Category::Alligator)) {
+			playerFrogger->vomAutiGetroffenFestsetzen(true);
 			return;
 		}
-		if (categories(pair, Category::Frogger, Category::Fluss)) {
-			playerFrogger->imWasserGestzt(true);
+		if (kategorien(pair, Category::Frogger, Category::Fluss)) {
+			playerFrogger->imFlussFestgesetzt(true);
 		}
-		if (categories(pair, Category::Frogger, Category::Pinkerfrosh)) {
-			playerFrogger->punkteAufrechnen(5);
+		if (kategorien(pair, Category::Frogger, Category::Pinkerfrosh)) {
+			playerFrogger->punktezahldDraufrechnen(5);
 			// place it outside view so it is removed
 			pair.second->setPosition(1000.f, 1000.f);
-			spawnTablefurNPC_[14].spawn = false;
+			npcErscheinung_[14].spawn = false;
 			frogSpawnTimer = -1.f; // set it so it does not appear any more
 		}
-		if (categories(pair, Category::Frogger, Category::Schlange)) {
-			playerFrogger->imWasser(true);
+		if (kategorien(pair, Category::Frogger, Category::Schlange)) {
+			playerFrogger->vomAutiGetroffenFestsetzen(true);
 			return;
 		}
-		if (categories(pair, Category::Frogger, Category::Fliege)) {
-			playerFrogger->punkteAufrechnen(5);
+		if (kategorien(pair, Category::Frogger, Category::Fliege)) {
+			playerFrogger->punktezahldDraufrechnen(5);
 			// place it outside view so it is removed
 			pair.second->setPosition(1000.f, 1000.f);
-			spawnTablefurNPC_[16].spawn = false;
+			npcErscheinung_[16].spawn = false;
 		}
-		if (categories(pair, Category::Ziel, Category::KleinerAlligator)) {
+		if (kategorien(pair, Category::Ziel, Category::KleinerAlligator)) {
 			if (alligHeadTimer > 12.f) { // despawn
 				alligHeadTimer = -1; // end
-				// set outside view
+				// place it outside view so it is removed
 				pair.second->setPosition(1000.f, 1000.f);
-				spawnTablefurNPC_[17].spawn = false;
+				npcErscheinung_[17].spawn = false;
 				//return;
 			}
 		}
-		if (categories(pair, Category::Frogger, Category::SchwimmendeGegner)) {
-			if (pair.second->kategoryBekommen() == Category::Zweierkroete) {
+		if (kategorien(pair, Category::Frogger, Category::SchwimmendeGegner)) {
+			if (pair.second->getCategory() == Category::Zweierkroete) {
 				// TURTLE 2 is index 3
-				if (spawnTablefurNPC_[3].abgelaufeneZeit < spawnTablefurNPC_[3].interval / 3.f) { // check in which frame is it
-					playerFrogger->imWasserGestzt(true);
+				if (npcErscheinung_[3].elapsedTime < npcErscheinung_[3].interval / 3.f) { // check in which frame is it
+					playerFrogger->imFlussFestgesetzt(true);
 					return;
 				}
 			}
-			else if (pair.second->kategoryBekommen() == Category::Dreierkroete) {
+			else if (pair.second->getCategory() == Category::Dreierkroete) {
 				// TURTLE 3 is index 4
-				if (spawnTablefurNPC_[4].abgelaufeneZeit < spawnTablefurNPC_[4].interval / 3.f) { // check in which frame is it
-					playerFrogger->imWasserGestzt(true);
+				if (npcErscheinung_[4].elapsedTime < npcErscheinung_[4].interval / 3.f) { // check in which frame is it
+					playerFrogger->imFlussFestgesetzt(true);
 					return;
 				}
 			}
 
-			playerFrogger->spielerAufSchwimmendeGegner(true);
+			playerFrogger->spieleraufSchwimmendenGegener(true);
 
 			sf::Vector2f velocity = (static_cast<Arten&>(*pair.second)).GeschwindigkeitGeben();
 
 			playerFrogger->GeschwindigkeitSetzen(velocity);
 		}
-		if (categories(pair, Category::Frogger, Category::Ziel)) {
+		if (kategorien(pair, Category::Frogger, Category::Ziel)) {
 
 			if (alligHeadTimer > 0.f && alligHeadTimer < 12.f) {
 				sf::FloatRect alligHeadSpot;
-				alligHeadSpot.left = spawnTablefurNPC_[17].position.x;
-				alligHeadSpot.top = spawnTablefurNPC_[17].position.y;
+				alligHeadSpot.left = npcErscheinung_[17].position.x;
+				alligHeadSpot.top = npcErscheinung_[17].position.y;
 				alligHeadSpot.height = 40;
 				alligHeadSpot.width = 40;
 
-				int allegHeadIndex = winnningSpotIndex(alligHeadSpot);
+				int allegHeadIndex = ziellocationI(alligHeadSpot);
 				sf::FloatRect posRect = (static_cast<InteractablePlaceHolder&>(*pair.first)).getPosition();
-				int spotIndex = winnningSpotIndex(posRect);
+				int spotIndex = ziellocationI(posRect);
 
 				if (spotIndex == allegHeadIndex) { // if on same spot
-					playerFrogger->imWasser(true);
+					playerFrogger->vomAutiGetroffenFestsetzen(true);
 					return;
 				}
 			}
+
 			Kommando command;
 			command.category = Category::BackgroundLayer;
 			command.action = derivedAction<Frogger>([this, pair](Frogger& f, sf::Time t) {
@@ -316,40 +313,39 @@ void World::collisions()
 			sf::FloatRect posRect = (static_cast<InteractablePlaceHolder&>(*pair.second)).getPosition();
 			sf::Vector2f posVector(posRect.left + posRect.width / 2, posRect.top + posRect.height / 2);
 
-			int spotIndex = winnningSpotIndex(posRect);
+			int spotIndex = ziellocationI(posRect);
 
-			if (zielGefulklt_[spotIndex]) {
+			if (zielistGefullt_[spotIndex]) {
 				playerFrogger->setPosition(posVector);
-				playerFrogger->Zieleingenommen();
+				playerFrogger->istImZiel();
 			}
 			else {
-				zielGefulklt_[spotIndex] = true;
-				zielGefulklt_[winnningSpotIndex(posRect)] = true;
+				zielistGefullt_[spotIndex] = true;
+				zielistGefullt_[ziellocationI(posRect)] = true;
 
 				winningFrogPicture.get()->setPosition(posVector);
 				winningFrogPicture.get()->GeschwindigkeitSetzen(0.f, 0.f);
-				SzenenStaffel_[Background]->kindangehangt(std::move(winningFrogPicture));
+				szenenSchichten_[Hintergrund]->kindAnhenagen(std::move(winningFrogPicture));
 
-				playerFrogger->punkteAufrechnen(30);
+				playerFrogger->punktezahldDraufrechnen(50);
 
-				if (winningSpotsFull())
-					playerFrogger->alleZielegefullt();
+				if (zielGefulltKomplett())
+					playerFrogger->hatFroggerZielGefulltsetzen();
 
 				playerFrogger->respawnFrogger();
 			}
 
 				});
-			kommandoAbwarten_.push(command);
+			kommando_.push(command);
 		}
 	}
 
 }
 
-// Check what category it belongs
-bool World::categories(SceneNode::Pair& colliders, Category::Typen type1, Category::Typen type2)
+bool World::kategorien(SceneNode::Pair& colliders, Category::Typen type1, Category::Typen type2)
 {
-	unsigned int category1 = colliders.first->kategoryBekommen();
-	unsigned int category2 = colliders.second->kategoryBekommen();
+	unsigned int category1 = colliders.first->getCategory();
+	unsigned int category2 = colliders.second->getCategory();
 
 	if (type1 & category1 && type2 & category2) {
 		return true;
@@ -363,67 +359,66 @@ bool World::categories(SceneNode::Pair& colliders, Category::Typen type1, Catego
 	}
 }
 
-//Remove entities outside view
 void World::entitiesOutsideView()
 {
 	Kommando command;
 	command.category = Category::NPC;
 	command.action = derivedAction<Arten>([this](Arten& a, sf::Time t) {
-		if (!gameBounds().intersects(a.ruckstossBekommenRechteck())) {
-			a.zumEntfernenMArker(true);
+		if (!gameBounds().intersects(a.getBoundingRect())) {
+			a.setMarkedForRemoval(true);
 		}
 		});
-	kommandoAbwarten_.push(command);
+	kommando_.push(command);
 }
 
-void World::liveIndicator(int frogLives)
+void World::lebensAnzeige(int frogLives)
 {
-	if (playerFrogger->statusBekommen() == Arten::SpeilStatus::Tod) {
+	if (playerFrogger->getState() == Arten::SpeilStatus::Tod) {
 		int interval = 25;
 		int curPosition = 5;
 		int positionY = 570;
 		int livesIndexInSceneLayers = 1;
 
-		Szene_.detachChild(*SzenenStaffel_[Lives]);
+		szenen_.kindentfernen(*szenenSchichten_[Leben]);
 
 		SceneNode::Ptr lives(new SceneNode(Category::None));
 
 		for (int i = 0; i < frogLives - 1; ++i) {
-			std::unique_ptr<SpriteNode> live(new SpriteNode(texturen_.get(TextureID::Leben)));
+			std::unique_ptr<SpriteNode> live(new SpriteNode(texturen_.get(TextureID::Live)));
 			live->setPosition(curPosition, positionY);
 			curPosition += interval;
-			lives->kindangehangt(std::move(live));
+			lives->kindAnhenagen(std::move(live));
 		}
-		SzenenStaffel_[livesIndexInSceneLayers] = lives.get();
+		szenenSchichten_[livesIndexInSceneLayers] = lives.get();
 
-		Szene_.kindangehangt(std::move(lives));
+		szenen_.kindAnhenagen(std::move(lives));
 	}
 }
 
-void World::buildLivesIndicator(int frogLives)
+void World::lebensAnzeigeAufbauen(int frogLives)
 {
 	int interval = 25;
 	int curPosition = 5;
 	int positionY = 570;
 
 	for (int i = 0; i < frogLives; ++i) {
-		std::unique_ptr<SpriteNode> live(new SpriteNode(texturen_.get(TextureID::Leben)));
+		std::unique_ptr<SpriteNode> live(new SpriteNode(texturen_.get(TextureID::Live)));
 		live->setPosition(curPosition, positionY);
 		curPosition += interval;
-		SzenenStaffel_[Lives]->kindangehangt(std::move(live));
+		szenenSchichten_[Leben]->kindAnhenagen(std::move(live));
 	}
 }
 
-void World::updateNPCSpawnTable(sf::Time dt)
+void World::NPCDaten(sf::Time dt)
 {
-	for (int i = 0; i < spawnTablefurNPC_.size(); ++i) {
-		spawnTablefurNPC_[i].abgelaufeneZeit += dt;
+	for (int i = 0; i < npcErscheinung_.size(); ++i) {
+		npcErscheinung_[i].elapsedTime += dt;
 	}
 }
 
 sf::FloatRect World::getViewBounds() const
 {
-	return sf::FloatRect(weltSicht_.getCenter() - weltSicht_.getSize() / 2.f, weltSicht_.getSize());
+	return sf::FloatRect(weltAnsicht_.getCenter() - weltAnsicht_.getSize() / 2.f, weltAnsicht_.getSize());
 }
 
 sf::FloatRect World::gameBounds() const
@@ -436,11 +431,11 @@ sf::FloatRect World::gameBounds() const
 	return bounds;
 }
 
-int World::winnningSpotIndex(sf::FloatRect pos)
+int World::ziellocationI(sf::FloatRect pos)
 {
 	auto v = ZielPosition();
 
-	for (int i = 0; i < zielGefulklt_.size(); ++i) {
+	for (int i = 0; i < zielistGefullt_.size(); ++i) {
 		if (abs(pos.left - v[i].left) < 0.1) {
 			return i;
 		}
@@ -448,10 +443,10 @@ int World::winnningSpotIndex(sf::FloatRect pos)
 	return -1;
 }
 
-bool World::winningSpotsFull()
+bool World::zielGefulltKomplett()
 {
-	for (int i = 0; i < zielGefulklt_.size(); ++i) {
-		if (!zielGefulklt_[i])
+	for (int i = 0; i < zielistGefullt_.size(); ++i) {
+		if (!zielistGefullt_[i])
 			return false;
 	}
 	return true;
@@ -461,10 +456,10 @@ bool World::winningSpotsFull()
 void World::playerPosition()
 {
 	sf::Vector2f position = playerFrogger->getPosition();
-	float left = weltSicht_.getCenter().x - weltSicht_.getSize().x / 2.f;
-	float right = weltSicht_.getCenter().x + weltSicht_.getSize().x / 2.f;
-	float top = weltSicht_.getCenter().y - weltSicht_.getSize().y / 2.f;
-	float bottom = weltSicht_.getCenter().y + weltSicht_.getSize().y / 2.f;
+	float left = weltAnsicht_.getCenter().x - weltAnsicht_.getSize().x / 2.f;
+	float right = weltAnsicht_.getCenter().x + weltAnsicht_.getSize().x / 2.f;
+	float top = weltAnsicht_.getCenter().y - weltAnsicht_.getSize().y / 2.f;
+	float bottom = weltAnsicht_.getCenter().y + weltAnsicht_.getSize().y / 2.f;
 
 	const float borderDistance = 20.f;
 
@@ -520,43 +515,43 @@ namespace {
 	auto RandomEngine = createRandomEngine();
 }
 
-void zentrierterPunkt(sf::Sprite& sprite)
+void centerOrigin(sf::Sprite& sprite)
 {
 	sf::FloatRect bounds = sprite.getLocalBounds();
 	sprite.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }
 
-void zentrierterPunkt(sf::Text& text)
+void centerOrigin(sf::Text& text)
 {
 	sf::FloatRect bounds = text.getLocalBounds();
 	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }
 
-float mass(float radian) {
+float toDegree(float radian) {
 	return (radian * 180) / PI;
 }
 
-float radiant(float degree) {
+float toRadian(float degree) {
 	return (degree * PI) / 180;
 }
 
-float lange(sf::Vector2f v) {
+float length(sf::Vector2f v) {
 	return sqrt(v.x * v.x + v.y * v.y);
 }
 
-sf::Vector2f normalisieren(sf::Vector2f v) {
-	if (lange(v) > 0) {
-		return (v / lange(v));
+sf::Vector2f normalize(sf::Vector2f v) {
+	if (length(v) > 0) {
+		return (v / length(v));
 	}
 	return v;
 }
 
-int	zuffalsZahl(int exclusiveMax) {
+int	randomInt(int exclusiveMax) {
 	std::uniform_int_distribution<> distr(0, exclusiveMax - 1);
 	return distr(RandomEngine);
 }
 
-sf::IntRect drehen(const sf::IntRect& rec)
+sf::IntRect flip(const sf::IntRect& rec)
 {
 	auto tmp = rec;
 	tmp.left += tmp.width;

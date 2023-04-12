@@ -40,64 +40,65 @@ private:
 	void					loadTextures();
 	void					buildScene();
 
-	void					addEnemies();
-	void					collisions();
-	bool					categories(SceneNode::Pair& colliders, Category::Typen type1, Category::Typen type2);
-	void					entitiesOutsideView();
-
-	void					liveIndicator(int amount);
-	void					buildLivesIndicator(int frogLives);
-
-	void					updateText();
-
-	void					updateNPCSpawnTable(sf::Time dt);
-
 	sf::FloatRect			getViewBounds() const;
 	sf::FloatRect			gameBounds() const;
 
-	int						winnningSpotIndex(sf::FloatRect pos);
-	bool					winningSpotsFull();
+	void					NPCDaten(sf::Time dt);
+
+	void					addEnemies();
+	void					collisions();
+	void					entitiesOutsideView();
+
+	bool					kategorien(SceneNode::Pair& colliders, Category::Typen type1, Category::Typen type2);
+
+	void					lebensAnzeige(int amount);
+	void					lebensAnzeigeAufbauen(int frogLives);
+
+	void					updateText();
+
+	int						ziellocationI(sf::FloatRect pos);
+	bool					zielGefulltKomplett();
 
 	void playerPosition();
 
 private:
 	enum Layer
 	{
-		Background,
-		Lives,
-		River,
-		PlayingLayer,
-		LayerCount
+		Hintergrund,
+		Leben,
+		Fluss,
+		SpielFeld,
+		LagenDerWelt
 	};
 
 
 private:
-
 	sf::RenderTarget& target;
-	sf::RenderTexture					texturenWelt_;
-	sf::View							weltSicht_;
-	CommandQueue						kommandoAbwarten_;
+	sf::RenderTexture					texturenSzene_;
+	sf::View							weltAnsicht_;
+	TextureHolder_t						texturen_;
 	const FontHolder_t& fonts;
 	TextNode* score;
 
-	SceneNode							Szene_;
-	std::array<SceneNode*, LayerCount>	SzenenStaffel_;
-	
+	SceneNode							szenen_;
+	std::array<SceneNode*, LagenDerWelt>	szenenSchichten_;
+	CommandQueue						kommando_;
 
-	sf::FloatRect						weltLimit_;
-	sf::Vector2f						spawnPosition_;
+	sf::FloatRect						worldBounds;
+	sf::Vector2f						spawnPosition;
+	float								scrollSpeed;
 	Frogger* playerFrogger;
 
-	TextureHolder_t						texturen_;
-	std::vector<NPCSpawnData>			spawnTablefurNPC_;
-	std::vector<bool>					zielGefulklt_;
+	std::vector<NPCSpawnData>			npcErscheinung_;
+	std::vector<bool>					zielistGefullt_;
+	std::vector<std::unique_ptr<SpriteNode>>			livesToShow;
 
 	float frogSpawnTimer = 0.f;
 	float alligHeadTimer = 0.f;
 
 };
 
-//Positionen und wand der welt elemente, kategorien halter
+//Positionen und wand der welt elemente
 class InteractablePlaceHolder : public SceneNode
 {
 public:
